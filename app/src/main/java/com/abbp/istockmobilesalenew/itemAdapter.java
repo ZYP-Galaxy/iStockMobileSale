@@ -1452,6 +1452,24 @@ public class itemAdapter extends BaseAdapter {
         return s.replace(",", "");
     }
 
+    public static double GetExgRate(int sale_curr){
+        double currentCodeExg_rate=0,currentCodeDiv_rate=0;
+        String sqlString="select exg_rate,div_rate from Currency where currency="+sale_curr;
+        Cursor cursor1=DatabaseHelper.rawQuery(sqlString);
+        if(cursor1!=null && cursor1.getCount()>0){
+            if (cursor1.moveToFirst()) {
+                do {
+                    currentCodeExg_rate = cursor1.getDouble(cursor1.getColumnIndex("exg_rate"));
+                    currentCodeDiv_rate = cursor1.getDouble(cursor1.getColumnIndex("div_rate"));
+
+                } while (cursor1.moveToNext());
+
+            }
+        }
+        cursor1.close();
+        return  currentCodeExg_rate;
+    }
+
 
 }
 
