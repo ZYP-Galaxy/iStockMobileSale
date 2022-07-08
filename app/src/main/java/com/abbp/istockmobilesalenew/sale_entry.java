@@ -60,13 +60,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.rt.printerlibrary.printer.RTPrinter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -217,7 +215,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     ImageButton imgScanner, btncustadd;
     public static Context datacontext;
     EditText etdSearchCode;
-    public static double paid, changeamount;
+    public static double paidamount, changeamount;
     public static boolean fromSaleChange, frombillcount = false;
     public TextView tvChange;
     static Double voudisper = 0.0;
@@ -1915,7 +1913,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 btncustadd = view.findViewById(R.id.custadd);
                 btnCash = view.findViewById(R.id.cash);
                 chkDeliver = view.findViewById(R.id.chkToDeliver);
-                TextView currencyid=view.findViewById(R.id.currencyid);
+                TextView currencyid = view.findViewById(R.id.currencyid);
                 currencyid.setText(frmmain.currencyshort);
                 if (!Use_Delivery) {
                     //chkDeliver.setVisibility(View.GONE);
@@ -2313,7 +2311,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-                                    sd.get(sd.size()-1).setOrgSalePrice(price);//added by KLM for currency 27062022
+                                    sd.get(sd.size() - 1).setOrgSalePrice(price);//added by KLM for currency 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -2363,7 +2361,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-                                    sd.get(sd.size()-1).setOrgSalePrice(price);//added by KLM for currency 27062022
+                                    sd.get(sd.size() - 1).setOrgSalePrice(price);//added by KLM for currency 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -2410,7 +2408,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                         0,
                                         "",
                                         code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-                                sd.get(sd.size()-1).setOrgSalePrice(price);//added by KLM for currency 27062022
+                                sd.get(sd.size() - 1).setOrgSalePrice(price);//added by KLM for currency 27062022
                             } while (cursor.moveToNext());
                         }
 
@@ -4174,6 +4172,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
     private void voucherConfirm() {
 
+        paidamount = 0.0;
+        changeamount = 0.0;
+
         if (sh.get(0).getPay_type() == 1) {
             AlertDialog.Builder change = new AlertDialog.Builder(sale_entry.this);
             change.setCancelable(false);
@@ -4187,8 +4188,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             TextView tvPaid = v.findViewById(R.id.txtpaidAmount);
             CheckBox chkPrint = v.findViewById(R.id.chkPrint);
             CheckBox chkBluetooth = v.findViewById(R.id.chkBluetooth);
-            chkBluetooth.setChecked(false);
-            use_bluetooth = false;
+            chkBluetooth.setChecked(use_bluetooth);
+//            use_bluetooth = false;
             chkBluetooth.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -4257,12 +4258,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     }
                     salechange.dismiss();
                     if (tvPaid.getText().toString().trim().isEmpty()) {
-                        paid = 0;
-                        paid = Double.parseDouble(ClearFormat(txtnet.getText().toString().trim()));
+                        paidamount = 0;
+                        paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString().trim()));
                     } else {
-                        paid = Double.parseDouble(ClearFormat(tvPaid.getText().toString().trim()));
-                        if (paid == 0) {
-                            paid = Double.parseDouble(ClearFormat(txtnet.getText().toString()).trim());
+                        paidamount = Double.parseDouble(ClearFormat(tvPaid.getText().toString().trim()));
+                        if (paidamount == 0) {
+                            paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString()).trim());
                         }
                     }
                     if (tvChange.getText().toString().trim().isEmpty()) {
@@ -4274,7 +4275,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                     if (frmlogin.UseOffline == 1) {
                         String shTmp = " insert into Sale_Head_Tmp_Mp(tranid,currency,exg_rate,amount,change) " +
-                                "values(" + tranid + ","+sh.get(0).getCurrency()+","+frmmain.exg_rate+"," + paid + "," + changeamount + ")";
+                                "values(" + tranid + "," + sh.get(0).getCurrency() + "," + frmmain.exg_rate + "," + paidamount + "," + changeamount + ")";
                         DatabaseHelper.execute(shTmp);
                     }
                     updateVoucher();
@@ -4295,7 +4296,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         } else {
 
             //This Customer's Credit Limit is Over.Do you want to continue ???
-
+            bill_not_print = false;
             double outstandamt = net_amount + Double.parseDouble(ClearFormat(txtoutstand.getText().toString()));
             if (outstandamt > sale_entry.credit_limit && sale_entry.credit_limit != 0) {
                 if (frmlogin.Allow_Over_Credit_Limit == 1) {
@@ -4975,7 +4976,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 //            String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData";
             String sqlUrl = "http://" + ip + "/api/DataSync/SaveData?entryStatus=1";//added entryStatus to classify sale=1,sale order=2,return in=3
 //            String sqlUrl = ip + "/api/DataSync/SaveData";//added entryStatus to classify sale=1,sale order=2,return in=3
-            sqlstring = sqlstring + "&" + sh.get(0).getTranid() + "&" + paid + "&" + changeamount+"&"+sh.get(0).getCurrency()+"&"+frmmain.exg_rate;
+            sqlstring = sqlstring + "&" + sh.get(0).getTranid() + "&" + paidamount + "&" + changeamount + "&" + sh.get(0).getCurrency() + "&" + frmmain.exg_rate;
 //            new SaveData().execute(sqlUrl);
             SaveVoucher(sqlUrl, sqlstring);
         }
@@ -5190,7 +5191,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         //Header
         //String Date = sale_entry.sh.get(0).getDate();
         String voudate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        String invoiceno = (sh.get(0).getInvoice_no().equals("") ? sh.get(0).getDocid() : sh.get(0).getInvoice_no());
+        String invoiceno = (sh.get(0).getInvoice_no().equals("") || sh.get(0).getInvoice_no().toLowerCase().equals("null")) ? sh.get(0).getDocid() : sh.get(0).getInvoice_no();
         String Customername = null;
         String sqlString = "select customer_name from Customer where customerid=" + sh.get(0).getCustomerid();
         cursor = DatabaseHelper.rawQuery(sqlString);
@@ -5226,7 +5227,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             amt = sale_entry.sd.get(i).getUnit_qty() * sale_entry.sd.get(i).getSale_price();
 
             stamount = CurrencyFormat(amt);
-            qtyprice = "( " + CurrencyFormat(sale_entry.sd.get(i).getUnit_qty()) + "  " + sale_entry.sd.get(i).getUnit_short() + " x "
+            String numberAsString = String.format("%." + frmmain.qty_places + "f", sale_entry.sd.get(i).getUnit_qty());
+            qtyprice = "( " + numberAsString + " " + sale_entry.sd.get(i).getUnit_short() + " x "
                     + CurrencyFormat(sale_entry.sd.get(i).getSale_price()) + " )";
 
             tvdescription.setText(item);
@@ -5244,7 +5246,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         tvtotaldiscount.setText(DisAmount);
         tvtotalfocamount.setText(FocAmount);
         tvtotalnetamount.setText(NetAmount);
-        tvpaidamount.setText(CurrencyFormat(paid));
+        tvpaidamount.setText(CurrencyFormat(paidamount));
         tvchangeamount.setText(CurrencyFormat(changeamount));
 
         rootView.addView(voucher);
@@ -5569,7 +5571,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         "townshipid=" + sh.get(0).getTownshipid() + ",\n" +
                         "pay_type=" + sh.get(0).getPay_type() + ",\n" +
                         "due_indays=" + sh.get(0).getDue_in_days() + ",\n" +
-                        "currency=" +sh.get(0).getCurrency()+",\n" +//modify by KLM 24062022
+                        "currency=" + sh.get(0).getCurrency() + ",\n" +//modify by KLM 24062022
                         "discount=" + sh.get(0).getDiscount() + ",\n" +
                         "paid_amount=" + sh.get(0).getPaid_amount() + ",\n" +
                         "invoice_amount=" + sh.get(0).getInvoice_amount() + ",\n" +
@@ -5582,7 +5584,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                         "tax_percent=" + sh.get(0).getTax_per() + ",\n" +
                         "discount_per=" + sh.get(0).getDiscount_per() + ",\n" +
                         //"exg_rate="+1+"\n"+ToDeliver+
-                        "exg_rate=" +frmmain.exg_rate + ",\n" +
+                        "exg_rate=" + frmmain.exg_rate + ",\n" +
                         "adv_pay_per=" + sh.get(0).getAdv_pay_per() + ",\n" +
                         "advance_pay=" + sh.get(0).getAdvance_pay() + ",\n" +
                         "deliver=" + ToDeliver + "\n" + //added by YLT on [18-06-2020]
@@ -5622,9 +5624,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
                                 sd.get(i).getSo_id() + "," +
                                 sd.get(i).getSo_sr() + "," +
-                                sd.get(i).getGallon()+ ","+
-                                sh.get(0).getCurrency()+ "," +
-                                        frmmain.exg_rate
+                                sd.get(i).getGallon() + "," +
+                                sh.get(0).getCurrency() + "," +
+                                frmmain.exg_rate
                                 + " ),";
 
 
@@ -5648,8 +5650,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
                                 sd.get(i).getSo_id() + "," +
                                 sd.get(i).getSo_sr() + "," +
-                                sd.get(i).getGallon() + ","+
-                                sh.get(0).getCurrency()+ "," +
+                                sd.get(i).getGallon() + "," +
+                                sh.get(0).getCurrency() + "," +
                                 frmmain.exg_rate
                                 + " )";
                     }
@@ -6202,7 +6204,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     Double amt = Double.parseDouble(txtChangeQty.getText().toString()) * Double.parseDouble(ClearFormat(txtChangePrice.getText().toString()));
                     String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
                     txtamt.setText(numberAsString);
-                    sd.get(itemPosition).setOrgSalePrice( Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));//added by KLM for currency 27062022
+                    sd.get(itemPosition).setOrgSalePrice(Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));//added by KLM for currency 27062022
                     sd.get(itemPosition).setChangeSalePrice(true);//added by KLM for currency 27062022
 
                 }

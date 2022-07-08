@@ -102,7 +102,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     ArrayList<posuser> aryUsers = new ArrayList<>();
     public static int LoginUserid = -1;
     public static String username = "";
-    public static int def_currency=1;
+    public static int def_currency = 1;
     public static int det_locationid;
     public static int def_branchid;
     public static int def_payment;
@@ -194,7 +194,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         //endregion
 
     }
-
 
 
     private void Detect_Font() {
@@ -589,7 +588,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         String ip = sh_ip.getString("ip", "empty");
         String port = sh_port.getString("port", "empty");
 //        String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData?userid=" + frmlogin.LoginUserid;
-        String sqlUrl = "http://" + ip + "/api/DataSync/UploadData?userid="+frmlogin.LoginUserid;
+        String sqlUrl = "http://" + ip + "/api/DataSync/UploadData?userid=" + frmlogin.LoginUserid;
         new ImportingData().execute(sqlUrl);
     }
 
@@ -662,7 +661,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                             pay_type, due_indays, currency,
                             discount, paid_amount, invoice_amount, invoice_qty,
                             foc_amount, itemdis_amount, discount_per,
-                            tax_amount, tax_per, net_amount,exg_rate));
+                            tax_amount, tax_per, net_amount, exg_rate));
 
                 } while (cursor.moveToNext());
 
@@ -702,7 +701,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     double sprice = cursor.getDouble(cursor.getColumnIndex("SPrice"));
                     int org_curr = cursor.getInt(cursor.getColumnIndex("org_curr"));
                     double org_exgrate = cursor.getDouble(cursor.getColumnIndex("org_exgrate"));
-                    sd.add(new off_sale_det(tranid, sr, srno, date, unit_qty, qty, unit_type, sale_price, dis_price, dis_type, dis_percent, remark, code, Pricelevel, sqty, sprice,org_curr,org_exgrate));
+                    sd.add(new off_sale_det(tranid, sr, srno, date, unit_qty, qty, unit_type, sale_price, dis_price, dis_type, dis_percent, remark, code, Pricelevel, sqty, sprice, org_curr, org_exgrate));
 
                 } while (cursor.moveToNext());
             }
@@ -757,7 +756,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
             e.printStackTrace();
         }
 //        String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlString + "&register=true";
-        String url = "http://" + ip + "/api/DataSync/Register?"+sqlString+"&register=true";
+        String url = "http://" + ip + "/api/DataSync/Register?" + sqlString + "&register=true";
         RequestQueue request = Volley.newRequestQueue(context);
         Response.Listener listener = new Response.Listener() {
             @Override
@@ -978,7 +977,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     ip = sh_ip.getString("ip", "empty");
                     port = sh_port.getString("port", "empty");
 //                    String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?download=true&language=" + frmlogin.Font_Language;
-                    String url ="http://" +  ip + "/api/DataSync/DownloadData?download=true&language="+frmlogin.Font_Language;
+                    String url = "http://" + ip + "/api/DataSync/DownloadData?download=true&language=" + frmlogin.Font_Language;
                     RequestQueue request = Volley.newRequestQueue(context);
                     final Response.Listener<String> listener = new Response.Listener<String>() {
                         @Override
@@ -1152,7 +1151,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         int allow_delete = postobj.optBoolean("allow_delete", false) == true ? 1 : 0;
                         int use_petrol = postobj.optBoolean("use_oil", false) == true ? 1 : 0;
                         int hide_sale_summary = postobj.optBoolean("hide_sale_summary", false) == true ? 1 : 0;
-                        int def_currency=postobj.optInt("def_currency",1);//added by KLM for currency 24062022
+                        int def_currency = postobj.optInt("def_currency", 1);//added by KLM for currency 24062022
                         // int Allow_Oustand=postobj.optInt("Allow_Oustand", 1);
                         // int Allow_StockStatus=postobj.optInt("Allow_StockStatus", 1);
                         sqlString = "insert into Posuser(userid,name,knockcode,Confirm_PrintVou,def_locationid,short,saleprice_level,select_location,select_customer," +
@@ -1160,7 +1159,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                                 " values(" + userid + ",'" + name + "','" + knockcode + "'," + Confirm_PrintVou + "," + defloc + ",'" + shortdes + "'," +
                                 saleprice_level + "," + select_location + "," + select_customer + "," + change_price + "," + change_date + "," + tax + "," + discount + "," + allow_pricelevel + "," + def_payment + ","
                                 + Allow_Over_Credit_Limit + "," + def_cashid + ",'" + Cashier_Printer + "'," + Cashier_PrinterType + "," + Allow_Oustand + ","
-                                + Allow_StockStatus + "," + Allow_Sale + "," + Allow_SaleOrder + "," + use_offline + "," + so_update + "," + all_users + "," + allow_delete + "," + use_petrol + "," + defbrid + "," + hide_sale_summary +","+def_currency+ ")";
+                                + Allow_StockStatus + "," + Allow_Sale + "," + Allow_SaleOrder + "," + use_offline + "," + so_update + "," + all_users + "," + allow_delete + "," + use_petrol + "," + defbrid + "," + hide_sale_summary + "," + def_currency + ")";
 
                         DatabaseHelper.execute(sqlString);
 
@@ -1311,7 +1310,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         sqlString = "insert into SystemSetting(Use_Tax,default_tax_percent,taxCal,use_user_pricelevel,use_cust_pricelevel,use_multipricelvl,use_unit,use_location,use_customerGroup,use_township,use_salesperson,qty_decimal_places,price_decimal_places,SmallestQtyPrice,use_pic,Use_Delivery,use_specialprice,use_Category2,title,pdis_bycode,use_duedate,use_multicurrency)" +
                                 "values(" + Use_Tax + "," + default_tax_percent + "," + taxCal + "," + use_user_pricelevel + "," + use_cust_pricelevel + "," + use_multipricelvl + "," + use_unit + "," + use_location + "," + use_customerGroup + "," + use_township + "," + use_salesperson + "," + qty_places +
                                 "," + price_places + "," + SmallestQtyPrice + "," + use_pic + "," + Use_Delivery + "," + use_specialprice + "," + use_Category2
-                                + ",'" + title + "'," + pdis_bycode + "," + use_duedate+ "," + use_multicurrency + ")";
+                                + ",'" + title + "'," + pdis_bycode + "," + use_duedate + "," + use_multicurrency + ")";
                         DatabaseHelper.execute(sqlString);
 
                     }
@@ -1374,14 +1373,14 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int count = 0; count < currencyArr.length(); count++) {
                         JSONObject menuusrobj = currencyArr.getJSONObject(count);
                         int currency = menuusrobj.getInt("currency");
-                        String name = menuusrobj.optString("name","");
-                        String shortCur = menuusrobj.optString("short","");
-                        double exg_rate = menuusrobj.optDouble("exg_rate",0.0);
+                        String name = menuusrobj.optString("name", "");
+                        String shortCur = menuusrobj.optString("short", "");
+                        double exg_rate = menuusrobj.optDouble("exg_rate", 0.0);
                         int roundTo = menuusrobj.optInt("roundTo");
-                        double div_rate = menuusrobj.optDouble("div_rate",0);
+                        double div_rate = menuusrobj.optDouble("div_rate", 0);
 
                         sqlString = "insert into Currency(currency,name,short,exg_rate,roundTo,div_rate) values("
-                                + currency + ",'" + name + "','" + shortCur + "'," + exg_rate+ ","+roundTo+ ","+ div_rate+ ")";
+                                + currency + ",'" + name + "','" + shortCur + "'," + exg_rate + "," + roundTo + "," + div_rate + ")";
                         DatabaseHelper.execute(sqlString);
                     }
                     break;
@@ -1460,7 +1459,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         String port = sh_port.getString("port", "80");
         String Device = frmlogin.Device_Name.replace(" ", "%20");
 //        String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + locked;
-        String Url="http://" + ip+"/api/DataSync/LockUser?userid="+frmlogin.LoginUserid+"&hostname="+Device+"&locked="+locked;
+        String Url = "http://" + ip + "/api/DataSync/LockUser?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + locked;
         requestQueue = Volley.newRequestQueue(this);
 
         final Response.Listener<String> listener = new Response.Listener<String>() {
@@ -1562,8 +1561,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     int use_petrol = cursor.getInt(cursor.getColumnIndex("use_oil"));
                     int branchid = cursor.getInt(cursor.getColumnIndex("def_branchid"));
                     int hide_sale_summary = cursor.getInt(cursor.getColumnIndex("hide_sale_summary"));
-                    int def_currency=cursor.getInt(cursor.getColumnIndex("def_currency"))==0?1:cursor.getInt(cursor.getColumnIndex("def_currency"));
-                    aryUsers.add(new posuser(userid, name, Confirm_PrintVou, allow_priceLevel, select_location, select_customer, change_date, tax, discount, change_price, pass, locid, def_payment, Allow_Over_Credit_Limit, def_cashid, Cashier_Printer, CAshier_PrinterType, use_offline, allow_so_update, use_petrol, branchid, hide_sale_summary,def_currency));
+                    int def_currency = cursor.getInt(cursor.getColumnIndex("def_currency")) == 0 ? 1 : cursor.getInt(cursor.getColumnIndex("def_currency"));
+                    aryUsers.add(new posuser(userid, name, Confirm_PrintVou, allow_priceLevel, select_location, select_customer, change_date, tax, discount, change_price, pass, locid, def_payment, Allow_Over_Credit_Limit, def_cashid, Cashier_Printer, CAshier_PrinterType, use_offline, allow_so_update, use_petrol, branchid, hide_sale_summary, def_currency));
                 } while (cursor.moveToNext());
 
             }
@@ -1677,7 +1676,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
             String ip = sh_ip.getString("ip", "Localhost");
             String port = sh_port.getString("port", "80");
 //            String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
-            String Url="http://" + ip+"/api/DataSync/CheckConnection";
+            String Url = "http://" + ip + "/api/DataSync/CheckConnection";
             requestQueue = Volley.newRequestQueue(this);
 
             final Response.Listener<String> listener = new Response.Listener<String>() {
@@ -1763,7 +1762,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         String ip = sh_ip.getString("ip", "Localhost");
         String port = sh_port.getString("port", "80");
 //        String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
-        String Url="http://" + ip+"/api/DataSync/CheckConnection";
+        String Url = "http://" + ip + "/api/DataSync/CheckConnection";
         requestQueue = Volley.newRequestQueue(this);
 
         final Response.Listener<String> listener = new Response.Listener<String>() {

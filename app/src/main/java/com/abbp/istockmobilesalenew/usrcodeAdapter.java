@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,7 +186,9 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                 holder.tv.setTextColor(Color.parseColor("#FFFFFF"));
             } else {
                 String[] pathnew = path.split("\\\\");
-                Picasso.get().load("http://" + ip + ":" + port + "/api/DataSync/GetImage?imgName=" + (pathnew.length > 3 ? pathnew[3] : path))
+                String imgUrl = "http://" + ip + "/api/DataSync/GetImage?imgName=" + (pathnew.length > 3 ? pathnew[3] : path);
+                Log.i("imgUrl", imgUrl);
+                Picasso.get().load(imgUrl)
                         .placeholder(R.drawable.ic_image_search)
                         .error(R.drawable.ic_image_search)
                         .into(holder.iv);
@@ -386,7 +389,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
                                         saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
-                                        saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                        saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
 
@@ -441,7 +444,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
                                         saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
-                                        saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                        saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
 
@@ -493,7 +496,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             "",
                                             code, unit_short, desc, CalNoTax, SP));
                                     saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
-                                    saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                    saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -560,7 +563,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
                                         returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
-                                        returnin_entry.sd.get(returnin_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                        returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
 
@@ -615,7 +618,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
                                         returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
-                                        returnin_entry.sd.get(returnin_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                        returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
 
@@ -667,7 +670,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             "",
                                             code, unit_short, desc, CalNoTax, SP));
                                     returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
-                                    returnin_entry.sd.get(returnin_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                    returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -735,7 +738,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
                                         sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
-                                        sale_entry.sd.get(sale_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                        sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
 
@@ -790,7 +793,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
                                         sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
-                                        sale_entry.sd.get(sale_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                        sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
 
@@ -814,7 +817,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 do {
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
-                                    double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                                    double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                                     //added by KLM to correct dis_price while use multicurrency 08072022
                                     int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
                                     price=GetCurrencyPrice(price,sale_curr);
@@ -842,7 +845,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             "",
                                             code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
                                     sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
-                                    sale_entry.sd.get(sale_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                                    sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -906,7 +909,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                 }
             }
             String[] pathnew = path.split("\\\\");
-            Picasso.get().load("http://" + ip + ":" + port + "/api/DataSync/GetImage?imgName=" + (pathnew.length > 3 ? pathnew[3] : path))
+            Picasso.get().load("http://" + ip + "/api/DataSync/GetImage?imgName=" + (pathnew.length > 3 ? pathnew[3] : path))
                     .placeholder(R.drawable.ic_image_search)
                     .error(R.drawable.ic_image_search)
                     .into(imageView);
@@ -985,7 +988,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                     do {
 
                         long code = cursor.getLong(cursor.getColumnIndex("code"));
-                        double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                        double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                         //added by KLM to correct dis_price while use multicurrency 08072022
                         int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
                         price=GetCurrencyPrice(price,sale_curr);
@@ -1028,7 +1031,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                     do {
 
                         long code = cursor.getLong(cursor.getColumnIndex("code"));
-                        double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                        double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                         //added by KLM to correct dis_price while use multicurrency 08072022
                         int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
                         price=GetCurrencyPrice(price,sale_curr);
@@ -1071,7 +1074,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                     do {
 
                         long code = cursor.getLong(cursor.getColumnIndex("code"));
-                        double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                        double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                         //added by KLM to correct dis_price while use multicurrency 08072022
                         int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
                         price=GetCurrencyPrice(price,sale_curr);
