@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout-sw600dp/returninlistitem.xml" value="0.12260928961748634" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/activity_frmreturninlist.xml" value="0.12260928961748634" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/fragment_device_list.xml" value="0.11885245901639344" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/frmmain.xml" value="0.1" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/frmsalelist.xml" value="0.12260928961748634" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/ipaddressbox.xml" value="0.12568306010928962" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/returninlistitem.xml" value="0.12260928961748634" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/salelistitem.xml" value="0.12260928961748634" />
+        <entry key="..\:/Releases/Android/Projects/Version 1.6/iStockMobileSale_new(2)/app/src/main/res/layout/saleorderlistitem.xml" value="0.12260928961748634" />
+        <entry key="..\:/ZYP/iStock/Version/Version1.6/iStockMobileSale_new(2)/app/src/main/res/layout/savechange.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/bluetooth_device_item.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/bluetoothvoucherprint.xml" value="0.22" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/bluttoothvoucherprint.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/codefind.xml" value="0.22" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/devicesetting.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/dialog_choose_bluetooth_device.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/frmsaleorderlist.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/frmstockstatuslist.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/headerinfo.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/itemwithpic.xml" value="0.22" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/layout_voucher_item.xml" value="0.153125" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/sale_entry.xml" value="0.2" />
+        <entry key="..\:/ZYP/iStock/Version/iStock 735-1/iStock735-1 (04-04-2022)/iStockMobileSale_new(2)/app/src/main/res/layout/saleorderlistitem.xml" value="0.153125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
