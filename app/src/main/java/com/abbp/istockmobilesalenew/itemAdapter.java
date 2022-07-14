@@ -127,23 +127,23 @@ public class itemAdapter extends BaseAdapter {
             isgallon = false;
         }
         //added by KLM for currency 27062022
-        if(frmmain.use_multicurrency){
-            switch (formname){
-                case "SaleOrder":
-                    if(!saleorder_entry.sd.get(position).getChangeSalePrice())
-                    CalculateCurrencyPrice(saleorder_entry.sd.get(position).getCode(),position);
-                    break;
-                case "ReturnIn":
-                    if(!returnin_entry.sd.get(position).getChangeSalePrice())
-                    CalculateCurrencyPrice(returnin_entry.sd.get(position).getCode(),position);
-                    break;
-                default:
-                    if(!sd.get(position).getChangeSalePrice())
-                    CalculateCurrencyPrice(sd.get(position).getCode(),position);
-                    break;
-            }
-
-        }
+//        if(frmmain.use_multicurrency){
+//            switch (formname){
+//                case "SaleOrder":
+//                    if(!saleorder_entry.sd.get(position).getChangeSalePrice())
+//                    CalculateCurrencyPrice(saleorder_entry.sd.get(position).getCode(),position);
+//                    break;
+//                case "ReturnIn":
+//                    if(!returnin_entry.sd.get(position).getChangeSalePrice())
+//                    CalculateCurrencyPrice(returnin_entry.sd.get(position).getCode(),position);
+//                    break;
+//                default:
+//                    if(!sd.get(position).getChangeSalePrice())
+//                    CalculateCurrencyPrice(sd.get(position).getCode(),position);
+//                    break;
+//            }
+//
+//        }
         //added by KLM for currency 27062022
 
         boolean use_unit = false;

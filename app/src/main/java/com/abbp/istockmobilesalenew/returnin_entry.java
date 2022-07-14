@@ -4545,7 +4545,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                         specialPrice = usrcodeAdapter.GetPriceLevel();
                         String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
                         String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-                        String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
+                        String sqlString = "select uc.sale_curr,uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                                 " where uc.unit_type=" + defunit + " and uc.usr_code='" + tmpCodes.get(position).getUsr_code() + "'";
                         Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                         if (cursor != null && cursor.getCount() != 0) {
@@ -4554,6 +4554,11 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                                    if(frmmain.use_multicurrency){
+                                        //added by KLM to correct dis_price while use multicurrency 08072022
+                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                    }
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
                                     int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
@@ -4595,7 +4600,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                         specialPrice = usrcodeAdapter.GetPriceLevel();
                         String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
                         String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-                        String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
+                        String sqlString = "select uc.salecurr,uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                                 " where uc.unit_type=" + utt + " and uc.usr_code='" + tmpCodes.get(position).getUsr_code() + "'";
                         Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                         if (cursor != null && cursor.getCount() != 0) {
@@ -4604,6 +4609,11 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                                    if(frmmain.use_multicurrency){
+                                        //added by KLM to correct dis_price while use multicurrency 08072022
+                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                    }
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
                                     int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
@@ -4642,7 +4652,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                     specialPrice = usrcodeAdapter.GetPriceLevel();
                     String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
                     String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-                    String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
+                    String sqlString = "select uc.sale_curr,uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                             " where uc.unit_type=1 and uc.usr_code='" + tmpCodes.get(position).getUsr_code() + "'";
                     Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                     if (cursor != null && cursor.getCount() != 0) {
@@ -4651,6 +4661,11 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
 
                                 long code = cursor.getLong(cursor.getColumnIndex("code"));
                                 double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
+                                if(frmmain.use_multicurrency){
+                                    //added by KLM to correct dis_price while use multicurrency 08072022
+                                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                    price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                }
                                 int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                 double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
                                 int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
@@ -4884,7 +4899,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
             url = "http://" + ip + "/api/DataSync/RefReturnInItemList?userid=" + frmlogin.LoginUserid + "&EditTranid=" + sh.get(0).getTranid() +
-                    "&reftranid=" + ref_tranid + "&getsr=" + getsr + "&getsrno=" + getsrno + "&locationid=" + sh.get(0).getLocationid() + "&refdocid=" + refdocid;
+                    "&reftranid=" + ref_tranid + "&getsr=" + getsr + "&getsrno=" + getsrno + "&locationid=" + sh.get(0).getLocationid() + "&refdocid=" + refdocid+ "&customerid=" + sh.get(0).getCustomerid();
             requestQueue = Volley.newRequestQueue(this);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
@@ -5439,7 +5454,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                 level = "uc.sale_price3";
                 break;
         }
-        String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
+        String sqlString = "select uc.sale_curr,uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
                 " where code=" + returnin_entry.sd.get(itemposistion).getCode() + " and unit_type=" + editUnit_type;
         Cursor cursor = DatabaseHelper.rawQuery(sqlString);
         if (cursor != null && cursor.getCount() != 0) {
@@ -5460,6 +5475,10 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                             break;
                     }
                     sale_price = cursor.getDouble(cursor.getColumnIndex(level));
+                    //added by KLM to correct dis_price while use multicurrency 08072022
+                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                    sale_price=usrcodeAdapter.GetCurrencyPrice(sale_price,sale_curr);
+                    //added by KLM to correct dis_price while use multicurrency 08072022
 
                 } while (cursor.moveToNext());
 

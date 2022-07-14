@@ -196,6 +196,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                int sale_curr=GetSaleCurr(data.get(position).getCode());
                 if (formname == "Sale Order" || formname == "SaleOrder") {
                     saleorder_entry.sd.get(itemposition).setUnt_type(data.get(position).getUnit_type());
                     saleorder_entry.sd.get(itemposition).setUnit_short(data.get(position).getShortdes());
@@ -230,6 +231,13 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                             level = 3;
                             break;
                     }
+                    //added by KLM to correct dis_price while use multicurrency 08072022
+                    if(frmmain.use_multicurrency){
+                        double price=usrcodeAdapter.GetCurrencyPrice(saleorder_entry.sd.get(itemposition).getSale_price(),sale_curr);
+                        saleorder_entry.sd.get(itemposition).setSale_price(price);
+                        saleorder_entry.sd.get(itemposition).setDis_price(price);
+                    }
+                    //added by KLM to correct dis_price while use multicurrency 08072022
                     saleorder_entry.sd.get(itemposition).setQty(saleorder_entry.sd.get(itemposition).getUnit_qty() * data.get(position).getSmallest_unit_qty());
                     if (showqty) {
                         saleorder_entry.editUnit_type = data.get(position).getUnit_type();
@@ -294,6 +302,13 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                             level = 3;
                             break;
                     }
+                    //added by KLM to correct dis_price while use multicurrency 08072022
+                    if(frmmain.use_multicurrency){
+                        double price=usrcodeAdapter.GetCurrencyPrice(returnin_entry.sd.get(itemposition).getSale_price(),sale_curr);
+                        returnin_entry.sd.get(itemposition).setSale_price(price);
+                        returnin_entry.sd.get(itemposition).setDis_price(price);
+                    }
+                    //added by KLM to correct dis_price while use multicurrency 08072022
                     returnin_entry.sd.get(itemposition).setQty(returnin_entry.sd.get(itemposition).getUnit_qty() * data.get(position).getSmallest_unit_qty());
                     if (showqty) {
                         returnin_entry.editUnit_type = data.get(position).getUnit_type();
@@ -374,6 +389,13 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                             level = 3;
                             break;
                     }
+                    //added by KLM to correct dis_price while use multicurrency 08072022
+                    if(frmmain.use_multicurrency){
+                        double price=usrcodeAdapter.GetCurrencyPrice(sale_entry.sd.get(itemposition).getSale_price(),sale_curr);
+                        sale_entry.sd.get(itemposition).setSale_price(price);
+                        sale_entry.sd.get(itemposition).setDis_price(price);
+                    }
+                    //added by KLM to correct dis_price while use multicurrency 08072022
                     sale_entry.sd.get(itemposition).setQty(sale_entry.sd.get(itemposition).getUnit_qty() * data.get(position).getSmallest_unit_qty());
                     if (showqty) {
                         sale_entry.editUnit_type = data.get(position).getUnit_type();
@@ -428,6 +450,23 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
             holder.btn.setBackgroundResource(R.drawable.unitgradiant);
         }
 
+    }
+
+    private int GetSaleCurr(int code) {
+        int sale_curr=1;
+        String sqlString="select sale_curr from usr_code where code="+code;
+        Cursor cursorForSaleCurr=DatabaseHelper.rawQuery(sqlString);
+        if(cursorForSaleCurr!=null && cursorForSaleCurr.getCount()>0){
+            if (cursorForSaleCurr.moveToFirst()) {
+                do {
+                    sale_curr = cursorForSaleCurr.getInt(cursorForSaleCurr.getColumnIndex("sale_curr"));
+
+                } while (cursorForSaleCurr.moveToNext());
+
+            }
+        }
+        cursorForSaleCurr.close();
+        return sale_curr;
     }
 
     @Override
