@@ -17,7 +17,7 @@ public class FilterCustomer extends RecyclerView.Adapter<FilterCustomer.MyViewHo
     ArrayList<customer> data = new ArrayList<>();
     Button btn;
     androidx.appcompat.app.AlertDialog da;
-    public static String formname;//added by YLT
+    public static String formname="";//added by YLT
     public static int ccid = -1;
 
     public FilterCustomer(Context context, ArrayList<customer> data, Button btn, androidx.appcompat.app.AlertDialog da) {

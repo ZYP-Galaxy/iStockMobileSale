@@ -78,14 +78,14 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void GetExg_Rate() {
-        String sqlString="select exg_rate,div_rate,name from Currency where currency="+frmlogin.def_currency;
+        String sqlString="select exg_rate,div_rate,short from Currency where currency="+frmlogin.def_currency;
         Cursor cursor=DatabaseHelper.rawQuery(sqlString);
         if(cursor!=null && cursor.getCount()>0){
             if (cursor.moveToFirst()) {
                 do {
                     exg_rate = cursor.getInt(cursor.getColumnIndex("exg_rate"));
                     div_rate = cursor.getInt(cursor.getColumnIndex("div_rate"));
-                    currencyshort = cursor.getString(cursor.getColumnIndex("name"));
+                    currencyshort = cursor.getString(cursor.getColumnIndex("short"));
                 } while (cursor.moveToNext());
 
             }

@@ -103,9 +103,9 @@ public class frmoustandlist  extends AppCompatActivity {
 
             }
         }
-        else {
-            da.dismiss();
-        }
+//        else {
+//            da.dismiss();
+//        }
         cursor.close();
     }
     private void setUI()
@@ -209,9 +209,15 @@ public class frmoustandlist  extends AppCompatActivity {
                             double Discount = obj.getDouble("Discount");
                             double Paid = obj.getDouble("Paid");
                             double Balance = obj.getDouble("Balance");
-                            total+=Balance;
+                            //total+=Balance;
                             outstandlistslists.add(new outstandlist(customerid,Customer, Currency,
                                     Opening, Sale, ReturnIn,Discount,Paid,Balance));
+                            int currencyid=obj.getInt("currencyid");
+
+                            if(frmmain.use_multicurrency&&currencyid!=1){
+                                Balance=usrcodeAdapter.GetCurrencyPrice(Balance,currencyid);
+                            }
+                            total += Balance;
 
 
                         }

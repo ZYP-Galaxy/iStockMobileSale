@@ -565,7 +565,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                 if (frmlogin.hide_sale_summary == 1) {
                     txtTotal.setText("0");
                 } else {
-                    txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total));
+                    txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total)+" "+frmmain.currencyshort);
                 }
                 pb.dismiss();
 
@@ -614,14 +614,20 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                             int tranid = obj.getInt("tranid");
                             String docid = obj.getString("docid");
                             String currency = obj.getString("currency");
+                            int currencyid=obj.getInt("currencyid");
                             String pay_type = obj.getString("pay_type");
                             String dateStr = obj.getString("date");
                             double net_amount = obj.getDouble("net_amount");
-                            total += net_amount;
+
+
                             String usershort = obj.getString("usershort");
                             String customer_name = obj.getString("customer_name");
-                            salelists.add(new salelist(tranid, dateStr, docid, pay_type, currency, net_amount, usershort, customer_name));
 
+                            salelists.add(new salelist(tranid, dateStr, docid, pay_type, currency, net_amount, usershort, customer_name));
+                            if(frmmain.use_multicurrency&&currencyid!=1){
+                                net_amount=usrcodeAdapter.GetCurrencyPrice(net_amount,currencyid);
+                            }
+                            total += net_amount;
 
                         }
                         adp.notifyDataSetChanged();
@@ -629,7 +635,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                         if (frmlogin.hide_sale_summary == 1) {
                             txtTotal.setText("0");
                         } else {
-                            txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total));
+                            txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total)+" "+frmmain.currencyshort);
                         }
                         pb.dismiss();
                     } catch (JSONException e) {

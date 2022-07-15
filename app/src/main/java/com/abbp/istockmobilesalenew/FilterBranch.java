@@ -17,7 +17,7 @@ public class FilterBranch extends RecyclerView.Adapter<FilterBranch.MyViewHolder
     ArrayList<Branch> data = new ArrayList<>();
     Button btn;
     androidx.appcompat.app.AlertDialog da;
-    public static String formname;//added by YLT
+    public static String formname="";//added by YLT
     public static int BranchiID = -1;
 
     public FilterBranch(Context context, ArrayList<Branch> data, Button btn, androidx.appcompat.app.AlertDialog da) {
@@ -43,7 +43,7 @@ public class FilterBranch extends RecyclerView.Adapter<FilterBranch.MyViewHolder
             @Override
             public void onClick(View v) {
                 //if (formname == "SaleOrder") {
-                btn.setText(data.get(position).getBranchID() + ":" + data.get(position).getBranchname());
+                btn.setText(data.get(position).getBranchname());
                 BranchiID = (int) data.get(position).getBranchID();
                 FilterUser.uid = -1;
                 if (!FilterCustomer.formname.equals("frmoutstand")) //added by ZYP [31-03-2022] #V-QA-220321333

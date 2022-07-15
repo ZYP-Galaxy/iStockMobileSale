@@ -554,7 +554,7 @@ public class frmreturninlist extends AppCompatActivity implements View.OnClickLi
                 cursor.close();
                 adp.notifyDataSetChanged();
                 txtCount.setText(String.valueOf(salelists.size()));
-                txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total));
+                txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total)+" "+frmmain.currencyshort);
                 pb.dismiss();
 
             } else {
@@ -603,16 +603,21 @@ public class frmreturninlist extends AppCompatActivity implements View.OnClickLi
                             String pay_type = obj.getString("pay_type");
                             String dateStr = obj.getString("date");
                             double net_amount = obj.getDouble("net_amount");
-                            total += net_amount;
+                            //total += net_amount;
                             String usershort = obj.getString("usershort");
                             String customer_name = obj.getString("customer_name");
                             salelists.add(new salelist(tranid, dateStr, docid, pay_type, currency, net_amount, usershort, customer_name));
+                            int currencyid=obj.getInt("currencyid");
 
+                            if(frmmain.use_multicurrency&&currencyid!=1){
+                                net_amount=usrcodeAdapter.GetCurrencyPrice(net_amount,currencyid);
+                            }
+                            total += net_amount;
 
                         }
                         adp.notifyDataSetChanged();
                         txtCount.setText(String.valueOf(salelists.size()));
-                        txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total));
+                        txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total)+" "+frmmain.currencyshort);
                         pb.dismiss();
                     } catch (JSONException e) {
 

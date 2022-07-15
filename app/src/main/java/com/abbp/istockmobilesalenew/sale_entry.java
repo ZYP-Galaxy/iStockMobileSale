@@ -2289,10 +2289,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                    if(frmmain.use_multicurrency){
+                                    if (frmmain.use_multicurrency) {
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = usrcodeAdapter.GetCurrencyPrice(price, sale_curr);
                                     }
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -2344,10 +2344,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                    if(frmmain.use_multicurrency){
+                                    if (frmmain.use_multicurrency) {
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = usrcodeAdapter.GetCurrencyPrice(price, sale_curr);
                                     }
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -2396,10 +2396,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                                 long code = cursor.getLong(cursor.getColumnIndex("code"));
                                 double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                if(frmmain.use_multicurrency){
+                                if (frmmain.use_multicurrency) {
                                     //added by KLM to correct dis_price while use multicurrency 08072022
-                                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                    price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                    price = usrcodeAdapter.GetCurrencyPrice(price, sale_curr);
                                 }
                                 int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                 double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -2678,7 +2678,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 //            url = "http://" + ip + ":" + port + "/api/DataSync/OrderList?userid=" + frmlogin.LoginUserid + "&EditTranid=" + sh.get(0).getTranid() +
 //                    "&reftranid=" + ref_tranid + "&getsr=" + getsr + "&getsrno=" + getsrno + "&locationid=" + sh.get(0).getLocationid() + "&refdocid=" + refdocid + "&customerid=" + sh.get(0).getCustomerid();
             url = "http://" + ip + "/api/DataSync/OrderList?userid=" + frmlogin.LoginUserid + "&EditTranid=" + sh.get(0).getTranid() +
-                    "&reftranid=" + ref_tranid + "&getsr=" + getsr + "&getsrno=" + getsrno + "&locationid=" + sh.get(0).getLocationid() + "&refdocid=" + refdocid+ "&customerid=" + sh.get(0).getCustomerid();
+                    "&reftranid=" + ref_tranid + "&getsr=" + getsr + "&getsrno=" + getsrno + "&locationid=" + sh.get(0).getLocationid() + "&refdocid=" + refdocid + "&customerid=" + sh.get(0).getCustomerid();
 
             requestQueue = Volley.newRequestQueue(this);
             final Response.Listener<String> listener = new Response.Listener<String>() {
@@ -4247,7 +4247,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             rlPaid.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    keynum = tvPaid.getText().toString();
+                    keynum = tvPaid.getText().toString().replace(",", "");
                     fromSaleChange = true;
                     showKeyPad(tvAmount, tvPaid);
 
@@ -4257,7 +4257,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             tvPaid.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    keynum = tvPaid.getText().toString();
+                    keynum = tvPaid.getText().toString().replace(",", "");
                     fromSaleChange = true;
                     showKeyPad(tvAmount, tvPaid);
                 }
@@ -4905,7 +4905,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     txtNum.setText(keynum);
                     AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
                     bd.setTitle("iStock");
-                    bd.setMessage("Number Format is incompatiable with data type");
+                    bd.setMessage("Incorrect Number Format!");
                     bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -6743,8 +6743,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     }
                     sale_price = cursor.getDouble(cursor.getColumnIndex(level));
                     //added by KLM to correct dis_price while use multicurrency 08072022
-                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                    sale_price=usrcodeAdapter.GetCurrencyPrice(sale_price,sale_curr);
+                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                    sale_price = usrcodeAdapter.GetCurrencyPrice(sale_price, sale_curr);
                     //added by KLM to correct dis_price while use multicurrency 08072022
 
                 } while (cursor.moveToNext());

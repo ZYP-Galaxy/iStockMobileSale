@@ -1124,7 +1124,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         String shortdes = postobj.optString("short", "null");
                         String knockcode = postobj.optString("knockcode", "null");
                         long defloc = postobj.optInt("def_locationid", 1);
-                        int defbrid = postobj.optInt("def_branchid", 1);
+                        int defbrid = postobj.optInt("def_branchid", 0);
                         int Confirm_PrintVou = postobj.optBoolean("Confirm_PrintVou", false) == true ? 1 : 0;
                         int saleprice_level = postobj.optInt("saleprice_level", 0);
                         int select_location = postobj.optBoolean("select_location", false) == true ? 1 : 0;
