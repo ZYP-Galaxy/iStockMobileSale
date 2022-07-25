@@ -32,7 +32,8 @@
             android:contentDescription="@string/content_description"
             android:focusable="true"
             android:tint="@color/white"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_close"
+            tools:ignore="VectorDrawableCompat" />
 
         <ImageView
             android:id="@+id/btn_printer_setup_save"
@@ -40,7 +41,8 @@
             android:layout_height="40dp"
             android:tint="@color/white"
             android:visibility="gone"
-            app:srcCompat="@drawable/confirm" />
+            app:srcCompat="@drawable/confirm"
+            tools:ignore="VectorDrawableCompat" />
 
     </RelativeLayout>
 
