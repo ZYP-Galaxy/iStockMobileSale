@@ -248,7 +248,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     private boolean isOnline;
     ArrayList<so_det> so_dets = new ArrayList<>();
     ArrayList<so_head> so_heads = new ArrayList<>();
-    long new_customerid = 0;
+    long new_customerid = 1;
     static long specialPrice = 0;//added by klm 14022022
     ProgressDialog progressDialog;
     private boolean isFillVou;
@@ -5128,6 +5128,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         TextView tvtotalnetamount = voucher.findViewById(R.id.txtnetamount);
         TextView tvpaidamount = voucher.findViewById(R.id.txtpaidamount);
         TextView tvchangeamount = voucher.findViewById(R.id.txtchangeamount);
+        LinearLayout salemenLayout=voucher.findViewById(R.id.salemenlayout);
+        TextView tvsalemenname=voucher.findViewById(R.id.txtsalemen);
 
         TextView tvcompanyname = voucher.findViewById(R.id.txtcompanyname);
         TextView tvheader1 = voucher.findViewById(R.id.txtheaderline1);
@@ -5263,6 +5265,20 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         tvtotalnetamount.setText(NetAmount);
         tvpaidamount.setText(CurrencyFormat(paidamount));
         tvchangeamount.setText(CurrencyFormat(changeamount));
+
+        if(use_salesperson){
+            salemenLayout.setVisibility(View.VISIBLE);
+            String salesmenString="";
+            if(SaleVouSalesmen.size()>0){
+                for(int i=0;i<SaleVouSalesmen.size()-1;i++){
+                    salesmenString+=SaleVouSalesmen.get(i).getSalesmen_Name()+", ";
+                }
+
+                salesmenString+=SaleVouSalesmen.get(SaleVouSalesmen.size()-1).getSalesmen_Name();
+            }
+            tvsalemenname.setText(salesmenString);
+        }
+
 
         rootView.addView(voucher);
         View v = getWindow().getDecorView().getRootView();
@@ -5695,7 +5711,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 //String sale_head_other="insert into sale_head_other (tranid,exg_rate) values(";
 
                 Confirm();
-                SaleVouSalesmen.clear();
+                //SaleVouSalesmen.clear();
 
             }
         } catch (Exception ee) {
