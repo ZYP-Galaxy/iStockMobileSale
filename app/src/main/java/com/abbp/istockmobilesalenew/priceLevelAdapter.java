@@ -182,7 +182,7 @@ public class priceLevelAdapter extends RecyclerView.Adapter<priceLevelAdapter.My
         }
         if(formname=="Sale Order") {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                    " where code=" + saleorder_entry.sd.get(itemposistion).getCode() + " and unit_type=" + saleorder_entry.sd.get(itemposistion).getUnt_type();
+                    " where code=" + saleorder_entry.sd.get(itemposistion).getCode() + " and unit_type=" + saleorder_entry.sd.get(itemposistion).getUnit_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
             if (cursor != null && cursor.getCount() != 0) {
                 if (cursor.moveToFirst()) {
@@ -215,7 +215,7 @@ public class priceLevelAdapter extends RecyclerView.Adapter<priceLevelAdapter.My
         else if(formname.equals("ReturnIn"))
         {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                    " where code=" + returnin_entry.sd.get(itemposistion).getCode() + " and unit_type=" + returnin_entry.sd.get(itemposistion).getUnt_type();
+                    " where code=" + returnin_entry.sd.get(itemposistion).getCode() + " and unit_type=" + returnin_entry.sd.get(itemposistion).getUnit_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
             if (cursor != null && cursor.getCount() != 0) {
                 if (cursor.moveToFirst()) {
@@ -247,7 +247,7 @@ public class priceLevelAdapter extends RecyclerView.Adapter<priceLevelAdapter.My
         else
         {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                    " where code=" + sale_entry.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry.sd.get(itemposistion).getUnt_type();
+                    " where code=" + sale_entry.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry.sd.get(itemposistion).getUnit_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
             if (cursor != null && cursor.getCount() != 0) {
                 if (cursor.moveToFirst()) {

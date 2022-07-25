@@ -20,7 +20,7 @@ import com.abbp.istockmobilesalenew.category;
 import com.abbp.istockmobilesalenew.frmlogin;
 import com.abbp.istockmobilesalenew.frmmain;
 import com.abbp.istockmobilesalenew.sale_det;
-import com.abbp.istockmobilesalenew.sale_entry;
+import com.abbp.istockmobilesalenew.sale_entry_tv;
 import com.abbp.istockmobilesalenew.saleorder_entry;
 
 import java.io.File;
@@ -84,7 +84,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
         if (frmmain.use_pic == 1) {
             v = lf.inflate(R.layout.itemwithpic, parent, false);
         } else {
-            v = lf.inflate(R.layout.item_usrcode, parent, false);
+            v = lf.inflate(R.layout.tv_item_usrcode, parent, false);
         }
         return new MyViewHolder(v);
     }
@@ -92,72 +92,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-       /* if(frmmain.use_pic==1){
-
-           directory=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            String file=data.get(position).getPath();
-            if(!file.equals("") && !file.equals("NULL")){
-                file=data.get(position).getPath().substring(20);
-
-                Uri ufile=Uri.fromFile(new File(directory,"/"+file));
-                Picasso.with(context).load(ufile).placeholder(R.drawable.deficon).into(holder.iv);
-                Picasso.with(context).load(new File(directory+"/"+file)).into(holder.iv);
-                String path=directory+"/"+file;
-                holder.iv.setImageDrawable(Drawable.createFromPath(path));
-
-            }
-            holder.tv.setText(" "+data.get(position).getDescription());
-            holder.cv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    specialPrice=GetPriceLevel();
-                    String sale_price=specialPrice==0?"uc.sale_price":"uc.sale_price"+specialPrice;
-                    String SP=specialPrice==0?"SP":"SP"+specialPrice;
-                    String sqlString="select uc.unit_type,code,description,"+sale_price+",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                            " where uc.unit_type=1 and uc.usr_code='"+data.get(position).getUsr_code()+"'";
-                    Cursor cursor=DatabaseHelper.rawQuery(sqlString);
-                    if(cursor!=null&&cursor.getCount()!=0)
-                    {
-                        if(cursor.moveToFirst())
-                        {
-                            do {
-
-                                long code= cursor.getLong(cursor.getColumnIndex("code"));
-                                double price=cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                int open_price=cursor.getInt(cursor.getColumnIndex("open_price"));
-                                double smallest_unit_qty=cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                int unit_type=cursor.getInt(cursor.getColumnIndex("unit_type"));
-                                String unit_short=cursor.getString(cursor.getColumnIndex("unitshort")).equals("null")?"":cursor.getString(cursor.getColumnIndex("unitshort"));
-                                String unitname=cursor.getString(cursor.getColumnIndex("unitname"));
-                                String desc=cursor.getString(cursor.getColumnIndex("description"));
-                                int CalNoTax=cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-                                DateFormat df= new SimpleDateFormat("yyyy-MM-dd");
-                                sale_entry.sd.add(new sale_det(
-                                        sale_entry.tranid,
-                                        sale_entry.sd.size()+1,
-                                        df.format(new Date()),
-                                        1,
-                                        open_price,
-                                        smallest_unit_qty,
-                                        unit_type,
-                                        price,
-                                        price,
-                                        0,
-                                        0,
-                                        "",
-                                        code,unit_short,desc,CalNoTax,SP));
-                            }while (cursor.moveToNext());
-                        }
-
-                    }
-                    cursor.close();
-                    sale_entry.itemAdapter.notifyDataSetChanged();
-                    sale_entry.entrygrid.setSelection(sale_entry.sd.size());
-                    sale_entry.getSummary();
-                }
-            });
-        }else {
-       */
+       
 
         holder.txtName.setText(String.format(" %s", data.get(position).getDescription()));
 
@@ -208,8 +143,8 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                             rv.setLayoutManager(gridLayoutManager);
                         } else {
 
-                            sale_entry.imgFilterCode.setVisibility(View.GONE);
-                            sale_entry.fitercode = "Category";
+                            sale_entry_tv.imgFilterCode.setVisibility(View.GONE);
+                            sale_entry_tv.fitercode = "Category";
                             if (categories.size() > 0) {
                                 categories.clear();
                             }
@@ -239,328 +174,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
                     } else {
 
-//                        if (formname.equals("SaleOrder"))//added by YLT
-//                        {
-//                            int defunit = 1;
-//                            defunit = frmmain.defunit;
-//                            int[] ut = new int[3];
-//                            int i = 0;
-//                            Cursor cc = DatabaseHelper.rawQuery("select unit_type from Usr_Code where usr_code='" + data.get(position).getUsr_code() + "'");
-//                            if (cc != null && cc.getCount() != 0) {
-//                                if (cc.moveToFirst()) {
-//                                    do {
-//                                        int utt = cc.getInt(cc.getColumnIndex("unit_type"));
-//                                        ut[i] = utt;
-//                                        i++;
-//                                    } while (cc.moveToNext());
-//                                }
-//                            }
-//                            if (i > 1) {
-//
-//                                if (i == 3) {
-//                                    specialPrice = GetPriceLevel();
-//                                    String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//                                    String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//                                    String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                                            " where uc.unit_type=" + defunit + " and uc.usr_code='" + data.get(position).getUsr_code() + "'";
-//                                    Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-//                                    if (cursor != null && cursor.getCount() != 0) {
-//                                        if (cursor.moveToFirst()) {
-//                                            do {
-//
-//                                                long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                                                double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-//                                                int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                                                double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                                                int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                                                String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                                                String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                                                String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                                                int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                                saleorder_entry.sd.add(new sale_det(
-//                                                        saleorder_entry.tranid,
-//                                                        saleorder_entry.sd.size() + 1,
-//                                                        df.format(new Date()),
-//                                                        1,
-//                                                        open_price,
-//                                                        smallest_unit_qty,
-//                                                        unit_type,
-//                                                        price,
-//                                                        price,
-//                                                        0,
-//                                                        0,
-//                                                        "",
-//                                                        code, unit_short, desc, CalNoTax, SP));
-//                                            } while (cursor.moveToNext());
-//                                        }
-//
-//                                    }
-//                                    cursor.close();
-//                                    saleorder_entry.itemAdapter.notifyDataSetChanged();
-//                                    saleorder_entry.entrygrid.setSelection(saleorder_entry.sd.size());
-//                                    saleorder_entry.getSummary();
-//                                } else {
-//                                    int utt = 2;
-//                                    if (defunit == 2 || defunit == 3) {
-//                                        utt = 2;
-//                                    } else if (defunit == 1) {
-//                                        utt = 1;
-//                                    }
-//                                    specialPrice = GetPriceLevel();
-//                                    String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//                                    String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//                                    String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                                            " where uc.unit_type=" + utt + " and uc.usr_code='" + data.get(position).getUsr_code() + "'";
-//                                    Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-//                                    if (cursor != null && cursor.getCount() != 0) {
-//                                        if (cursor.moveToFirst()) {
-//                                            do {
-//
-//                                                long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                                                double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-//                                                int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                                                double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                                                int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                                                String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                                                String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                                                String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                                                int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                                saleorder_entry.sd.add(new sale_det(
-//                                                        saleorder_entry.tranid,
-//                                                        saleorder_entry.sd.size() + 1,
-//                                                        df.format(new Date()),
-//                                                        1,
-//                                                        open_price,
-//                                                        smallest_unit_qty,
-//                                                        unit_type,
-//                                                        price,
-//                                                        price,
-//                                                        0,
-//                                                        0,
-//                                                        "",
-//                                                        code, unit_short, desc, CalNoTax, SP));
-//                                            } while (cursor.moveToNext());
-//                                        }
-//
-//                                    }
-//                                    cursor.close();
-//                                    saleorder_entry.itemAdapter.notifyDataSetChanged();
-//                                    saleorder_entry.entrygrid.setSelection(saleorder_entry.sd.size());
-//                                    saleorder_entry.getSummary();
-//                                }
-//
-//                            } else if (i == 1 || defunit == 1) {
-//
-//                                specialPrice = GetPriceLevel();
-//                                String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//                                String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//                                String sqlString = "select uc.unit_type,code,description," + sale_price + ",open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                                        " where uc.unit_type=1 and uc.usr_code='" + data.get(position).getUsr_code() + "'";
-//                                Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-//                                if (cursor != null && cursor.getCount() != 0) {
-//                                    if (cursor.moveToFirst()) {
-//                                        do {
-//
-//                                            long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                                            double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-//                                            int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                                            double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                                            int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                                            String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                                            String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                                            String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                                            int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                            saleorder_entry.sd.add(new sale_det(
-//                                                    saleorder_entry.tranid,
-//                                                    saleorder_entry.sd.size() + 1,
-//                                                    df.format(new Date()),
-//                                                    1,
-//                                                    open_price,
-//                                                    smallest_unit_qty,
-//                                                    unit_type,
-//                                                    price,
-//                                                    price,
-//                                                    0,
-//                                                    0,
-//                                                    "",
-//                                                    code, unit_short, desc, CalNoTax, SP));
-//                                        } while (cursor.moveToNext());
-//                                    }
-//
-//                                }
-//                                cursor.close();
-//                                saleorder_entry.itemAdapter.notifyDataSetChanged();
-//                                saleorder_entry.entrygrid.setSelection(saleorder_entry.sd.size());
-//                                saleorder_entry.getSummary();
-//                            }
-//                        }
-//                        else {
-//
-//                            int defunit = 1;
-//                            defunit = frmmain.defunit;
-//                            int[] ut = new int[3];
-//                            int i = 0;
-//                            Cursor cc = DatabaseHelper.rawQuery("select unit_type from Usr_Code where usr_code='" + data.get(position).getUsr_code() + "'");
-//                            if (cc != null && cc.getCount() != 0) {
-//                                if (cc.moveToFirst()) {
-//                                    do {
-//                                        int utt = cc.getInt(cc.getColumnIndex("unit_type"));
-//                                        ut[i] = utt;
-//                                        i++;
-//                                    } while (cc.moveToNext());
-//                                }
-//                            }
-//                            if (i > 1) {
-//
-//                                if (i == 3) {
-//                                    specialPrice = GetPriceLevel();
-//                                    String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//                                    String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//                                    String sqlString = "select uc.unit_type,code,description," + sale_price + " as sale_price,open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                                            " where uc.unit_type=" + defunit + " and uc.usr_code='" + data.get(position).getUsr_code() + "'";
-//                                    Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-//                                    if (cursor != null && cursor.getCount() != 0) {
-//                                        if (cursor.moveToFirst()) {
-//                                            do {
-//
-//                                                long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                                                double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
-//                                                int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                                                double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                                                int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                                                String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                                                String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                                                String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                                                int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                                sale_entry.sd.add(new sale_det(
-//                                                        sale_entry.tranid,
-//                                                        sale_entry.sd.size() + 1,
-//                                                        df.format(new Date()),
-//                                                        1,
-//                                                        open_price,
-//                                                        smallest_unit_qty,
-//                                                        unit_type,
-//                                                        price,
-//                                                        price,
-//                                                        0,
-//                                                        0,
-//                                                        "",
-//                                                        code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-//                                            } while (cursor.moveToNext());
-//                                        }
-//
-//                                        cursor.close();
-//                                    }
-//                                    sale_entry.itemAdapter.notifyDataSetChanged();
-//                                    //sale_entry.entrygrid.setSelection(sale_entry.sd.size());
-//                                    sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//                                    sale_entry.getSummary();
-//                                } else {
-//                                    int utt = 2;
-//                                    if (defunit == 2 || defunit == 3) {
-//                                        utt = 2;
-//                                    } else if (defunit == 1) {
-//                                        utt = 1;
-//                                    }
-//                                    specialPrice = GetPriceLevel();
-//                                    String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//                                    String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//                                    String sqlString = "select uc.unit_type,code,description," + sale_price + " as sale_price,open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                                            " where uc.unit_type=" + utt + " and uc.usr_code='" + data.get(position).getUsr_code() + "'";
-//                                    Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-//                                    if (cursor != null && cursor.getCount() != 0) {
-//                                        if (cursor.moveToFirst()) {
-//                                            do {
-//
-//                                                long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                                                double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
-//                                                int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                                                double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                                                int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                                                String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                                                String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                                                String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                                                int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                                                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                                sale_entry.sd.add(new sale_det(
-//                                                        sale_entry.tranid,
-//                                                        sale_entry.sd.size() + 1,
-//                                                        df.format(new Date()),
-//                                                        1,
-//                                                        open_price,
-//                                                        smallest_unit_qty,
-//                                                        unit_type,
-//                                                        price,
-//                                                        price,
-//                                                        0,
-//                                                        0,
-//                                                        "",
-//                                                        code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-//                                            } while (cursor.moveToNext());
-//                                        }
-//
-//                                        cursor.close();
-//                                    }
-//                                    sale_entry.itemAdapter.notifyDataSetChanged();
-//                                    //sale_entry.entrygrid.setSelection(sale_entry.sd.size());
-//                                    sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//                                    sale_entry.getSummary();
-//                                }
-//
-//                            } else if (i == 1 || defunit == 1) {
-//
-//                                specialPrice = GetPriceLevel();
-//                                String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//                                String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//                                String sqlString = "select uc.unit_type,code,description," + sale_price + " as sale_price,open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                                        " where uc.unit_type = 1 and uc.usr_code='" + data.get(position).getUsr_code() + "'";
-//                                Cursor cursor = DatabaseHelper.rawQuery(sqlString);
-//                                if (cursor != null && cursor.getCount() != 0) {
-//                                    if (cursor.moveToFirst()) {
-//                                        do {
-//
-//                                            long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                                            double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
-//                                            int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                                            double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                                            int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                                            String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                                            String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                                            String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                                            int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                                            sale_entry.sd.add(new sale_det(
-//                                                    sale_entry.tranid,
-//                                                    sale_entry.sd.size() + 1,
-//                                                    df.format(new Date()),
-//                                                    1,
-//                                                    open_price,
-//                                                    smallest_unit_qty,
-//                                                    unit_type,
-//                                                    price,
-//                                                    price,
-//                                                    0,
-//                                                    0,
-//                                                    "",
-//                                                    code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-//                                        } while (cursor.moveToNext());
-//                                    }
-//
-//                                    cursor.close();
-//                                }
-//                                sale_entry.itemAdapter.notifyDataSetChanged();
-//                                //sale_entry.entrygrid.setSelection(sale_entry.sd.size());
-//                                sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//                                sale_entry.getSummary();
-//                            }
-//                        }
-//                        if (formname.equals("Sale")) {
-//                            GetPdis();
-//                        }
+
 
                         addData(data.get(position).getUsr_code());
 
@@ -580,97 +194,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     }
 
     private static void addData(String usr_code) {
-//        specialPrice = GetPriceLevel();
-//        String sale_price = specialPrice == 0 ? "uc.sale_price" : "uc.sale_price" + specialPrice;
-//        String SP = specialPrice == 0 ? "SP" : "SP" + specialPrice;
-//        String sqlString = "select uc.unit_type,code,description," + sale_price + " as sale_price,open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                " where uc.unit_type = " + frmmain.defunit + " and uc.usr_code='" + usr_code + "'";
-//        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
 
-//        if (formname.equals("SaleOrder"))   //added by YLT
-//        {
-//            if (cursor != null && cursor.getCount() != 0) {
-//                if (cursor.moveToFirst()) {
-//                    do {
-//
-//                        long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                        double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
-//                        int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                        double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                        int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                        String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                        String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                        String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                        int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                        saleorder_entry.sd.add(new sale_det(
-//                                saleorder_entry.tranid,
-//                                saleorder_entry.sd.size() + 1,
-//                                df.format(new Date()),
-//                                1,
-//                                open_price,
-//                                smallest_unit_qty,
-//                                unit_type,
-//                                price,
-//                                price,
-//                                0,
-//                                0,
-//                                "",
-//                                code, unit_short, desc, CalNoTax, SP));
-//                    } while (cursor.moveToNext());
-//
-//                }
-//
-//                cursor.close();
-//            }
-//            saleorder_entry.itemAdapter.notifyDataSetChanged();
-//            saleorder_entry.entrygrid.setSelection(saleorder_entry.sd.size());
-//            saleorder_entry.getSummary();
-//        } else {
-//            if (cursor != null && cursor.getCount() == 0) {
-//                sqlString = "select uc.unit_type,code,description," + sale_price + " as sale_price,open_price,smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-//                        " where uc.unit_type = 1 and uc.usr_code='" + usr_code + "'";
-//                cursor = DatabaseHelper.rawQuery(sqlString);
-//            }
-//
-//            if (cursor != null && cursor.getCount() != 0) {
-//                if (cursor.moveToFirst()) {
-//                    do {
-//
-//                        long code = cursor.getLong(cursor.getColumnIndex("code"));
-//                        double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
-//                        int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
-//                        double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-//                        int unit_type = cursor.getInt(cursor.getColumnIndex("unit_type"));
-//                        String unit_short = cursor.getString(cursor.getColumnIndex("unitshort")).equals("null") ? "" : cursor.getString(cursor.getColumnIndex("unitshort"));
-//                        String unitname = cursor.getString(cursor.getColumnIndex("unitname"));
-//                        String desc = cursor.getString(cursor.getColumnIndex("description"));
-//                        int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
-//                        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//                        sale_entry.sd.add(new sale_det(
-//                                sale_entry.tranid,
-//                                sale_entry.sd.size() + 1,
-//                                df.format(new Date()),
-//                                1,
-//                                open_price,
-//                                smallest_unit_qty,
-//                                unit_type,
-//                                price,
-//                                price,
-//                                0,
-//                                0,
-//                                "",
-//                                code, unit_short, desc, CalNoTax, SP));
-//                    } while (cursor.moveToNext());
-//                }
-//
-//                cursor.close();
-//            }
-//            sale_entry.itemAdapter.notifyDataSetChanged();
-//            sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//            sale_entry.getSummary();
-
-//        }
 
         int defUnit = frmmain.defunit;
         int[] ut = new int[3];
@@ -708,9 +232,9 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                             String desc = cursor.getString(cursor.getColumnIndex("description"));
                             int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                            sale_entry.sd.add(new sale_det(
-                                    sale_entry.tranid,
-                                    sale_entry.sd.size() + 1,
+                            sale_entry_tv.sd.add(new sale_det(
+                                    sale_entry_tv.tranid,
+                                    sale_entry_tv.sd.size() + 1,
                                     df.format(new Date()),
                                     1,
                                     open_price,
@@ -726,9 +250,9 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                     }
                     cursor.close();
                 }
-//                sale_entry.itemAdapter.notifyDataSetChanged();
-//                sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//                sale_entry.getSummary();
+//                sale_entry_tv.itemAdapter.notifyDataSetChanged();
+//                sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
+//                sale_entry_tv.getSummary();
 
             } else {
                 int utt = 2;
@@ -757,9 +281,9 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                             String desc = cursor.getString(cursor.getColumnIndex("description"));
                             int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
                             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                            sale_entry.sd.add(new sale_det(
-                                    sale_entry.tranid,
-                                    sale_entry.sd.size() + 1,
+                            sale_entry_tv.sd.add(new sale_det(
+                                    sale_entry_tv.tranid,
+                                    sale_entry_tv.sd.size() + 1,
                                     df.format(new Date()),
                                     1,
                                     open_price,
@@ -776,9 +300,9 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
                     cursor.close();
                 }
-//                sale_entry.itemAdapter.notifyDataSetChanged();
-//                sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//                sale_entry.getSummary();
+//                sale_entry_tv.itemAdapter.notifyDataSetChanged();
+//                sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
+//                sale_entry_tv.getSummary();
             }
 
         } else if (i == 1 || defUnit == 1) {
@@ -803,9 +327,9 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                         String desc = cursor.getString(cursor.getColumnIndex("description"));
                         int CalNoTax = cursor.getInt(cursor.getColumnIndex("CalNoTax"));
                         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-                        sale_entry.sd.add(new sale_det(
-                                sale_entry.tranid,
-                                sale_entry.sd.size() + 1,
+                        sale_entry_tv.sd.add(new sale_det(
+                                sale_entry_tv.tranid,
+                                sale_entry_tv.sd.size() + 1,
                                 df.format(new Date()),
                                 1,
                                 open_price,
@@ -822,26 +346,26 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
                 cursor.close();
             }
-//            sale_entry.itemAdapter.notifyDataSetChanged();
-//            sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//            sale_entry.getSummary();
+//            sale_entry_tv.itemAdapter.notifyDataSetChanged();
+//            sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
+//            sale_entry_tv.getSummary();
         }
 
         if (formname.equals("Sale")) {
             GetPdis();
         }
 
-        sale_entry.itemAdapter.notifyDataSetChanged();
-        sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-        sale_entry.getSummary();
+        sale_entry_tv.itemAdapter.notifyDataSetChanged();
+        sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
+        sale_entry_tv.getSummary();
 
     }
 
     private static void GetPdis() {
 
-        long code = sale_entry.sd.get((sale_entry.sd.size() - 1)).getCode();
-        long locationid = sale_entry.sh.get(0).getLocationid();
-        int unit_type = sale_entry.sd.get((sale_entry.sd.size() - 1)).getUnit_type();
+        long code = sale_entry_tv.sd.get((sale_entry_tv.sd.size() - 1)).getCode();
+        long locationid = sale_entry_tv.sh.get(0).getLocationid();
+        int unit_type = sale_entry_tv.sd.get((sale_entry_tv.sd.size() - 1)).getUnit_type();
         long level = GetPriceLevel();
         double discount = 0;
         double dis_price = 0;
@@ -863,21 +387,21 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
         if (discount > 0) {
             int dis_type = 5;
-            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_type(dis_type);
-            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_percent(discount);
-            double disprice = sale_entry.sd.get(sale_entry.sd.size() - 1).getSale_price() - (sale_entry.sd.get(sale_entry.sd.size() - 1).getSale_price() * (discount / 100));
-            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_price(disprice);
-//            sale_entry.itemAdapter.notifyDataSetChanged();
-//            sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//            sale_entry.getSummary();
+            sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_type(dis_type);
+            sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_percent(discount);
+            double disprice = sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).getSale_price() - (sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).getSale_price() * (discount / 100));
+            sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_price(disprice);
+//            sale_entry_tv.itemAdapter.notifyDataSetChanged();
+//            sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
+//            sale_entry_tv.getSummary();
 
         } else if (dis_price > 0) {
-            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_type(5);
-            //double disprice = sale_entry.sd.get(sale_entry.sd.size() - 1).getSale_price() - dis_price;
-            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_price(dis_price);
-//            sale_entry.itemAdapter.notifyDataSetChanged();
-//            sale_entry.entrygrid.smoothScrollToPosition(sale_entry.sd.size());
-//            sale_entry.getSummary();
+            sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_type(5);
+            //double disprice = sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).getSale_price() - dis_price;
+            sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_price(dis_price);
+//            sale_entry_tv.itemAdapter.notifyDataSetChanged();
+//            sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
+//            sale_entry_tv.getSummary();
         }
 
     }
@@ -905,7 +429,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                 String sSql = "select pricelevel from customer where customerid =" + saleorder_entry.sh.get(0).getCustomerid();//added by YLT
                 cursor = DatabaseHelper.rawQuery(sSql);
             } else {
-                String sSql = "select pricelevel from customer where customerid =" + sale_entry.sh.get(0).getCustomerid();
+                String sSql = "select pricelevel from customer where customerid =" + sale_entry_tv.sh.get(0).getCustomerid();
                 cursor = DatabaseHelper.rawQuery(sSql);
             }
 

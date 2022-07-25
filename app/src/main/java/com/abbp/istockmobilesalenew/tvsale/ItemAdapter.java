@@ -24,14 +24,13 @@ import com.abbp.istockmobilesalenew.R;
 import com.abbp.istockmobilesalenew.UnitAdapter;
 import com.abbp.istockmobilesalenew.frmlogin;
 import com.abbp.istockmobilesalenew.frmmain;
-import com.abbp.istockmobilesalenew.sale_entry;
+
 import com.abbp.istockmobilesalenew.saleorder_entry;
 import com.abbp.istockmobilesalenew.unitforcode;
 
 import java.util.ArrayList;
 
-import static com.abbp.istockmobilesalenew.sale_entry.itemPosition;
-import static com.abbp.istockmobilesalenew.sale_entry.sd;
+
 
 public class ItemAdapter extends BaseAdapter {
     Context context;
@@ -69,7 +68,7 @@ public class ItemAdapter extends BaseAdapter {
         if (formname == "SaleOrder") {
             return saleorder_entry.sd.size();//added by YLT
         } else {
-            return sale_entry.sd.size();
+            return sale_entry_tv.sd.size();
         }
     }
 
@@ -88,7 +87,7 @@ public class ItemAdapter extends BaseAdapter {
 //        LayoutInflater lf = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //        convertView = lf.inflate(R.layout.dataitem, null, false);
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.dataitem, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.tv_dataitem, parent, false);
         }
         TextView tvSr = convertView.findViewById(R.id.sr);
         TextView tvDesc = convertView.findViewById(R.id.desc);
@@ -109,7 +108,7 @@ public class ItemAdapter extends BaseAdapter {
                 isgallon = false;
             }
 
-            String qtyAsString = String.format("%." + frmmain.qty_places + "f", sale_entry.sd.get(position).getGallon());
+            String qtyAsString = String.format("%." + frmmain.qty_places + "f", sale_entry_tv.sd.get(position).getGallon());
             tvGallon.setText(qtyAsString);
 
             tvGallon.setOnClickListener(new View.OnClickListener() {
@@ -176,13 +175,13 @@ public class ItemAdapter extends BaseAdapter {
             String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
             tv4.setText(String.valueOf(numberAsString));
         } else {
-            tvSr.setText(String.valueOf(sale_entry.sd.get(position).getSr()));
-            tvDesc.setText(sale_entry.sd.get(position).getDesc());
-            Double unit_qty = sale_entry.sd.get(position).getUnit_qty();
+            tvSr.setText(String.valueOf(sale_entry_tv.sd.get(position).getSr()));
+            tvDesc.setText(sale_entry_tv.sd.get(position).getDesc());
+            Double unit_qty = sale_entry_tv.sd.get(position).getUnit_qty();
             String qtyAsString = String.format("%." + frmmain.qty_places + "f", unit_qty);
             tvQty.setText(qtyAsString);
-            tvUnit.setText(sale_entry.sd.get(position).getUnit_short());
-            double amt = sale_entry.sd.get(position).getSale_price() * sale_entry.sd.get(position).getUnit_qty();
+            tvUnit.setText(sale_entry_tv.sd.get(position).getUnit_short());
+            double amt = sale_entry_tv.sd.get(position).getSale_price() * sale_entry_tv.sd.get(position).getUnit_qty();
             String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
             tv4.setText(numberAsString);
         }
@@ -212,51 +211,29 @@ public class ItemAdapter extends BaseAdapter {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
-                        if (formname == "SaleOrder")//added by YLT
-                        {
-                            saleorder_entry.sd.remove(position);
+
+                            sale_entry_tv.sd.remove(position);
                             itemPosition = -1;
-                            for (int i = 0; i < saleorder_entry.sd.size(); i++) {
-                                saleorder_entry.sd.get(i).setSr(i + 1);
+                            for (int i = 0; i < sale_entry_tv.sd.size(); i++) {
+                                sale_entry_tv.sd.get(i).setSr(i + 1);
                             }
-                            saleorder_entry.getData();
-                            saleorder_entry.getSummary();
-                            if (saleorder_entry.sd.size() == 0) {
-                                String tax = "Tax" + (saleorder_entry.getTax() > 0 ? "( " + saleorder_entry.getTax() + "% )" : "");
-                                saleorder_entry.txttax.setText(tax);
-                                saleorder_entry.sh.get(0).setTax_per(saleorder_entry.getTax());
-                                saleorder_entry.sh.get(0).setTax_amount(0.0);
-                                saleorder_entry.sh.get(0).setDiscount(0.0);
-                                saleorder_entry.sh.get(0).setDiscount_per(0);
-                                saleorder_entry.sh.get(0).setPaid_amount(0);
-                                saleorder_entry.txtvoudis.setText("0");
-                                saleorder_entry.txtpaid.setText("0");
-                                saleorder_entry.getSummary();
+                            //sale_entry_tv.getData();
+                            sale_entry_tv.itemAdapter.notifyDataSetChanged();
+                            sale_entry_tv.getSummary();
+                            if (sale_entry_tv.sd.size() == 0) {
+                                String tax = "Tax" + (sale_entry_tv.getTax() > 0 ? "( " + sale_entry_tv.getTax() + "% )" : "");
+                                sale_entry_tv.txttax.setText(tax);
+                                sale_entry_tv.sh.get(0).setTax_per(sale_entry_tv.getTax());
+                                sale_entry_tv.sh.get(0).setTax_amount(0.0);
+                                sale_entry_tv.sh.get(0).setDiscount(0.0);
+                                sale_entry_tv.sh.get(0).setDiscount_per(0);
+                                sale_entry_tv.sh.get(0).setPaid_amount(0);
+                                sale_entry_tv.txtvoudis.setText("0");
+                                sale_entry_tv.txtpaid.setText("0");
+                                sale_entry_tv.getSummary();
                             }
                             dialog.dismiss();
-                        } else {
-                            sale_entry.sd.remove(position);
-                            itemPosition = -1;
-                            for (int i = 0; i < sale_entry.sd.size(); i++) {
-                                sale_entry.sd.get(i).setSr(i + 1);
-                            }
-                            //sale_entry.getData();
-                            sale_entry.itemAdapter.notifyDataSetChanged();
-                            sale_entry.getSummary();
-                            if (sale_entry.sd.size() == 0) {
-                                String tax = "Tax" + (sale_entry.getTax() > 0 ? "( " + sale_entry.getTax() + "% )" : "");
-                                sale_entry.txttax.setText(tax);
-                                sale_entry.sh.get(0).setTax_per(sale_entry.getTax());
-                                sale_entry.sh.get(0).setTax_amount(0.0);
-                                sale_entry.sh.get(0).setDiscount(0.0);
-                                sale_entry.sh.get(0).setDiscount_per(0);
-                                sale_entry.sh.get(0).setPaid_amount(0);
-                                sale_entry.txtvoudis.setText("0");
-                                sale_entry.txtpaid.setText("0");
-                                sale_entry.getSummary();
-                            }
-                            dialog.dismiss();
-                        }
+
                     }
                 });
 
@@ -271,214 +248,7 @@ public class ItemAdapter extends BaseAdapter {
             }
         });
 
-        /*
-        tv4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if (formname == "SaleOrder")//added by YLT
-                {
-                    isqty = false;
-                    isSalePrice = true;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View view = inflater.inflate(R.layout.changesaleprice, null);
-                    builder.setView(view);
-                    TextView txtheader = view.findViewById(R.id.caption);
-
-
-                    String title = saleorder_entry.sd.get(position).getDesc();
-                    txtheader.setText(title);
-                    TextView txtChangePrice = view.findViewById(R.id.txtChangePrice);
-                    RelativeLayout rlAmount = view.findViewById(R.id.rlAmount);
-                    rlAmount.setVisibility(View.INVISIBLE);
-                    txtamt = view.findViewById(R.id.txtChangeAmt);
-                    ImageButton save = view.findViewById(R.id.imgSave);
-                    //txtChangePrice.setText(String.valueOf(sale_entry.sd.get(position).getSale_price()));
-                    txtChangePrice.setText(String.format("%,." + frmmain.price_places + "f", saleorder_entry.sd.get(position).getSale_price()));
-                    disamt = saleorder_entry.sd.get(position).getSale_price() - saleorder_entry.sd.get(position).getDis_price();
-                    Double amt = Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())) * saleorder_entry.sd.get(position).getUnit_qty();
-
-                    String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
-                    txtamt.setText(numberAsString);
-
-                    //not change_price in sale entry entrygrid amount click modified by ABBP
-                    //add open_price modified by ABBP
-                    txtChangePrice.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //keynum=txtChangePrice.getText().toString();
-                            int op = saleorder_entry.sd.get(position).getOpen_price();
-                            if (frmlogin.change_price == 1 || op == 1) {
-                                keynum = String.format("%,." + frmmain.price_places + "f", Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));
-                                showKeyPad(txtChangePrice, txtChangePrice, position);
-                            }
-                            Double amt = Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())) * saleorder_entry.sd.get(position).getUnit_qty();
-                            String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
-                            txtamt.setText(numberAsString);
-
-                        }
-                    });
-
-                    save.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            saleorder_entry.sd.get(position).setSale_price(Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));
-                            saleorder_entry.sd.get(position).setDis_price(Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));
-
-                            if (saleorder_entry.sd.get(position).getDis_type() == 3
-                                    || saleorder_entry.sd.get(position).getDis_type() == 4
-                                    || saleorder_entry.sd.get(position).getDis_type() == 6
-                                    || saleorder_entry.sd.get(position).getDis_type() == 7) {
-                                saleorder_entry.sd.get(position).setDis_percent(0);
-                                saleorder_entry.sd.get(position).setDis_price(saleorder_entry.sd.get(position).getSale_price());
-                            } else if (saleorder_entry.sd.get(position).getDis_type() == 1
-                                    || saleorder_entry.sd.get(position).getDis_type() == 2) {
-                                double dispercent = saleorder_entry.sd.get(position).getDis_type() == 1 ? 0.05 : 0.1;
-                                double discount = saleorder_entry.sd.get(position).getDis_type() == 1 ? 5 : 10;
-                                saleorder_entry.sd.get(position).setDis_percent(discount);
-                                double dis_price = saleorder_entry.sd.get(position).getSale_price() - (saleorder_entry.sd.get(position).getSale_price() * (dispercent));
-                                saleorder_entry.sd.get(position).setDis_price(dis_price);
-                            } else if (saleorder_entry.sd.get(position).getDis_type() == 5) {
-                                if (saleorder_entry.sd.get(position).getDis_percent() > 0) {
-                                    double dis_percent = saleorder_entry.sd.get(position).getDis_percent();
-                                    saleorder_entry.sd.get(position).setDis_percent(dis_percent);
-                                    double dis_price = saleorder_entry.sd.get(position).getSale_price() - (saleorder_entry.sd.get(position).getSale_price() * (dis_percent / 100));
-                                    saleorder_entry.sd.get(position).setDis_price(dis_price);
-
-
-                                } else {
-                                    double dis_percent = 0;
-                                    saleorder_entry.sd.get(position).setDis_percent(dis_percent);
-                                    double dis_price = saleorder_entry.sd.get(position).getSale_price() - disamt;
-                                    saleorder_entry.sd.get(position).setDis_price(dis_price);
-                                }
-                            }
-
-                            saleorder_entry.getSummary();
-                            saleorder_entry.entrygrid.setAdapter(itemAd);
-                            saleorder_entry.entrygrid.setSelection(position);
-                            itemPosition = -1;
-                            da.dismiss();
-
-                        }
-                    });
-                    da = builder.create();
-                    da.show();
-                }
-                //for Sale
-                else {
-                    isqty = false;
-                    isSalePrice = true;
-                    isgallon = false;
-                    isAmount = false;
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    View view = inflater.inflate(R.layout.changesaleprice, null);
-                    builder.setView(view);
-                    TextView txtheader = view.findViewById(R.id.caption);
-                    String title = sale_entry.sd.get(position).getDesc();
-                    txtheader.setText(title);
-                    TextView txtChangePrice = view.findViewById(R.id.txtChangePrice);
-                    TextView txtAmount = view.findViewById(R.id.txtAmount);
-                    RelativeLayout rlAmount = view.findViewById(R.id.rlAmount);
-                    if (frmlogin.use_oil != 1) {
-                        rlAmount.setVisibility(View.INVISIBLE);
-                    } else {
-                        rlAmount.setVisibility(View.VISIBLE);
-                    }
-                    txtamt = view.findViewById(R.id.txtChangeAmt);
-                    ImageButton save = view.findViewById(R.id.imgSave);
-                    //txtChangePrice.setText(String.valueOf(sale_entry.sd.get(position).getSale_price()));
-                    txtChangePrice.setText(String.format("%,." + frmmain.price_places + "f", sale_entry.sd.get(position).getSale_price()));
-                    disamt = sale_entry.sd.get(position).getSale_price() - sale_entry.sd.get(position).getDis_price();
-                    Double amt = Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())) * sale_entry.sd.get(position).getUnit_qty();
-
-                    String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
-                    txtamt.setText(numberAsString);
-                    txtAmount.setText(numberAsString);
-
-                    //not change_price in sale entry entrygrid amount click modified by ABBP
-                    //add open_price modified by ABBP
-                    txtChangePrice.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            //keynum=txtChangePrice.getText().toString();
-                            int op = sale_entry.sd.get(position).getOpen_price();
-                            if (frmlogin.change_price == 1 || op == 1) {
-                                keynum = String.format("%." + frmmain.price_places + "f", Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));
-                                showKeyPad(txtChangePrice, txtChangePrice, position);
-                            }
-                            Double amt = Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())) * sale_entry.sd.get(position).getUnit_qty();
-                            String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
-                            txtamt.setText(numberAsString);
-
-                        }
-                    });
-                    txtAmount.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            isAmount = true;
-                            keynum = String.format("%." + frmmain.price_places + "f", Double.parseDouble(ClearFormat(txtAmount.getText().toString())));
-                            showKeyPad(txtChangePrice, txtAmount, position);
-
-                        }
-                    });
-
-                    save.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-
-                            sale_entry.sd.get(position).setSale_price(Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));
-                            sale_entry.sd.get(position).setDis_price(Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));
-
-                            if (sale_entry.sd.get(position).getDis_type() == 3
-                                    || sale_entry.sd.get(position).getDis_type() == 4
-                                    || sale_entry.sd.get(position).getDis_type() == 6
-                                    || sale_entry.sd.get(position).getDis_type() == 7) {
-                                sale_entry.sd.get(position).setDis_percent(0);
-                                sale_entry.sd.get(position).setDis_price(sale_entry.sd.get(position).getSale_price());
-                            } else if (sale_entry.sd.get(position).getDis_type() == 1
-                                    || sale_entry.sd.get(position).getDis_type() == 2) {
-                                double dispercent = sale_entry.sd.get(position).getDis_type() == 1 ? 0.05 : 0.1;
-                                double discount = sale_entry.sd.get(position).getDis_type() == 1 ? 5 : 10;
-                                sale_entry.sd.get(position).setDis_percent(discount);
-                                double dis_price = sale_entry.sd.get(position).getSale_price() - (sale_entry.sd.get(position).getSale_price() * (dispercent));
-                                sale_entry.sd.get(position).setDis_price(dis_price);
-                            } else if (sale_entry.sd.get(position).getDis_type() == 5) {
-                                if (sale_entry.sd.get(position).getDis_percent() > 0) {
-                                    double dis_percent = sale_entry.sd.get(position).getDis_percent();
-                                    sale_entry.sd.get(position).setDis_percent(dis_percent);
-                                    double dis_price = sale_entry.sd.get(position).getSale_price() - (sale_entry.sd.get(position).getSale_price() * (dis_percent / 100));
-                                    sale_entry.sd.get(position).setDis_price(dis_price);
-
-
-                                } else {
-                                    double dis_percent = 0;
-                                    sale_entry.sd.get(position).setDis_percent(dis_percent);
-                                    double dis_price = sale_entry.sd.get(position).getSale_price() - disamt;
-                                    sale_entry.sd.get(position).setDis_price(dis_price);
-                                }
-                            }
-
-                            sale_entry.getSummary();
-                            sale_entry.entrygrid.setAdapter(itemAd);
-                            sale_entry.entrygrid.setSelection(position);
-                            itemPosition = -1;
-                            da.dismiss();
-
-                        }
-                    });
-                    da = builder.create();
-                    da.show();
-
-                }
-            }
-
-        });
-
-         */
 
         tvUnit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -513,7 +283,7 @@ public class ItemAdapter extends BaseAdapter {
                         sqlString = "select * from Usr_Code where unit>0 and code=" + saleorder_entry.sd.get(position).getCode() + " order by unit_type";
                         cursor = DatabaseHelper.rawQuery(sqlString);
                     } else {
-                        sqlString = "select * from Usr_Code where unit>0 and code=" + sale_entry.sd.get(position).getCode() + " order by unit_type";
+                        sqlString = "select * from Usr_Code where unit>0 and code=" + sale_entry_tv.sd.get(position).getCode() + " order by unit_type";
                         cursor = DatabaseHelper.rawQuery(sqlString);
                     }
                     unitcount = cursor.getCount();
@@ -540,7 +310,7 @@ public class ItemAdapter extends BaseAdapter {
 
                     cursor.close();
 
-                    com.abbp.istockmobilesalenew.UnitAdapter ad = new UnitAdapter(context, uc, position, itemAd, da, formname);
+                    UnitAdapter ad = new UnitAdapter(context, uc, position, itemAd, da, formname);
                     rv.setAdapter(ad);
                     GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 4);
                     rv.setLayoutManager(gridLayoutManager);
@@ -773,19 +543,19 @@ public class ItemAdapter extends BaseAdapter {
                             saleorder_entry.getSummary();
                         } else {
                             check = check > 0 ? check : 1;
-                            sale_entry.sd.get(itemposition).setUnit_qty(check);
+                            sale_entry_tv.sd.get(itemposition).setUnit_qty(check);
                             source.setText(String.valueOf(check));
                             GetSpecialPrice(itemposition);
 
-                            Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                    " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
+                            Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry_tv.sd.get(itemposition).getCode() +
+                                    " and unit_type=" + sale_entry_tv.sd.get(itemposition).getUnit_type()
                             );
                             if (cursor != null && cursor.getCount() != 0) {
                                 if (cursor.moveToFirst()) {
                                     do {
                                         double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                        double gallon = sale_entry.sd.get(itemposition).getUnit_qty() * sqty;
-                                        sale_entry.sd.get(itemposition).setGallon(gallon);
+                                        double gallon = sale_entry_tv.sd.get(itemposition).getUnit_qty() * sqty;
+                                        sale_entry_tv.sd.get(itemposition).setGallon(gallon);
 
                                     } while (cursor.moveToNext());
 
@@ -793,24 +563,24 @@ public class ItemAdapter extends BaseAdapter {
                                 cursor.close();
                             }
 
-//                            sale_entry.entrygrid.setAdapter(itemAd);
-//                            sale_entry.entrygrid.setSelection(itemposition);
-                            sale_entry.itemAdapter.notifyDataSetChanged();
-                            sale_entry.getSummary();
+//                            sale_entry_tv.entrygrid.setAdapter(itemAd);
+//                            sale_entry_tv.entrygrid.setSelection(itemposition);
+                            sale_entry_tv.itemAdapter.notifyDataSetChanged();
+                            sale_entry_tv.getSummary();
                         }
                     } else if (isgallon) {
                         check = check > 0 ? check : 1;
-                        sale_entry.sd.get(itemposition).setGallon(check);
+                        sale_entry_tv.sd.get(itemposition).setGallon(check);
                         source.setText(String.valueOf(check));
-                        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
+                        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry_tv.sd.get(itemposition).getCode() +
+                                " and unit_type=" + sale_entry_tv.sd.get(itemposition).getUnit_type()
                         );
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
                                 do {
                                     double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                    double unit_qty = sale_entry.sd.get(itemposition).getGallon() / sqty;
-                                    sale_entry.sd.get(itemposition).setUnit_qty(unit_qty);
+                                    double unit_qty = sale_entry_tv.sd.get(itemposition).getGallon() / sqty;
+                                    sale_entry_tv.sd.get(itemposition).setUnit_qty(unit_qty);
 
                                 } while (cursor.moveToNext());
 
@@ -819,9 +589,9 @@ public class ItemAdapter extends BaseAdapter {
                         }
 
 
-                        sale_entry.entrygrid.setAdapter(itemAd);
-                        sale_entry.entrygrid.setSelection(itemposition);
-                        sale_entry.getSummary();
+                        sale_entry_tv.entrygrid.setAdapter(itemAd);
+                        sale_entry_tv.entrygrid.setSelection(itemposition);
+                        sale_entry_tv.getSummary();
                     } else if (isSalePrice) {
                         if (formname.equals("SaleOrder")) //added by YLT
                         {
@@ -831,32 +601,32 @@ public class ItemAdapter extends BaseAdapter {
                             String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
                             txtamt.setText(numberAsString);
                             source.setText(String.format("%,." + frmmain.price_places + "f", check));
-                            //sale_entry.getSummary();
+                            //sale_entry_tv.getSummary();
 
                         } else {
                             check = check > 0 ? check : 0;
                             if (!isAmount) {
-                                sale_entry.sd.get(itemposition).setSale_price(check);
-                                Double amt = check * sale_entry.sd.get(itemposition).getUnit_qty();
+                                sale_entry_tv.sd.get(itemposition).setSale_price(check);
+                                Double amt = check * sale_entry_tv.sd.get(itemposition).getUnit_qty();
                                 String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
                                 txtamt.setText(numberAsString);
 
                             } else {
-                                double unit_qty = check / sale_entry.sd.get(itemposition).getSale_price();
-                                sale_entry.sd.get(itemposition).setUnit_qty(unit_qty);
+                                double unit_qty = check / sale_entry_tv.sd.get(itemposition).getSale_price();
+                                sale_entry_tv.sd.get(itemposition).setUnit_qty(unit_qty);
                                 double sale_price = check / unit_qty;
-                                sale_entry.sd.get(itemposition).setSale_price(sale_price);
+                                sale_entry_tv.sd.get(itemposition).setSale_price(sale_price);
                                 txt.setText(String.format("%,." + frmmain.price_places + "f", sale_price));
 
-                                Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
+                                Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry_tv.sd.get(itemposition).getCode() +
+                                        " and unit_type=" + sale_entry_tv.sd.get(itemposition).getUnit_type()
                                 );
                                 if (cursor != null && cursor.getCount() != 0) {
                                     if (cursor.moveToFirst()) {
                                         do {
                                             double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
                                             double gallon = unit_qty * sqty;
-                                            sale_entry.sd.get(itemposition).setGallon(gallon);
+                                            sale_entry_tv.sd.get(itemposition).setGallon(gallon);
 
                                         } while (cursor.moveToNext());
 
@@ -867,7 +637,7 @@ public class ItemAdapter extends BaseAdapter {
 
                             source.setText(String.format("%,." + frmmain.price_places + "f", check));
 
-                            //sale_entry.getSummary();
+                            //sale_entry_tv.getSummary();
                         }
                         isAmount = false;
                     }
@@ -951,11 +721,11 @@ public class ItemAdapter extends BaseAdapter {
             }
         }
         else {
-            double discount = sale_entry.sd.get(position).getSale_price() - sale_entry.sd.get(position).getDis_price();
+            double discount = sale_entry_tv.sd.get(position).getSale_price() - sale_entry_tv.sd.get(position).getDis_price();
             if (useSpecialPrice) {
-                String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry.sd.get(position).getCode() +
-                        " and unit_type=" + sale_entry.sd.get(position).getUnit_type() + " and ( " +
-                        sale_entry.sd.get(position).getUnit_qty() + " between min_qty and max_qty)";
+                String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry_tv.sd.get(position).getCode() +
+                        " and unit_type=" + sale_entry_tv.sd.get(position).getUnit_type() + " and ( " +
+                        sale_entry_tv.sd.get(position).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
                 if (cursor != null && cursor.getCount() != 0) {
@@ -964,8 +734,8 @@ public class ItemAdapter extends BaseAdapter {
                             double sale_price = cursor.getDouble(cursor.getColumnIndex("Sale_Price"));
                             level = cursor.getInt(cursor.getColumnIndex("price_level"));
                             String price_level = level == 0 ? "SP" : level == 1 ? "SP1" : level == 2 ? "SP2" : "SP3";
-                            sale_entry.sd.get(position).setSale_price(sale_price);
-                            sale_entry.sd.get(position).setPriceLevel(price_level);
+                            sale_entry_tv.sd.get(position).setSale_price(sale_price);
+                            sale_entry_tv.sd.get(position).setPriceLevel(price_level);
                             CalculateItemDiscount(position, discount);
                         } while (cursor.moveToNext());
 
@@ -973,8 +743,8 @@ public class ItemAdapter extends BaseAdapter {
 
                 } else {
                     level = 0;
-                    sale_entry.sd.get(position).setSale_price(getSalePrice("SP", position));
-                    sale_entry.sd.get(position).setPriceLevel("SP");
+                    sale_entry_tv.sd.get(position).setSale_price(getSalePrice("SP", position));
+                    sale_entry_tv.sd.get(position).setPriceLevel("SP");
                     CalculateItemDiscount(position, discount);
                 }
                 cursor.close();
@@ -1039,7 +809,7 @@ public class ItemAdapter extends BaseAdapter {
             return sale_price;
         } else {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                    " where code=" + sale_entry.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry.sd.get(itemposistion).getUnit_type();
+                    " where code=" + sale_entry_tv.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry_tv.sd.get(itemposistion).getUnit_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
 
 
@@ -1076,66 +846,36 @@ public class ItemAdapter extends BaseAdapter {
 
     public void CalculateItemDiscount(int itemPosition, double dis) {
 
-        if (formname == "SaleOrder")//added by YLT
-        {
-            if (saleorder_entry.sd.get(itemPosition).getDis_type() == 3
-                    || saleorder_entry.sd.get(itemPosition).getDis_type() == 4
-                    || saleorder_entry.sd.get(itemPosition).getDis_type() == 6
-                    || saleorder_entry.sd.get(itemPosition).getDis_type() == 7) {
-                saleorder_entry.sd.get(itemPosition).setDis_percent(0);
-                saleorder_entry.sd.get(itemPosition).setDis_price(sd.get(itemPosition).getSale_price());
-            } else if (saleorder_entry.sd.get(itemPosition).getDis_type() == 1
-                    || saleorder_entry.sd.get(itemPosition).getDis_type() == 2) {
-                double dispercent = saleorder_entry.sd.get(itemPosition).getDis_type() == 1 ? 0.05 : 0.1;
-                double discount = saleorder_entry.sd.get(itemPosition).getDis_type() == 1 ? 5 : 10;
-                saleorder_entry.sd.get(itemPosition).setDis_percent(discount);
-                double dis_price = saleorder_entry.sd.get(itemPosition).getSale_price() - (sd.get(itemPosition).getSale_price() * (dispercent));
-                saleorder_entry.sd.get(itemPosition).setDis_price(dis_price);
-            } else if (saleorder_entry.sd.get(itemPosition).getDis_type() == 5) {
-                if (saleorder_entry.sd.get(itemPosition).getDis_percent() > 0) {
-                    double dis_percent = saleorder_entry.sd.get(itemPosition).getDis_percent();
-                    saleorder_entry.sd.get(itemPosition).setDis_percent(dis_percent);
-                    double dis_price = saleorder_entry.sd.get(itemPosition).getSale_price() - (saleorder_entry.sd.get(itemPosition).getSale_price() * (dis_percent / 100));
+
+            if (sale_entry_tv.sd.get(itemPosition).getDis_type() == 3
+                    || sale_entry_tv.sd.get(itemPosition).getDis_type() == 4
+                    || sale_entry_tv.sd.get(itemPosition).getDis_type() == 6
+                    || sale_entry_tv.sd.get(itemPosition).getDis_type() == 7) {
+                sale_entry_tv.sd.get(itemPosition).setDis_percent(0);
+                sale_entry_tv.sd.get(itemPosition).setDis_price(sale_entry_tv.sd.get(itemPosition).getSale_price());
+            } else if (sale_entry_tv.sd.get(itemPosition).getDis_type() == 1
+                    || sale_entry_tv.sd.get(itemPosition).getDis_type() == 2) {
+                double dispercent = sale_entry_tv.sd.get(itemPosition).getDis_type() == 1 ? 0.05 : 0.1;
+                double discount = sale_entry_tv.sd.get(itemPosition).getDis_type() == 1 ? 5 : 10;
+                sale_entry_tv.sd.get(itemPosition).setDis_percent(discount);
+                double dis_price = sale_entry_tv.sd.get(itemPosition).getSale_price() - (sale_entry_tv.sd.get(itemPosition).getSale_price() * (dispercent));
+                sale_entry_tv.sd.get(itemPosition).setDis_price(dis_price);
+            } else if (sale_entry_tv.sd.get(itemPosition).getDis_type() == 5) {
+                if (sale_entry_tv.sd.get(itemPosition).getDis_percent() > 0) {
+                    double dis_percent = sale_entry_tv.sd.get(itemPosition).getDis_percent();
+                    sale_entry_tv.sd.get(itemPosition).setDis_percent(dis_percent);
+                    double dis_price = sale_entry_tv.sd.get(itemPosition).getSale_price() - (sale_entry_tv.sd.get(itemPosition).getSale_price() * (dis_percent / 100));
                     sd.get(itemPosition).setDis_price(dis_price);
 
 
                 } else {
-                    double dis_percent = saleorder_entry.sd.get(itemPosition).getDis_percent();
-                    saleorder_entry.sd.get(itemPosition).setDis_percent(dis_percent);
-                    double dis_price = saleorder_entry.sd.get(itemPosition).getSale_price() - dis;
-                    saleorder_entry.sd.get(itemPosition).setDis_price(dis_price);
+                    double dis_percent = sale_entry_tv.sd.get(itemPosition).getDis_percent();
+                    sale_entry_tv.sd.get(itemPosition).setDis_percent(dis_percent);
+                    double dis_price = sale_entry_tv.sd.get(itemPosition).getSale_price() - dis;
+                    sale_entry_tv.sd.get(itemPosition).setDis_price(dis_price);
                 }
             }
-        } else {
-            if (sale_entry.sd.get(itemPosition).getDis_type() == 3
-                    || sale_entry.sd.get(itemPosition).getDis_type() == 4
-                    || sale_entry.sd.get(itemPosition).getDis_type() == 6
-                    || sale_entry.sd.get(itemPosition).getDis_type() == 7) {
-                sale_entry.sd.get(itemPosition).setDis_percent(0);
-                sale_entry.sd.get(itemPosition).setDis_price(sd.get(itemPosition).getSale_price());
-            } else if (sale_entry.sd.get(itemPosition).getDis_type() == 1
-                    || sale_entry.sd.get(itemPosition).getDis_type() == 2) {
-                double dispercent = sale_entry.sd.get(itemPosition).getDis_type() == 1 ? 0.05 : 0.1;
-                double discount = sale_entry.sd.get(itemPosition).getDis_type() == 1 ? 5 : 10;
-                sale_entry.sd.get(itemPosition).setDis_percent(discount);
-                double dis_price = sale_entry.sd.get(itemPosition).getSale_price() - (sd.get(itemPosition).getSale_price() * (dispercent));
-                sale_entry.sd.get(itemPosition).setDis_price(dis_price);
-            } else if (sale_entry.sd.get(itemPosition).getDis_type() == 5) {
-                if (sale_entry.sd.get(itemPosition).getDis_percent() > 0) {
-                    double dis_percent = sale_entry.sd.get(itemPosition).getDis_percent();
-                    sale_entry.sd.get(itemPosition).setDis_percent(dis_percent);
-                    double dis_price = sale_entry.sd.get(itemPosition).getSale_price() - (sale_entry.sd.get(itemPosition).getSale_price() * (dis_percent / 100));
-                    sd.get(itemPosition).setDis_price(dis_price);
 
-
-                } else {
-                    double dis_percent = sale_entry.sd.get(itemPosition).getDis_percent();
-                    sale_entry.sd.get(itemPosition).setDis_percent(dis_percent);
-                    double dis_price = sale_entry.sd.get(itemPosition).getSale_price() - dis;
-                    sale_entry.sd.get(itemPosition).setDis_price(dis_price);
-                }
-            }
-        }
 
     }
 
@@ -1148,19 +888,19 @@ public class ItemAdapter extends BaseAdapter {
     }
 
     private void CalculateQty(TextView textView, int position, Double value) {
-        sale_entry.sd.get(position).setUnit_qty(value);
+        sale_entry_tv.sd.get(position).setUnit_qty(value);
         textView.setText(String.format("%." + frmmain.qty_places + "f", value));
         GetSpecialPrice(position);
 
-        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(position).getCode() +
-                " and unit_type=" + sale_entry.sd.get(position).getUnit_type()
+        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry_tv.sd.get(position).getCode() +
+                " and unit_type=" + sale_entry_tv.sd.get(position).getUnit_type()
         );
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
                     double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                    double gallon = sale_entry.sd.get(position).getUnit_qty() * sqty;
-                    sale_entry.sd.get(position).setGallon(gallon);
+                    double gallon = sale_entry_tv.sd.get(position).getUnit_qty() * sqty;
+                    sale_entry_tv.sd.get(position).setGallon(gallon);
 
                 } while (cursor.moveToNext());
 
@@ -1168,10 +908,10 @@ public class ItemAdapter extends BaseAdapter {
             cursor.close();
         }
 
-//        sale_entry.entrygrid.setAdapter(itemAd);
+//        sale_entry_tv.entrygrid.setAdapter(itemAd);
 //        itemAd.notifyDataSetChanged();
-        sale_entry.itemAdapter.notifyDataSetChanged();
-        sale_entry.getSummary();
+        sale_entry_tv.itemAdapter.notifyDataSetChanged();
+        sale_entry_tv.getSummary();
     }
 
 }

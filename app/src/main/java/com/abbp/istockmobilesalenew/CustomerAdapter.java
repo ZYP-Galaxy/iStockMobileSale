@@ -208,7 +208,7 @@ androidx.appcompat.app.AlertDialog da;
         {
             for (int i = 0; i < saleorder_entry.sd.size(); i++) {
                 String sqlString = "select uc.unit_type,code,description," + sale_price + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                        " where uc.unit_type=" + saleorder_entry.sd.get(i).getUnt_type() + " and uc.code=" + saleorder_entry.sd.get(i).getCode() + " order by code";;
+                        " where uc.unit_type=" + saleorder_entry.sd.get(i).getUnit_type() + " and uc.code=" + saleorder_entry.sd.get(i).getCode() + " order by code";;
                 Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                 if (cursor != null && cursor.getCount() != 0) {
                     if (cursor.moveToFirst()) {
@@ -238,7 +238,7 @@ androidx.appcompat.app.AlertDialog da;
         {
             for (int i = 0; i < saleorder_entry.sd.size(); i++) {
                 String sqlString = "select uc.unit_type,code,description," + sale_price + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                        " where uc.unit_type=" + returnin_entry.sd.get(i).getUnt_type() + " and uc.code=" + returnin_entry.sd.get(i).getCode() + " order by code";;
+                        " where uc.unit_type=" + returnin_entry.sd.get(i).getUnit_type() + " and uc.code=" + returnin_entry.sd.get(i).getCode() + " order by code";;
                 Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                 if (cursor != null && cursor.getCount() != 0) {
                     if (cursor.moveToFirst()) {
@@ -268,7 +268,7 @@ androidx.appcompat.app.AlertDialog da;
 
             for (int i = 0; i < sale_entry.sd.size(); i++) {
                 String sqlString = "select uc.unit_type,code,description," + sale_price + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                        " where uc.unit_type=" + sale_entry.sd.get(i).getUnt_type() + " and uc.code=" + sale_entry.sd.get(i).getCode();
+                        " where uc.unit_type=" + sale_entry.sd.get(i).getUnit_type() + " and uc.code=" + sale_entry.sd.get(i).getCode();
                 Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                 if (cursor != null && cursor.getCount() != 0) {
                     if (cursor.moveToFirst()) {

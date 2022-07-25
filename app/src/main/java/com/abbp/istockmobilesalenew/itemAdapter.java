@@ -21,12 +21,8 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
-import static com.abbp.istockmobilesalenew.sale_entry.brands;
-import static com.abbp.istockmobilesalenew.sale_entry.itemDis_tmp;
 import static com.abbp.istockmobilesalenew.sale_entry.itemPosition;
 import static com.abbp.istockmobilesalenew.sale_entry.sd;
 
@@ -1009,7 +1005,7 @@ public class itemAdapter extends BaseAdapter {
                             GetSpecialPrice(itemposition);
 
                             Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                    " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
+                                    " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
                             );
                             if (cursor != null && cursor.getCount() != 0) {
                                 if (cursor.moveToFirst()) {
@@ -1034,7 +1030,7 @@ public class itemAdapter extends BaseAdapter {
                         sale_entry.sd.get(itemposition).setGallon(check);
                         source.setText(String.valueOf(check));
                         Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
+                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
                         );
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
@@ -1089,7 +1085,7 @@ public class itemAdapter extends BaseAdapter {
                                 txt.setText(String.format("%,." + frmmain.price_places + "f", sale_price));
 
                                 Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
+                                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
                                 );
                                 if (cursor != null && cursor.getCount() != 0) {
                                     if (cursor.moveToFirst()) {
@@ -1170,7 +1166,7 @@ public class itemAdapter extends BaseAdapter {
             double discount = saleorder_entry.sd.get(position).getSale_price() - saleorder_entry.sd.get(position).getDis_price();
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + saleorder_entry.sd.get(position).getCode() +
-                        " and unit_type=" + saleorder_entry.sd.get(position).getUnt_type() + " and ( " +
+                        " and unit_type=" + saleorder_entry.sd.get(position).getUnit_type() + " and ( " +
                         saleorder_entry.sd.get(position).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
@@ -1200,7 +1196,7 @@ public class itemAdapter extends BaseAdapter {
             double discount = returnin_entry.sd.get(position).getSale_price() - returnin_entry.sd.get(position).getDis_price();
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + returnin_entry.sd.get(position).getCode() +
-                        " and unit_type=" + returnin_entry.sd.get(position).getUnt_type() + " and ( " +
+                        " and unit_type=" + returnin_entry.sd.get(position).getUnit_type() + " and ( " +
                         returnin_entry.sd.get(position).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
@@ -1230,7 +1226,7 @@ public class itemAdapter extends BaseAdapter {
             double discount = sale_entry.sd.get(position).getSale_price() - sale_entry.sd.get(position).getDis_price();
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry.sd.get(position).getCode() +
-                        " and unit_type=" + sale_entry.sd.get(position).getUnt_type() + " and ( " +
+                        " and unit_type=" + sale_entry.sd.get(position).getUnit_type() + " and ( " +
                         sale_entry.sd.get(position).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
@@ -1282,7 +1278,7 @@ public class itemAdapter extends BaseAdapter {
         if (formname == "SaleOrder") //added by YLT
         {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                    " where code=" + saleorder_entry.sd.get(itemposistion).getCode() + " and unit_type=" + saleorder_entry.sd.get(itemposistion).getUnt_type();
+                    " where code=" + saleorder_entry.sd.get(itemposistion).getCode() + " and unit_type=" + saleorder_entry.sd.get(itemposistion).getUnit_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
 
 
@@ -1315,7 +1311,7 @@ public class itemAdapter extends BaseAdapter {
             return sale_price;
         } else {
             String sqlString = "select uc.unit_type,code,description," + level + ",smallest_unit_qty,unitname,unitshort,CalNoTax from Usr_Code uc " +
-                    " where code=" + sale_entry.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry.sd.get(itemposistion).getUnt_type();
+                    " where code=" + sale_entry.sd.get(itemposistion).getCode() + " and unit_type=" + sale_entry.sd.get(itemposistion).getUnit_type();
             Cursor cursor = DatabaseHelper.rawQuery(sqlString);
 
 

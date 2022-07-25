@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -923,7 +922,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
     private void GetPdis() {
         long code = sale_entry.sd.get((sale_entry.sd.size() - 1)).getCode();
         long locationid = sale_entry.sh.get(0).getLocationid();
-        int unit_type = sale_entry.sd.get((sale_entry.sd.size() - 1)).getUnt_type();
+        int unit_type = sale_entry.sd.get((sale_entry.sd.size() - 1)).getUnit_type();
         long level = GetPriceLevel();
         double discount = 0;
         double dis_price = 0;

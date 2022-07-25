@@ -58,7 +58,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -3443,7 +3442,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                                 sd.get(i).getDis_type() + "," +
                                 sd.get(i).getDis_percent() + "," +
                                 detRemark + "," +
-                                sd.get(i).getUnt_type() + "," +
+                                sd.get(i).getUnit_type() + "," +
                                 sd.get(i).getCode() + "," +
                                 (i + 1) + "," +
                                 (i + 1) + ",'" +
@@ -3469,7 +3468,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                                 sd.get(i).getDis_type() + "," +
                                 sd.get(i).getDis_percent() + "," +
                                 detRemark + "," +
-                                sd.get(i).getUnt_type() + "," +
+                                sd.get(i).getUnit_type() + "," +
                                 sd.get(i).getCode() + "," +
                                 (i + 1) + "," +
                                 (i + 1) + ",'" +
@@ -3583,7 +3582,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
         if (itemPosition > -1 && sd.size() > 0) {
 
             changeheader = true;
-            editUnit_type = sd.get(itemPosition).getUnt_type();
+            editUnit_type = sd.get(itemPosition).getUnit_type();
             Cursor cursor = null;
             String sqlString = "";
             AlertDialog.Builder builder = new AlertDialog.Builder(returnin_entry.this, R.style.AlertDialogTheme);
@@ -3629,7 +3628,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
             });
             txtsprice.setText(String.valueOf(getSPrice(sd.get(itemPosition).getCode(), getSmallestQty(sd.get(itemPosition).getCode(),
                     sd.get(itemPosition).getUnit_qty(),
-                    sd.get(itemPosition).getUnt_type()),
+                    sd.get(itemPosition).getUnit_type()),
                     sd.get(itemPosition).getUnit_qty(),
                     sd.get(itemPosition).getSale_price())));
 
@@ -3729,7 +3728,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                 }
 
 
-                switch (sd.get(itemPosition).getUnt_type()) {
+                switch (sd.get(itemPosition).getUnit_type()) {
                     case 1:
                         row_index = 0;
                         defunit = -1;

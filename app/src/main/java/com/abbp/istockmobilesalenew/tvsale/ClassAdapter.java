@@ -16,7 +16,7 @@ import com.abbp.istockmobilesalenew.R;
 import com.abbp.istockmobilesalenew.category;
 import com.abbp.istockmobilesalenew.class_item;
 import com.abbp.istockmobilesalenew.frmmain;
-import com.abbp.istockmobilesalenew.sale_entry;
+import com.abbp.istockmobilesalenew.sale_entry_tv;
 import com.abbp.istockmobilesalenew.saleorder_entry;
 
 import java.util.ArrayList;
@@ -49,7 +49,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater lf = LayoutInflater.from(parent.getContext());
-        View v = lf.inflate(R.layout.item_class, parent, false);
+        View v = lf.inflate(R.layout.tv_item_class, parent, false);
         return new MyViewHolder(v);
     }
 
@@ -95,12 +95,12 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.MyViewHolder
                         rv.setLayoutManager(classlinear);
 
                     } else {
-//                        sale_entry.imgFilterCode.setVisibility(View.GONE);
-//                        sale_entry.fitercode = "Description";
+//                        sale_entry_tv.imgFilterCode.setVisibility(View.GONE);
+//                        sale_entry_tv.fitercode = "Description";
                         Cursor cursor = DatabaseHelper.DistinctSelectQuerySelectionWithCondition("Usr_Code", new String[]{"category", "categoryname", "class"}, "class=?", new String[]{String.valueOf(data.get(position).getClassid())}, "sortcode,categoryname");
-                        if (sale_entry.categories.size() > 0) sale_entry.categories.clear();
+                        if (sale_entry_tv.categories.size() > 0) sale_entry_tv.categories.clear();
 //                        if (frmmain.withoutclass.equals("false")) {
-//                            sale_entry.categories.add(new category("Back"));
+//                            sale_entry_tv.categories.add(new category("Back"));
 //                        }
 
                         if (cursor != null && cursor.getCount() != 0) {
@@ -109,14 +109,14 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.MyViewHolder
                                     long category = cursor.getLong(cursor.getColumnIndex("category"));
                                     String name = cursor.getString(cursor.getColumnIndex("categoryname"));
                                     long classid = cursor.getLong(cursor.getColumnIndex("class"));
-                                    sale_entry.categories.add(new category(category, classid, name));
+                                    sale_entry_tv.categories.add(new category(category, classid, name));
                                 } while (cursor.moveToNext());
 
                             }
                             cursor.close();
                         }
 
-                        CategoryAdapter ad = new CategoryAdapter(context, sale_entry.categories, rv);//added by YLT
+                        CategoryAdapter ad = new CategoryAdapter(context, sale_entry_tv.categories, rv);//added by YLT
                         rv.setAdapter(ad);
                         LinearLayoutManager classlinear = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
                         rv.setLayoutManager(classlinear);

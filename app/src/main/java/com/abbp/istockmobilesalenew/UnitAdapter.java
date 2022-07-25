@@ -198,7 +198,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
             public void onClick(View v) {
                 int sale_curr=GetSaleCurr(data.get(position).getCode());
                 if (formname == "Sale Order" || formname == "SaleOrder") {
-                    saleorder_entry.sd.get(itemposition).setUnt_type(data.get(position).getUnit_type());
+                    saleorder_entry.sd.get(itemposition).setUnit_type(data.get(position).getUnit_type());
                     saleorder_entry.sd.get(itemposition).setUnit_short(data.get(position).getShortdes());
                     String price_level = GetSpecialPriceLevel();
                     saleorder_entry.sd.get(itemposition).setPriceLevel(price_level);
@@ -268,7 +268,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                     }
                 }
                 else if(formname.equals("ReturnIn")) {
-                    returnin_entry.sd.get(itemposition).setUnt_type(data.get(position).getUnit_type());
+                    returnin_entry.sd.get(itemposition).setUnit_type(data.get(position).getUnit_type());
                     returnin_entry.sd.get(itemposition).setUnit_short(data.get(position).getShortdes());
                     String price_level = GetSpecialPriceLevel();
                     returnin_entry.sd.get(itemposition).setPriceLevel(price_level);
@@ -334,7 +334,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
 
                     } else {
                         Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + returnin_entry.sd.get(itemposition).getCode() +
-                                " and unit_type=" + returnin_entry.sd.get(itemposition).getUnt_type()
+                                " and unit_type=" + returnin_entry.sd.get(itemposition).getUnit_type()
                         );
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
@@ -355,7 +355,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                     }
                 }
                 else {
-                    sale_entry.sd.get(itemposition).setUnt_type(data.get(position).getUnit_type());
+                    sale_entry.sd.get(itemposition).setUnit_type(data.get(position).getUnit_type());
                     sale_entry.sd.get(itemposition).setUnit_short(data.get(position).getShortdes());
                     String price_level = GetSpecialPriceLevel();
                     sale_entry.sd.get(itemposition).setPriceLevel(price_level);
@@ -421,7 +421,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
 
                     } else {
                         Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type()
+                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
                         );
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
@@ -558,7 +558,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
 
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + saleorder_entry.sd.get(itemposition).getCode() +
-                        " and unit_type=" + saleorder_entry.sd.get(itemposition).getUnt_type() + " and ( " +
+                        " and unit_type=" + saleorder_entry.sd.get(itemposition).getUnit_type() + " and ( " +
                         saleorder_entry.sd.get(itemposition).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
@@ -597,7 +597,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
 
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + returnin_entry.sd.get(itemposition).getCode() +
-                        " and unit_type=" + returnin_entry.sd.get(itemposition).getUnt_type() + " and ( " +
+                        " and unit_type=" + returnin_entry.sd.get(itemposition).getUnit_type() + " and ( " +
                         returnin_entry.sd.get(itemposition).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
@@ -636,7 +636,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
 
             if (useSpecialPrice) {
                 String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry.sd.get(itemposition).getCode() +
-                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnt_type() + " and ( " +
+                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type() + " and ( " +
                         sale_entry.sd.get(itemposition).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 

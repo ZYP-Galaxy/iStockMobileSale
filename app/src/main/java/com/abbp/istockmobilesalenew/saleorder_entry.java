@@ -3570,14 +3570,14 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                 sd.get(i).getDis_type() + "," +
                                 sd.get(i).getDis_percent() + "," +
                                 detRemark + "," +
-                                sd.get(i).getUnt_type() + "," +
+                                sd.get(i).getUnit_type() + "," +
                                 sd.get(i).getCode() + "," +
                                 (i + 1) + "," +
                                 (i + 1) + "," +
                                 // sd.get(i).getPriceLevel()+"',"+
-                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()) + "," +
+                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()) + "," +
 
-                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price())+ "," +
+                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price())+ "," +
                                 +sh.get(0).getCurrency() + "," +
                                 frmmain.exg_rate
 
@@ -3595,13 +3595,13 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                 sd.get(i).getDis_type() + "," +
                                 sd.get(i).getDis_percent() + "," +
                                 detRemark + "," +
-                                sd.get(i).getUnt_type() + "," +
+                                sd.get(i).getUnit_type() + "," +
                                 sd.get(i).getCode() + "," +
                                 (i + 1) + "," +
                                 (i + 1) + "," +
                                 // sd.get(i).getPriceLevel()+"',"+
-                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()) + "," +
-                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price())+ "," +
+                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()) + "," +
+                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price())+ "," +
                                 +sh.get(0).getCurrency() + "," +
                                 frmmain.exg_rate
                                 + " )";
@@ -3706,7 +3706,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         if (itemPosition > -1 && sd.size() > 0) {
 
             changeheader = true;
-            editUnit_type = sd.get(itemPosition).getUnt_type();
+            editUnit_type = sd.get(itemPosition).getUnit_type();
             Cursor cursor = null;
             String sqlString = "";
             AlertDialog.Builder builder = new AlertDialog.Builder(saleorder_entry.this, R.style.AlertDialogTheme);
@@ -3752,7 +3752,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
             });
             txtsprice.setText(String.valueOf(getSPrice(sd.get(itemPosition).getCode(), getSmallestQty(sd.get(itemPosition).getCode(),
                     sd.get(itemPosition).getUnit_qty(),
-                    sd.get(itemPosition).getUnt_type()),
+                    sd.get(itemPosition).getUnit_type()),
                     sd.get(itemPosition).getUnit_qty(),
                     sd.get(itemPosition).getSale_price())));
 
@@ -3852,7 +3852,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 }
 
 
-                switch (sd.get(itemPosition).getUnt_type()) {
+                switch (sd.get(itemPosition).getUnit_type()) {
                     case 1:
                         row_index = 0;
                         defunit = -1;

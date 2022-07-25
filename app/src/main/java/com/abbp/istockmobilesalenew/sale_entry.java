@@ -5646,13 +5646,13 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 sd.get(i).getDis_type() + "," +
                                 sd.get(i).getDis_percent() + "," +
                                 detRemark + "," +
-                                sd.get(i).getUnt_type() + "," +
+                                sd.get(i).getUnit_type() + "," +
                                 sd.get(i).getCode() + "," +
                                 (i + 1) + "," +
                                 (i + 1) + ",'" +
                                 sd.get(i).getPriceLevel() + "'," +
-                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()) + "," +
-                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
+                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()) + "," +
+                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
                                 sd.get(i).getSo_id() + "," +
                                 sd.get(i).getSo_sr() + "," +
                                 sd.get(i).getGallon() + "," +
@@ -5672,13 +5672,13 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 sd.get(i).getDis_type() + "," +
                                 sd.get(i).getDis_percent() + "," +
                                 detRemark + "," +
-                                sd.get(i).getUnt_type() + "," +
+                                sd.get(i).getUnit_type() + "," +
                                 sd.get(i).getCode() + "," +
                                 (i + 1) + "," +
                                 (i + 1) + ",'" +
                                 sd.get(i).getPriceLevel() + "'," +
-                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()) + "," +
-                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnt_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
+                                getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()) + "," +
+                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
                                 sd.get(i).getSo_id() + "," +
                                 sd.get(i).getSo_sr() + "," +
                                 sd.get(i).getGallon() + "," +
@@ -5793,7 +5793,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         if (itemPosition > -1 && sd.size() > 0) {
 
             changeheader = true;
-            editUnit_type = sd.get(itemPosition).getUnt_type();
+            editUnit_type = sd.get(itemPosition).getUnit_type();
 
             Cursor cursor = null;
             String sqlString = "";
@@ -5846,7 +5846,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             });
             txtsprice.setText(String.valueOf(getSPrice(sd.get(itemPosition).getCode(), getSmallestQty(sd.get(itemPosition).getCode(),
                     sd.get(itemPosition).getUnit_qty(),
-                    sd.get(itemPosition).getUnt_type()),
+                    sd.get(itemPosition).getUnit_type()),
                     sd.get(itemPosition).getUnit_qty(),
                     sd.get(itemPosition).getSale_price())));
 
@@ -5949,7 +5949,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
 
 
-                switch (sd.get(itemPosition).getUnt_type()) {
+                switch (sd.get(itemPosition).getUnit_type()) {
                     case 1:
                         row_index = 0;
                         defunit = -1;
@@ -6120,7 +6120,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     txtChangePQTy.setText(String.valueOf(Double.parseDouble(txtChangePQTy.getText().toString()) + 1));
                     sd.get(itemPosition).setGallon(Double.parseDouble(txtChangePQTy.getText().toString()));
                     Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemPosition).getCode() +
-                            " and unit_type=" + sale_entry.sd.get(itemPosition).getUnt_type()
+                            " and unit_type=" + sale_entry.sd.get(itemPosition).getUnit_type()
                     );
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
@@ -6149,7 +6149,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     txtChangePQTy.setText(String.valueOf(Double.parseDouble(txtChangePQTy.getText().toString()) - 1));
                     sd.get(itemPosition).setGallon(Double.parseDouble(txtChangePQTy.getText().toString()));
                     Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemPosition).getCode() +
-                            " and unit_type=" + sale_entry.sd.get(itemPosition).getUnt_type()
+                            " and unit_type=" + sale_entry.sd.get(itemPosition).getUnit_type()
                     );
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
