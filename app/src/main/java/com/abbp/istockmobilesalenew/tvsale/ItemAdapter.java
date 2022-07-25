@@ -21,12 +21,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.abbp.istockmobilesalenew.DatabaseHelper;
 import com.abbp.istockmobilesalenew.R;
-import com.abbp.istockmobilesalenew.UnitAdapter;
+
 import com.abbp.istockmobilesalenew.frmlogin;
 import com.abbp.istockmobilesalenew.frmmain;
 
 import com.abbp.istockmobilesalenew.saleorder_entry;
 import com.abbp.istockmobilesalenew.unitforcode;
+import static com.abbp.istockmobilesalenew.tvsale.sale_entry_tv.itemPosition;
 
 import java.util.ArrayList;
 
@@ -533,15 +534,7 @@ public class ItemAdapter extends BaseAdapter {
                     Double check = Double.parseDouble(keynum);
                     if (isqty) {
 
-                        if (formname.equals("SaleOrder")) {
-                            check = check > 0 ? check : 1;
-                            saleorder_entry.sd.get(itemposition).setUnit_qty(check);
-                            source.setText(String.valueOf(check));
-                            GetSpecialPrice(itemposition);
-                            saleorder_entry.entrygrid.setAdapter(itemAd);
-                            saleorder_entry.entrygrid.setSelection(itemposition);
-                            saleorder_entry.getSummary();
-                        } else {
+
                             check = check > 0 ? check : 1;
                             sale_entry_tv.sd.get(itemposition).setUnit_qty(check);
                             source.setText(String.valueOf(check));
@@ -567,7 +560,7 @@ public class ItemAdapter extends BaseAdapter {
 //                            sale_entry_tv.entrygrid.setSelection(itemposition);
                             sale_entry_tv.itemAdapter.notifyDataSetChanged();
                             sale_entry_tv.getSummary();
-                        }
+
                     } else if (isgallon) {
                         check = check > 0 ? check : 1;
                         sale_entry_tv.sd.get(itemposition).setGallon(check);
@@ -865,7 +858,7 @@ public class ItemAdapter extends BaseAdapter {
                     double dis_percent = sale_entry_tv.sd.get(itemPosition).getDis_percent();
                     sale_entry_tv.sd.get(itemPosition).setDis_percent(dis_percent);
                     double dis_price = sale_entry_tv.sd.get(itemPosition).getSale_price() - (sale_entry_tv.sd.get(itemPosition).getSale_price() * (dis_percent / 100));
-                    sd.get(itemPosition).setDis_price(dis_price);
+                    sale_entry_tv.sd.get(itemPosition).setDis_price(dis_price);
 
 
                 } else {

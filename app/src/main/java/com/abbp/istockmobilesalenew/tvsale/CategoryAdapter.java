@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.abbp.istockmobilesalenew.DatabaseHelper;
+import com.abbp.istockmobilesalenew.GlobalClass;
 import com.abbp.istockmobilesalenew.R;
 import com.abbp.istockmobilesalenew.category;
 import com.abbp.istockmobilesalenew.class_item;
 import com.abbp.istockmobilesalenew.frmmain;
-import com.abbp.istockmobilesalenew.sale_entry_tv;
+
 import com.abbp.istockmobilesalenew.saleorder_entry;
 import com.abbp.istockmobilesalenew.usr_code;
 

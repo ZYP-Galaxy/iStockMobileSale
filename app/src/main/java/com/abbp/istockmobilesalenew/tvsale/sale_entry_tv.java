@@ -4556,8 +4556,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             frame.setVisibility(View.VISIBLE);
             View voucher = getLayoutInflater().inflate(R.layout.tv_bluetoothvoucherprint, null);
             TextView custname = voucher.findViewById(R.id.txtcustomer);
-            TextView salesmenName=voucher.findViewById(R.id.txtsalesmen);
-            LinearLayout salesmenLayout=voucher.findViewById(R.id.salesmenlayout);
+            TextView salesmenName=voucher.findViewById(R.id.txtsalemen);
+            LinearLayout salesmenLayout=voucher.findViewById(R.id.salemenlayout);
             TextView tvdate = voucher.findViewById(R.id.txtdate);
             TextView tvinvoice = voucher.findViewById(R.id.txtinvoice);
             TextView cashiername = voucher.findViewById(R.id.txtuser);
