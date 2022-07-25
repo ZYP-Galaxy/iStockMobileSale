@@ -3824,7 +3824,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
                                 do {
-                                    long dis_type = cursor.getLong(cursor.getColumnIndex("dis_type"));
+                                    int dis_type = cursor.getInt(cursor.getColumnIndex("dis_type"));
                                     String name = cursor.getString(cursor.getColumnIndex("name"));
                                     String shortname = cursor.getString(cursor.getColumnIndex("short"));
                                     int paid = cursor.getInt(cursor.getColumnIndex("paid"));
