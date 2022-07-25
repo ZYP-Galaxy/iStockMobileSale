@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="#2F4658"
+
+
+    android:padding="20dp">
+    <TextView
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:textColorHint="@color/black"
+        android:textColor="@color/white"
+        android:text="Downloading"
+        android:layout_marginBottom="10dp"
+        />
+    <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_marginBottom="20dp"
+    android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/txtbox">
+
+    <ProgressBar
+        android:id="@+id/progressDownload"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progressDrawable="@drawable/progressstyle"
+        android:layout_width="match_parent"
+        android:progress="0"
+        android:indeterminate="false"
+        android:layout_height="50dp" />
+        </LinearLayout>
+
+
+</RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:id="@+id/txtTable"
+            android:text="Starting.."
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:id="@+id/txtProgress"
+            android:textColor="@color/white"
+            android:layout_alignParentRight="true"
+            android:text="0/0"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
