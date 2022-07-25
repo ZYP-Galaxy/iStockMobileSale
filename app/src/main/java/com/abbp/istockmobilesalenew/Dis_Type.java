@@ -1,23 +1,27 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class Dis_Type {
-    long dis_type;
+    int dis_type;
     String name;
     String shortdes;
     long discount;
 
-    public Dis_Type(long dis_type, String name, String shortdes, long discount) {
+    public Dis_Type(int dis_type, String name, String shortdes, long discount) {
         this.dis_type = dis_type;
         this.name = name;
         this.shortdes = shortdes;
         this.discount = discount;
     }
 
-    public long getDis_type() {
+    public int getDis_type() {
         return dis_type;
     }
 
-    public void setDis_type(long dis_type) {
+    public void setDis_type(int dis_type) {
         this.dis_type = dis_type;
     }
 
@@ -45,6 +49,10 @@ public class Dis_Type {
         this.discount = discount;
     }
 
-
-
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -17,4 +17,9 @@
     <color name="secbarcolor">#4DB6FA</color>
     <color name="DatePickerDialog">#2f8eb3</color>
 
+
+    <color name="headerinfo">#4b5d67</color>
+    <color name="headerbar">#235667</color>
+    <color name="headertext">#ededed</color>
+
 </resources>

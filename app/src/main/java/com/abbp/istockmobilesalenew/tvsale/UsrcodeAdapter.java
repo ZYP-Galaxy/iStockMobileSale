@@ -20,7 +20,6 @@ import com.abbp.istockmobilesalenew.category;
 import com.abbp.istockmobilesalenew.frmlogin;
 import com.abbp.istockmobilesalenew.frmmain;
 import com.abbp.istockmobilesalenew.sale_det;
-import com.abbp.istockmobilesalenew.sale_entry_tv;
 import com.abbp.istockmobilesalenew.saleorder_entry;
 
 import java.io.File;
@@ -96,7 +95,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
         holder.txtName.setText(String.format(" %s", data.get(position).getDescription()));
 
-        String saleprice = String.format("%,." + frmmain.price_places + "f", data.get(position).getSaleprice());
+        String saleprice = String.format("%,." + frmmain.price_places + "f", data.get(position).getSale_price());
         holder.txtPrice.setText(saleprice);
         holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
         if (frmmain.withoutclass.equals("true")) {

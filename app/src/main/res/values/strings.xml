@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">iStock</string>
     <string name="dialog_cancel">Cancel</string>
+
+    <string name="content_description">Content Description</string>
+
+    <string name="upload_warning">You have offline sales data.\nPlease Upload.</string>
+
 </resources>

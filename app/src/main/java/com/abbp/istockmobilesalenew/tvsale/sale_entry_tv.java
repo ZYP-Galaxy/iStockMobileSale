@@ -65,6 +65,7 @@ import com.abbp.istockmobilesalenew.DisTypeAdapter;
 import com.abbp.istockmobilesalenew.Dis_Type;
 import com.abbp.istockmobilesalenew.GetAppSetting;
 import com.abbp.istockmobilesalenew.GetTranid;
+import com.abbp.istockmobilesalenew.GlobalClass;
 import com.abbp.istockmobilesalenew.Location;
 import com.abbp.istockmobilesalenew.LocationAdapter;
 import com.abbp.istockmobilesalenew.OrderCodeAdapter;
@@ -94,7 +95,6 @@ import com.abbp.istockmobilesalenew.pay_type;
 import com.abbp.istockmobilesalenew.priceLevelAdapter;
 import com.abbp.istockmobilesalenew.reportviewer;
 import com.abbp.istockmobilesalenew.sale_det;
-import com.abbp.istockmobilesalenew.sale_entry_tv;
 import com.abbp.istockmobilesalenew.so_det;
 import com.abbp.istockmobilesalenew.so_head;
 import com.abbp.istockmobilesalenew.sunmiprinter.SunmiPrintHelper;
@@ -310,6 +310,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
     //endregion
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -379,6 +380,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void SetUI() {
 
         SaleVouSalesmen.clear();
@@ -1857,7 +1859,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 selected_custgroupid = -1;
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
-                View view = getLayoutInflater().inflate(R.layout.headerinfo, null);
+                View view = getLayoutInflater().inflate(R.layout.tv_headerinfo, null);
 //                builder.setCancelable(false);
                 builder.setView(view);
                 RelativeLayout rlCustGroup = view.findViewById(R.id.rlCustGroup);
@@ -3560,7 +3562,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         selected_townshipid = 1;
         selected_custgroupid = 1;
         AlertDialog.Builder addcustomer = new AlertDialog.Builder(sale_entry_tv.this);
-        View v = getLayoutInflater().inflate(R.layout.customerdetail, null);
+        View v = getLayoutInflater().inflate(R.layout.tv_customerdetail, null);
         ImageButton imgAddCustomer = v.findViewById(R.id.imgAddCustomer);
         ImageView imgClose = v.findViewById(R.id.img_close);
         EditText etdCustomerName = v.findViewById(R.id.txtCustomerName);
@@ -3571,21 +3573,18 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         imgCustomerGroup = v.findViewById(R.id.btnCustGroup);
 
         Switch switchCredit = v.findViewById(R.id.credit);
-        switchCredit.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    if (use_duedate) {
-                        //etddue.setVisibility(View.VISIBLE);
-                    } else {
-                        etddue.setVisibility(View.GONE);
-                        etddue.setText("");
-                    }
-
+        switchCredit.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                if (use_duedate) {
+                    //etddue.setVisibility(View.VISIBLE);
                 } else {
                     etddue.setVisibility(View.GONE);
                     etddue.setText("");
                 }
+
+            } else {
+                etddue.setVisibility(View.GONE);
+                etddue.setText("");
             }
         });
 
@@ -4555,7 +4554,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             FrameLayout frame = findViewById(R.id.voucher_frame);
             LinearLayout rootView = findViewById(R.id.voucher_layout);
             frame.setVisibility(View.VISIBLE);
-            View voucher = getLayoutInflater().inflate(R.layout.bluetoothvoucherprint, null);
+            View voucher = getLayoutInflater().inflate(R.layout.tv_bluetoothvoucherprint, null);
             TextView custname = voucher.findViewById(R.id.txtcustomer);
             TextView salesmenName=voucher.findViewById(R.id.txtsalesmen);
             LinearLayout salesmenLayout=voucher.findViewById(R.id.salesmenlayout);
@@ -5193,11 +5192,11 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             changeheader = true;
             editUnit_type = sd.get(itemPosition).getUnit_type();
             unitShort = sd.get(itemPosition).getUnit_short();
-            selected_distype = sd.get(itemPosition).getDis_type();
+            selected_distype = (int) sd.get(itemPosition).getDis_type();
             Cursor cursor = null;
             String sqlString = "";
             AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
-            View view = getLayoutInflater().inflate(R.layout.editinfo, null);
+            View view = getLayoutInflater().inflate(R.layout.tv_editinfo, null);
             builder.setCancelable(false);
             builder.setView(view);
             RelativeLayout rlPetrol = view.findViewById(R.id.rlPetrol);
@@ -5357,7 +5356,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             spinDis.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selected_distype = disTypes.get(position).getDis_type();
+                    selected_distype = (int) disTypes.get(position).getDis_type();
                     btndiscount.setText(disTypes.get(position).getName());
                     if (selected_distype == 5) {
                         DiscountDialog(spinDis);
@@ -6767,6 +6766,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     return "text/plain";
                 }
 
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public byte[] getBody() throws AuthFailureError {
                     return requestBody.getBytes(StandardCharsets.UTF_8);
@@ -6833,7 +6833,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
     private void showPrinterSetting() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View dialogView = getLayoutInflater().inflate(R.layout.devicesetting, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.tv_devicesetting, null);
         builder.setView(dialogView);
 
         //region SunmiPrinter
