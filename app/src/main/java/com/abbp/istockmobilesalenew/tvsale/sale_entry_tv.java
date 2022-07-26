@@ -881,7 +881,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
 //            url = "http://"+ip+":50337/api/DataSync/GetHeader?userid="+frmlogin.LoginUserid;
-            url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader?userid=" + frmlogin.LoginUserid;
+           // url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader?userid=" + frmlogin.LoginUserid;
+            url = "http://" + ip + "/api/DataSync/GetNewVoucher?userid=" + frmlogin.LoginUserid + "&entryStatus=1";
             Log.i("sale_entry_tv", url);
             requestQueue = Volley.newRequestQueue(this);
             final Response.Listener<String> listener = new Response.Listener<String>() {
@@ -1059,7 +1060,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
             String data = "userid=" + frmlogin.LoginUserid + "&tranid=" + sh.get(0).getTranid() + "&customerid=" + customerid + "&date=" + sh.get(0).getDate();
-            url = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + data;
+//            url = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + data;
+            url = "http://" + ip + "/api/DataSync/GetCustomerOutstand?" + data;
             requestQueue = Volley.newRequestQueue(this);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
@@ -1449,63 +1451,63 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         return taxpercent;
     }
 
-    private void InsertheadMain() {
-
-        String head = "insert into Sale_Head_Main(tranid,userid,docid,date,invoice_no,locationid,customerid,cash_id,pay_type,due_indays,currency,discount,paid_amount,invoice_amount,invoice_qty,foc_amount,Remark,itemdis_amount)" +
-                "values(" +
-                sh.get(0).getTranid() + "," +
-                sh.get(0).getUserid() + ",'" +
-                sh.get(0).getDocid() + "'," +
-                "'" + String.format(sh.get(0).getDate(), "yyyy-MM-dd") + "','" +
-                sh.get(0).getInvoice_no() + "'," +
-                sh.get(0).getLocationid() + "," +
-                sh.get(0).getCustomerid() + "," +
-                sh.get(0).getDef_cashid() + "," +
-                sh.get(0).getPay_type() + "," +
-                sh.get(0).getDue_in_days() + "," +
-                sh.get(0).getCurrency() + "," +
-                sh.get(0).getDiscount() + "," +
-                sh.get(0).getPaid_amount() + "," +
-                sh.get(0).getInvoice_amount() + "," +
-                sh.get(0).getInvoice_qty() + "," +
-                sh.get(0).getFoc_amount() + "," +
-                "N'" + sh.get(0).getHeadremark() + "'," +
-                sh.get(0).getIstemdis_amount()
-                + ")";
-        sqlstring = head;
-        String sqlUrl = "";
-        String ip = sh_ip.getString("ip", "empty");
-        String port = sh_port.getString("port", "empty");
-        sqlstring = sqlstring + "&check=true";
-        try {
-            sqlstring = URLEncoder.encode(sqlstring, "UTF-8").replace("+", "%20")
-                    .replace("%26", "&").replace("%3D", "=")
-                    .replace("%2C", ",")
-            ;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?sqlstring=" + sqlstring;
-        requestQueue = Volley.newRequestQueue(this);
-        final Response.Listener<String> listener = new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-            }
-
-        };
-
-        final Response.ErrorListener error = new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(sale_entry_tv.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                progressDialog.dismiss();
-            }
-        };
-        StringRequest req = new StringRequest(Request.Method.GET, sqlUrl, listener, error);
-        requestQueue.add(req);
-
-    }
+//    private void InsertheadMain() {
+//
+//        String head = "insert into Sale_Head_Main(tranid,userid,docid,date,invoice_no,locationid,customerid,cash_id,pay_type,due_indays,currency,discount,paid_amount,invoice_amount,invoice_qty,foc_amount,Remark,itemdis_amount)" +
+//                "values(" +
+//                sh.get(0).getTranid() + "," +
+//                sh.get(0).getUserid() + ",'" +
+//                sh.get(0).getDocid() + "'," +
+//                "'" + String.format(sh.get(0).getDate(), "yyyy-MM-dd") + "','" +
+//                sh.get(0).getInvoice_no() + "'," +
+//                sh.get(0).getLocationid() + "," +
+//                sh.get(0).getCustomerid() + "," +
+//                sh.get(0).getDef_cashid() + "," +
+//                sh.get(0).getPay_type() + "," +
+//                sh.get(0).getDue_in_days() + "," +
+//                sh.get(0).getCurrency() + "," +
+//                sh.get(0).getDiscount() + "," +
+//                sh.get(0).getPaid_amount() + "," +
+//                sh.get(0).getInvoice_amount() + "," +
+//                sh.get(0).getInvoice_qty() + "," +
+//                sh.get(0).getFoc_amount() + "," +
+//                "N'" + sh.get(0).getHeadremark() + "'," +
+//                sh.get(0).getIstemdis_amount()
+//                + ")";
+//        sqlstring = head;
+//        String sqlUrl = "";
+//        String ip = sh_ip.getString("ip", "empty");
+//        String port = sh_port.getString("port", "empty");
+//        sqlstring = sqlstring + "&check=true";
+//        try {
+//            sqlstring = URLEncoder.encode(sqlstring, "UTF-8").replace("+", "%20")
+//                    .replace("%26", "&").replace("%3D", "=")
+//                    .replace("%2C", ",")
+//            ;
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+//        sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?sqlstring=" + sqlstring;
+//        requestQueue = Volley.newRequestQueue(this);
+//        final Response.Listener<String> listener = new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//
+//            }
+//
+//        };
+//
+//        final Response.ErrorListener error = new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Toast.makeText(sale_entry_tv.this, error.getMessage(), Toast.LENGTH_LONG).show();
+//                progressDialog.dismiss();
+//            }
+//        };
+//        StringRequest req = new StringRequest(Request.Method.GET, sqlUrl, listener, error);
+//        requestQueue.add(req);
+//
+//    }
 
 
 
@@ -2564,7 +2566,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         String sqlUrl = "";
         String ip = sh_ip.getString("ip", "empty");
         String port = sh_port.getString("port", "empty");
-        sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?tranid=" + tranid + "&clear=true";
+//        sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?tranid=" + tranid + "&clear=true";
+        sqlUrl = "http://" + ip + "/api/DataSync/ClearGabbage?tranid=" + tranid + "&clear=true";
         requestQueue = Volley.newRequestQueue(this);
         final Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -2657,8 +2660,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         String ip = sh_ip.getString("ip", "Localhost");
         String port = sh_port.getString("port", "80");
         String Device = frmlogin.Device_Name.replace(" ", "%20");
-        String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + false;
-
+//        String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + false;
+        String Url = "http://" + ip + "/api/DataSync/LockUser?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + false;
         requestQueue = Volley.newRequestQueue(this);
 
         final Response.Listener<String> listener = new Response.Listener<String>() {
@@ -3694,8 +3697,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         try {
             String ip = sh_ip.getString("ip", "Localhost");
             String port = sh_port.getString("port", "80");
-            String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
-
+//            String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
+            String Url = "http://" + ip + "/api/DataSync/CheckConnection";
             requestQueue = Volley.newRequestQueue(this);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
@@ -4526,7 +4529,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
-            String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData";
+//            String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData";
+            String sqlUrl = "http://" + ip + "/api/DataSync/SaveData?entryStatus=1";//added entryStatus to classify sale=1,sale order=2,return in=3
             sqlstring = sqlstring + "&" + sh.get(0).getTranid() + "&" + paid + "&" + changeamount;
             Log.i("sale_entry_tv", sqlstring);
             //new SaveData().execute(sqlUrl);
@@ -4812,7 +4816,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlstring;
+//                sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlstring;
+                sqlUrl = "http://" + ip + "/api/DataSync/PrintVoucher?" + sqlstring;
                 requestQueue = Volley.newRequestQueue(this);
                 final Response.Listener<String> listener = new Response.Listener<String>() {
                     @Override
@@ -6787,7 +6792,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     private void CheckConnection() {
         String ip = sh_ip.getString("ip", "localhost");
         String port = sh_port.getString("port", "80");
-        String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
+//        String Url = "http://" + ip + ":" + port + "/api/DataSync/GetData";
+        String Url = "http://" + ip + "/api/DataSync/CheckConnection";
 
         requestQueue = Volley.newRequestQueue(this);
 

@@ -27,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -1258,6 +1259,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         }
 //        sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?sqlstring=" + sqlstring;
         sqlUrl = "http://" + ip + "/api/DataSync/GetData?sqlstring=" + sqlstring;
+        Log.i("sale_entry",sqlUrl);
         requestQueue = Volley.newRequestQueue(this);
         final Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -1816,6 +1818,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 //                public HttpResponseMessage GetDocid(Int64 EditTranid, int userid,string entryformname,string entryheadtablename,int branchid)
 //                    String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetDocid?" + "EditTranid=" + tranid + "&userid=" + sh.get(0).getUserid() + "&entryformname=frmSaleEntry&entryheadtablename=sale_head_main&branchid=" + branchid;//added by KLM
                     String sqlUrl = "http://" + ip + "/api/DataSync/GetDocid?" + "EditTranid=" + tranid + "&userid=" + sh.get(0).getUserid() + "&entryformname=frmSaleEntry&entryheadtablename=sale_head_main&branchid=" + branchid;//added by KLM
+                    Log.i("sale_entry",sqlUrl);
                     requestQueue = Volley.newRequestQueue(this);
                     final Response.Listener<String> listener = new Response.Listener<String>() {
                         @Override
