@@ -158,7 +158,6 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         GetAppSetting getAppSetting = new GetAppSetting("AndroidModule");
         String value = getAppSetting.getSetting_Value();
         if (value.equals("1")) {
-
             cardoutstandlist.setVisibility(View.GONE);
             cardStockstatuslist.setVisibility(View.GONE);
         }

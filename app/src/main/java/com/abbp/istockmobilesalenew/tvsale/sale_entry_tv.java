@@ -99,7 +99,7 @@ import com.abbp.istockmobilesalenew.so_det;
 import com.abbp.istockmobilesalenew.so_head;
 import com.abbp.istockmobilesalenew.sunmiprinter.SunmiPrintHelper;
 import com.abbp.istockmobilesalenew.unitforcode;
-import com.abbp.istockmobilesalenew.usr_code;
+import com.abbp.istockmobilesalenew.tvsale.usr_code;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -145,10 +145,10 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     public static boolean use_Category2;
     AlertDialog CustomerSetup = null;
     AlertDialog setupFilter = null;
-    ArrayList<com.abbp.istockmobilesalenew.usr_code> filteredCode = new ArrayList<>();
+    ArrayList<usr_code> filteredCode = new ArrayList<>();
     ArrayList<category> filteredList = new ArrayList<>();
-    ArrayList<com.abbp.istockmobilesalenew.usr_code> filtereddesc = new ArrayList<>();
-    ArrayList<com.abbp.istockmobilesalenew.usr_code> filteredbrand = new ArrayList<>();
+    ArrayList<usr_code> filtereddesc = new ArrayList<>();
+    ArrayList<usr_code> filteredbrand = new ArrayList<>();
     ArrayList<class_item> filteredclass = new ArrayList<>();
     JSONArray data;
     JSONArray cust;
@@ -177,7 +177,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     RequestQueue requestQueue;
     public static ArrayList<Sale_head_main> sh = new ArrayList<>();
     public static ArrayList<sale_det> sd = new ArrayList<>();
-    public static ArrayList<com.abbp.istockmobilesalenew.usr_code> usr_codes = new ArrayList<>();
+    public static ArrayList<usr_code> usr_codes = new ArrayList<>();
     public static ArrayList<PriceLevel> priceLevels = new ArrayList<>();
     boolean isqty = false;
     boolean isGallon = false;
@@ -348,14 +348,14 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
         isCodeFinding = false;
         SetUI();
-        if (frmmain.withoutclass.equals("true")) {
-            gridview.setVisibility(View.VISIBLE);
-            BindingCategory();
-        } else {
-            gridclassview.setVisibility(View.VISIBLE);
-            gridcodeview.setVisibility(View.VISIBLE);
-            BindingClass();
-        }
+//        if (frmmain.withoutclass.equals("true")) {
+//            gridview.setVisibility(View.VISIBLE);
+//            BindingCategory();
+//        } else {
+        gridclassview.setVisibility(View.VISIBLE);
+        gridcodeview.setVisibility(View.VISIBLE);
+        BindingClass();
+//        }
         if (sd.size() > 0) sd.clear();
         if (sh.size() > 0) sh.clear();
 
@@ -750,7 +750,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                             String description = cursor.getString(cursor.getColumnIndex("description"));
                             String value = cursor.getString(cursor.getColumnIndex("sale_price"));
                             double saleprice = Double.parseDouble(value.isEmpty() ? "0" : value);
-                            sale_entry_tv.usr_codes.add(new com.abbp.istockmobilesalenew.usr_code(usr_code, description, saleprice));
+                            sale_entry_tv.usr_codes.add(new usr_code(usr_code, description, saleprice));
                         } while (cursor.moveToNext());
 
                     }
@@ -881,7 +881,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
 //            url = "http://"+ip+":50337/api/DataSync/GetHeader?userid="+frmlogin.LoginUserid;
-           // url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader?userid=" + frmlogin.LoginUserid;
+            // url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader?userid=" + frmlogin.LoginUserid;
             url = "http://" + ip + "/api/DataSync/GetNewVoucher?userid=" + frmlogin.LoginUserid + "&entryStatus=1";
             Log.i("sale_entry_tv", url);
             requestQueue = Volley.newRequestQueue(this);
@@ -1255,7 +1255,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     Cursor cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND  usr_code LIKE?", new String[]{s});
                     if (sale_entry_tv.usr_codes.size() > 0)
                         if (frmmain.withoutclass.equals("true")) {
-                            filteredCode.add(new com.abbp.istockmobilesalenew.usr_code("Back", "Back"));
+                            filteredCode.add(new usr_code("Back", "Back"));
                         }
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
@@ -1264,7 +1264,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                 String description = cursor.getString(cursor.getColumnIndex("description"));
                                 String value = cursor.getString(cursor.getColumnIndex("sale_price"));
                                 double saleprice = Double.parseDouble(value.isEmpty() ? "0" : value);
-                                filteredCode.add(new com.abbp.istockmobilesalenew.usr_code(usr_code, description, saleprice));
+                                filteredCode.add(new usr_code(usr_code, description, saleprice));
                             } while (cursor.moveToNext());
 
                         }
@@ -1284,7 +1284,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                 " where usc.unit_type = 1 AND al.al_code LIKE '" + s + "'");
                         if (sale_entry_tv.usr_codes.size() > 0)
                             if (frmmain.withoutclass.equals("true")) {
-                                filteredCode.add(new com.abbp.istockmobilesalenew.usr_code("Back", "Back"));
+                                filteredCode.add(new usr_code("Back", "Back"));
                             }
                         if (urcursor != null && urcursor.getCount() != 0) {
                             if (urcursor.moveToNext()) {
@@ -1293,7 +1293,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                     String description = urcursor.getString(urcursor.getColumnIndex("description"));
                                     String value = urcursor.getString(urcursor.getColumnIndex("sale_price"));
                                     double saleprice = Double.parseDouble(value.isEmpty() ? "0" : value);
-                                    filteredCode.add(new com.abbp.istockmobilesalenew.usr_code(usr_code, description, saleprice));
+                                    filteredCode.add(new usr_code(usr_code, description, saleprice));
                                 } while (urcursor.moveToNext());
                             }
                             urcursor.close();
@@ -1303,8 +1303,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
                 } else {
 
-                    filteredCode.add(new com.abbp.istockmobilesalenew.usr_code("Back", "Back"));
-                    for (com.abbp.istockmobilesalenew.usr_code item : usr_codes) {
+                    filteredCode.add(new usr_code("Back", "Back"));
+                    for (usr_code item : usr_codes) {
                         if (item.getUsr_code() != "Back") {
                             if (item.getUsr_code().toLowerCase().contains(s.toString().toLowerCase())) {
                                 filteredCode.add(item);
@@ -1332,7 +1332,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     if (sale_entry_tv.usr_codes.size() > 0) sale_entry_tv.usr_codes.clear();
                     if (cursor != null && cursor.getCount() != 0) {
                         if (frmmain.withoutclass.equals("true")) {
-                            filtereddesc.add(new com.abbp.istockmobilesalenew.usr_code("Back", "Back"));
+                            filtereddesc.add(new usr_code("Back", "Back"));
                         }
                         if (cursor.moveToFirst()) {
                             do {
@@ -1340,14 +1340,14 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                 String description = cursor.getString(cursor.getColumnIndex("description"));
                                 String value = cursor.getString(cursor.getColumnIndex("sale_price"));
                                 double saleprice = Double.parseDouble(value.isEmpty() ? "0" : value);
-                                filtereddesc.add(new com.abbp.istockmobilesalenew.usr_code(usr_code, description, saleprice));
+                                filtereddesc.add(new usr_code(usr_code, description, saleprice));
                             } while (cursor.moveToNext());
 
                         }
                         cursor.close();
                     }
                 } else {
-                    for (com.abbp.istockmobilesalenew.usr_code item : usr_codes) {
+                    for (usr_code item : usr_codes) {
                         if (item.getUsr_code() != "Back") {
                             if (item.getDescription().toLowerCase().contains(s.toString().toLowerCase())) {
                                 filtereddesc.add(item);
@@ -1406,7 +1406,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 if (cursorbrand != null && cursorbrand.getCount() != 0) {
                     if (frmmain.withoutclass.equals("true")) {
                         // filteredCode.clear();
-                        filteredbrand.add(new com.abbp.istockmobilesalenew.usr_code("Back", "Back"));
+                        filteredbrand.add(new usr_code("Back", "Back"));
                     }
                     if (cursorbrand.moveToFirst()) {
                         do {
@@ -1873,7 +1873,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 btntownship = view.findViewById(R.id.btnTownship);
                 btncustomer = view.findViewById(R.id.btnCustomer);
                 btnStlocation = view.findViewById(R.id.location);
-                btnSalesmen=view.findViewById(R.id.salesmen);
+                btnSalesmen = view.findViewById(R.id.salesmen);
                 imgNewCust = view.findViewById(R.id.custadd);
                 btnCash = view.findViewById(R.id.cash);
                 /*
@@ -1974,64 +1974,63 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     }
                 });
                 btnSalesmen.setOnClickListener(new View.OnClickListener() {
-                          @Override
-                      public void onClick(View v)
-            {
+                    @Override
+                    public void onClick(View v) {
 
-                ChangeHeader("Salesmen", btnSalesmen, btnpaytype);
-            }
-                 });
-            btntownship.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        ChangeHeader("Salesmen", btnSalesmen, btnpaytype);
+                    }
+                });
+                btntownship.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    ChangeHeader("Township", btntownship, btnpaytype);
-                }
-            });
+                        ChangeHeader("Township", btntownship, btnpaytype);
+                    }
+                });
 
-            btncustomer.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChangeHeader("Customer", btncustomer, btnpaytype);
-                }
-            });
-            imgNewCust.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Add_Customer();
-                }
-            });
-            btnCash.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChangeHeader("Cash", btnCash, btnpaytype);
-                }
-            });
-            btnpaytype = view.findViewById(R.id.btnpaytype);
-            btnpaytype.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChangeHeader("Payment Type", btnpaytype, btnpaytype);
+                btncustomer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChangeHeader("Customer", btncustomer, btnpaytype);
+                    }
+                });
+                imgNewCust.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Add_Customer();
+                    }
+                });
+                btnCash.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChangeHeader("Cash", btnCash, btnpaytype);
+                    }
+                });
+                btnpaytype = view.findViewById(R.id.btnpaytype);
+                btnpaytype.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChangeHeader("Payment Type", btnpaytype, btnpaytype);
 
-                }
-            });
+                    }
+                });
 
-            btnlocation = view.findViewById(R.id.location);
+                btnlocation = view.findViewById(R.id.location);
 
-            btnlocation.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ChangeHeader("Location", btnlocation, btnpaytype);
+                btnlocation.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChangeHeader("Location", btnlocation, btnpaytype);
 
-                }
-            });
+                    }
+                });
 
-            btnsave.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                btnsave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-                    invoice_no = txtinvoiceNo.getText().toString().trim().isEmpty() ? sh.get(0).getInvoice_no() : txtinvoiceNo.getText().toString().trim();
-                    sh.get(0).setInvoice_no(invoice_no);
+                        invoice_no = txtinvoiceNo.getText().toString().trim().isEmpty() ? sh.get(0).getInvoice_no() : txtinvoiceNo.getText().toString().trim();
+                        sh.get(0).setInvoice_no(invoice_no);
 
                         /*
                         //region by YLT on [15-06-2020]
@@ -2053,38 +2052,38 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         }
                         */
 
-                    //endregion
-                    headRemark = headremark.getText().toString().trim().isEmpty() ? "NULL" : headremark.getText().toString().trim();
-                    sh.get(0).setHeadremark(headRemark);
-                    defloc = 1;
-                    if (isCreditcustomer) {
-                        GetCustomerOutstand(sh.get(0).getCustomerid());
-                    } else {
-                        txtoutstand.setText("0");
+                        //endregion
+                        headRemark = headremark.getText().toString().trim().isEmpty() ? "NULL" : headremark.getText().toString().trim();
+                        sh.get(0).setHeadremark(headRemark);
+                        defloc = 1;
+                        if (isCreditcustomer) {
+                            GetCustomerOutstand(sh.get(0).getCustomerid());
+                        } else {
+                            txtoutstand.setText("0");
+                        }
+                        dialog.dismiss();
                     }
-                    dialog.dismiss();
-                }
-            });
-            ArrayList<String> id = new ArrayList<>();
-            ArrayList<Button> btn = new ArrayList<>();
+                });
+                ArrayList<String> id = new ArrayList<>();
+                ArrayList<Button> btn = new ArrayList<>();
 
-            btn.add(btncustgroup);
-            btn.add(btntownship);
-            btn.add(btncustomer);
-            btn.add(btnlocation);
-            btn.add(btnpaytype);
-            btn.add(btnCash);
+                btn.add(btncustgroup);
+                btn.add(btntownship);
+                btn.add(btncustomer);
+                btn.add(btnlocation);
+                btn.add(btnpaytype);
+                btn.add(btnCash);
 
-            id.add(String.valueOf(sh.get(0).getCustomerid()));
-            id.add(String.valueOf(sh.get(0).getLocationid()));
-            id.add(String.valueOf(sh.get(0).getPay_type()));
-            id.add(String.valueOf(sh.get(0).getDef_cashid()));
+                id.add(String.valueOf(sh.get(0).getCustomerid()));
+                id.add(String.valueOf(sh.get(0).getLocationid()));
+                id.add(String.valueOf(sh.get(0).getPay_type()));
+                id.add(String.valueOf(sh.get(0).getDef_cashid()));
 
-            InitializeHeader(id, btn);
+                InitializeHeader(id, btn);
 
-            dialog = builder.create();
-            dialog.show();
-            break;
+                dialog = builder.create();
+                dialog.show();
+                break;
 
             //not change_date in sale entry txtdate modified by ABBP
             case R.id.txtdate:
@@ -3042,12 +3041,10 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             ImageButton imgDownloadCustomer = view.findViewById(R.id.imgDowloadCustomer);
             imgDownloadCustomer.setVisibility(View.GONE);
             imgAddCustomer.setVisibility(View.GONE);
-            if(name.equals("Salesmen"))
-            {
-             imgChangSave.setVisibility(View.VISIBLE);
-             imgClear.setVisibility(View.VISIBLE);
-            }
-            else if (name.equals("Customer")) {
+            if (name.equals("Salesmen")) {
+                imgChangSave.setVisibility(View.VISIBLE);
+                imgClear.setVisibility(View.VISIBLE);
+            } else if (name.equals("Customer")) {
                 imgAddCustomer.setVisibility(View.VISIBLE);
                 imgDownloadCustomer.setVisibility(View.VISIBLE);
             } else {
@@ -3074,30 +3071,27 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             imgChangSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(SaleVouSalesmen.size()>0) {
-                        String salesmen="";
-                        if(SaleVouSalesmen.size()>4){
-                            for(int i=0;i<4;i++)
-                            {
-                                if(i!=3) {
-                                    salesmen += SaleVouSalesmen.get(i).getSalesmen_Name()+",";//Added by KLM QA-201185 30112020
-                                }
-                                else
-                                {
-                                    salesmen += SaleVouSalesmen.get(i).getSalesmen_Name()+",...";//Added by KLM QA-201185 30112020
+                    if (SaleVouSalesmen.size() > 0) {
+                        String salesmen = "";
+                        if (SaleVouSalesmen.size() > 4) {
+                            for (int i = 0; i < 4; i++) {
+                                if (i != 3) {
+                                    salesmen += SaleVouSalesmen.get(i).getSalesmen_Name() + ",";//Added by KLM QA-201185 30112020
+                                } else {
+                                    salesmen += SaleVouSalesmen.get(i).getSalesmen_Name() + ",...";//Added by KLM QA-201185 30112020
                                 }
                             }
-                        }else {
-                            for(int i=0;i<SaleVouSalesmen.size();i++){
-                                if(i!=SaleVouSalesmen.size()-1){
-                                    salesmen+=SaleVouSalesmen.get(i).getSalesmen_Name()+",";//Added by KLM QA-201185 30112020
-                                }else {
-                                    salesmen+=SaleVouSalesmen.get(i).getSalesmen_Name();//Added by KLM QA-201185 30112020
+                        } else {
+                            for (int i = 0; i < SaleVouSalesmen.size(); i++) {
+                                if (i != SaleVouSalesmen.size() - 1) {
+                                    salesmen += SaleVouSalesmen.get(i).getSalesmen_Name() + ",";//Added by KLM QA-201185 30112020
+                                } else {
+                                    salesmen += SaleVouSalesmen.get(i).getSalesmen_Name();//Added by KLM QA-201185 30112020
                                 }
                             }
                         }
                         btnSalesmen.setText(salesmen);
-                    }else{
+                    } else {
                         btnSalesmen.setText("Choose");
                     }
                     da.dismiss();
@@ -3115,7 +3109,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     if (salesmen.size() > 0) {
                         salesmen.clear();
                     }
-                    Cursor salemenCursor = DatabaseHelper.rawQuery("select Salesmen_id,Salesmen_Name,short from Salesmen s,Location l where s.branchid=l.branchid and l.locationid=" + sale_entry_tv.sh.get(0).getLocationid()+" order by Salesmen_Name");
+                    Cursor salemenCursor = DatabaseHelper.rawQuery("select Salesmen_id,Salesmen_Name,short from Salesmen s,Location l where s.branchid=l.branchid and l.locationid=" + sale_entry_tv.sh.get(0).getLocationid() + " order by Salesmen_Name");
                     if (salemenCursor != null && salemenCursor.getCount() != 0) {
                         if (salemenCursor.moveToFirst()) {
                             do {
@@ -3311,7 +3305,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                             }
                                             sm = new SalesmenAdpater(sale_entry_tv.this, filteredsalesmen);
                                             rv.setAdapter(sm);
-                                            LinearLayoutManager linearLayoutManagerSalesmen = new LinearLayoutManager(sale_entry_tv.this,LinearLayoutManager.VERTICAL,false);
+                                            LinearLayoutManager linearLayoutManagerSalesmen = new LinearLayoutManager(sale_entry_tv.this, LinearLayoutManager.VERTICAL, false);
                                             rv.setLayoutManager(linearLayoutManagerSalesmen);
                                             break;
                                     }
@@ -3363,26 +3357,25 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     da.show();
                     break;
                 case "Salesmen":
-                    if(salesmen.size()>0)
-                    {
+                    if (salesmen.size() > 0) {
                         salesmen.clear();
                     }
-                    Cursor salemenCursor=DatabaseHelper.rawQuery("select s.* from Salesmen s,Location l where  s.branchid=l.branchid and l.locationid="+sale_entry_tv.sh.get(0).getLocationid()+" order by Salesmen_Name");//Added by KLM QA-201186 30112020
+                    Cursor salemenCursor = DatabaseHelper.rawQuery("select s.* from Salesmen s,Location l where  s.branchid=l.branchid and l.locationid=" + sale_entry_tv.sh.get(0).getLocationid() + " order by Salesmen_Name");//Added by KLM QA-201186 30112020
                     if (salemenCursor != null && salemenCursor.getCount() != 0) {
                         if (salemenCursor.moveToFirst()) {
                             do {
                                 long salesmenid = salemenCursor.getLong(salemenCursor.getColumnIndex("Salesmen_id"));
                                 String salesmenname = salemenCursor.getString(salemenCursor.getColumnIndex("Salesmen_Name"));
                                 String shortname = salemenCursor.getString(salemenCursor.getColumnIndex("short"));
-                                long branchid=salemenCursor.getLong(salemenCursor.getColumnIndex("branchid"));
-                                salesmen.add(new Salesmen(salesmenid,salesmenname,shortname));
+                                long branchid = salemenCursor.getLong(salemenCursor.getColumnIndex("branchid"));
+                                salesmen.add(new Salesmen(salesmenid, salesmenname, shortname));
                             } while (salemenCursor.moveToNext());
                         }
                     }
                     salemenCursor.close();
-                    SalesmenAdpater sad = new SalesmenAdpater(sale_entry_tv.this,salesmen);
+                    SalesmenAdpater sad = new SalesmenAdpater(sale_entry_tv.this, salesmen);
                     rv.setAdapter(sad);
-                    LinearLayoutManager sgridLayoutManager = new LinearLayoutManager(sale_entry_tv.this,LinearLayoutManager.VERTICAL,false);
+                    LinearLayoutManager sgridLayoutManager = new LinearLayoutManager(sale_entry_tv.this, LinearLayoutManager.VERTICAL, false);
                     rv.setLayoutManager(sgridLayoutManager);
                     salemenCursor = null;
                     da.show();
@@ -4560,8 +4553,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             frame.setVisibility(View.VISIBLE);
             View voucher = getLayoutInflater().inflate(R.layout.tv_bluetoothvoucherprint, null);
             TextView custname = voucher.findViewById(R.id.txtcustomer);
-            TextView salesmenName=voucher.findViewById(R.id.txtsalemen);
-            LinearLayout salesmenLayout=voucher.findViewById(R.id.salemenlayout);
+            TextView salesmenName = voucher.findViewById(R.id.txtsalemen);
+            LinearLayout salesmenLayout = voucher.findViewById(R.id.salemenlayout);
             TextView tvdate = voucher.findViewById(R.id.txtdate);
             TextView tvinvoice = voucher.findViewById(R.id.txtinvoice);
             TextView cashiername = voucher.findViewById(R.id.txtuser);
@@ -4656,19 +4649,18 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             }
 
             //added by KLM for Sale Men 09052022
-            if(!use_salesperson){
+            if (!use_salesperson) {
                 salesmenLayout.setVisibility(View.GONE);
             }
-            String salesmenString="";
-            if(SaleVouSalesmen.size()>0){
-            for(int i=0;i<SaleVouSalesmen.size()-1;i++){
-                salesmenString+=SaleVouSalesmen.get(i).getSalesmen_Name()+", ";
-            }
+            String salesmenString = "";
+            if (SaleVouSalesmen.size() > 0) {
+                for (int i = 0; i < SaleVouSalesmen.size() - 1; i++) {
+                    salesmenString += SaleVouSalesmen.get(i).getSalesmen_Name() + ", ";
+                }
 
-                salesmenString+=SaleVouSalesmen.get(SaleVouSalesmen.size()-1).getSalesmen_Name();
+                salesmenString += SaleVouSalesmen.get(SaleVouSalesmen.size() - 1).getSalesmen_Name();
             }
             salesmenName.setText(salesmenString);
-
 
 
             tvinvoice.setText(invoiceno);

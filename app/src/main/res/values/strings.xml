@@ -5,5 +5,6 @@
     <string name="content_description">Content Description</string>
 
     <string name="upload_warning">You have offline sales data.\nPlease Upload.</string>
+    <string name="app_version">Version 7.3.6</string>
 
 </resources>

@@ -1,7 +1,12 @@
 package com.abbp.istockmobilesalenew.tvsale;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +27,7 @@ import com.abbp.istockmobilesalenew.frmlogin;
 import com.abbp.istockmobilesalenew.frmmain;
 import com.abbp.istockmobilesalenew.sale_det;
 import com.abbp.istockmobilesalenew.saleorder_entry;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -28,11 +35,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHolder> {
 
     Context context;
     File directory;
-    ArrayList<com.abbp.istockmobilesalenew.usr_code> data = new ArrayList<>();
+    ArrayList<usr_code> data = new ArrayList<>();
     ArrayList<category> categories = new ArrayList<>();
     ArrayList<brand> brands = new ArrayList<>();
     String usr_code;
@@ -42,7 +51,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
     static long specialPrice = 0;
 
-    public UsrcodeAdapter(Context context, ArrayList<com.abbp.istockmobilesalenew.usr_code> data, RecyclerView rv, ArrayList<category> categories) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, ArrayList<category> categories) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -51,7 +60,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     }
 
     //added by YLT
-    public UsrcodeAdapter(Context context, ArrayList<com.abbp.istockmobilesalenew.usr_code> data, RecyclerView rv, ArrayList<category> categories, String frm) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, ArrayList<category> categories, String frm) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -60,7 +69,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     }
 
 
-    public UsrcodeAdapter(Context context, ArrayList<com.abbp.istockmobilesalenew.usr_code> data, RecyclerView rv) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -68,7 +77,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     }
 
     //added by YLT
-    public UsrcodeAdapter(Context context, ArrayList<com.abbp.istockmobilesalenew.usr_code> data, RecyclerView rv, String frm) {
+    public UsrcodeAdapter(Context context, ArrayList<usr_code> data, RecyclerView rv, String frm) {
         this.context = context;
         this.data = data;
         this.rv = rv;
@@ -90,100 +99,136 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
-       
-
-        holder.txtName.setText(String.format(" %s", data.get(position).getDescription()));
-
-        String saleprice = String.format("%,." + frmmain.price_places + "f", data.get(position).getSale_price());
-        holder.txtPrice.setText(saleprice);
-        holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
-        if (frmmain.withoutclass.equals("true")) {
-            if (position == 0) {
-                holder.layoutItem.setBackgroundResource(R.drawable.categorygradiant);
-            } else {
-                holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
-            }
-        }
-        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    if (data.get(position).getUsr_code().equals("Back")) {
-                        if (formname.equals("SaleOrder"))//added by YLT
-                        {
-                            saleorder_entry.imgFilterCode.setVisibility(View.GONE);
-                            saleorder_entry.fitercode = "Category";
-                            if (categories.size() > 0) {
-                                categories.clear();
-                            }
-                            if (frmmain.withoutclass.equals("false")) {
-                                categories.add(new category("Back"));
-                            }
-                            Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
-                            // Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
-                            if (cursor != null && cursor.getCount() != 0) {
-                                if (cursor.moveToFirst()) {
-                                    do {
-                                        long categoryid = cursor.getLong(cursor.getColumnIndex("category"));
-                                        String name = cursor.getString(cursor.getColumnIndex("categoryname"));
-                                        long classid = cursor.getLong(cursor.getColumnIndex("class"));
-                                        categories.add(new category(categoryid, classid, name));
-                                    } while (cursor.moveToNext());
-
-                                }
-
-                                cursor.close();
-                            }
-
-                            CategoryAdapter ad = new CategoryAdapter(context, categories, rv, "SaleOrder");
-                            rv.setAdapter(ad);
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
-                            rv.setLayoutManager(gridLayoutManager);
-                        } else {
-
-                            sale_entry_tv.imgFilterCode.setVisibility(View.GONE);
-                            sale_entry_tv.fitercode = "Category";
-                            if (categories.size() > 0) {
-                                categories.clear();
-                            }
-                            if (frmmain.withoutclass.equals("false")) {
-                                categories.add(new category("Back"));
-                            }
-                            Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
-                            // Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
-                            if (cursor != null && cursor.getCount() != 0) {
-                                if (cursor.moveToFirst()) {
-                                    do {
-                                        long categoryid = cursor.getLong(cursor.getColumnIndex("category"));
-                                        String name = cursor.getString(cursor.getColumnIndex("categoryname"));
-                                        long classid = cursor.getLong(cursor.getColumnIndex("class"));
-                                        categories.add(new category(categoryid, classid, name));
-                                    } while (cursor.moveToNext());
-
-                                }
-                                cursor.close();
-                            }
-
-                            CategoryAdapter ad = new CategoryAdapter(context, categories, rv);
-                            rv.setAdapter(ad);
-                            GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
-                            rv.setLayoutManager(gridLayoutManager);
-                        }
-
-                    } else {
-
-
-
-                        addData(data.get(position).getUsr_code());
-
-                    }
-                } catch (Exception ex) {
-                    System.out.println("UsrcodeAdapter : " + ex.getMessage());
-
+        if (frmmain.use_pic == 1) {
+            holder.tv.setText(String.format(" %s", data.get(position).getDescription()));
+            SharedPreferences sh_ip = context.getSharedPreferences("ip", MODE_PRIVATE);
+            SharedPreferences sh_port = context.getSharedPreferences("port", MODE_PRIVATE);
+            String ip = sh_ip.getString("ip", "empty");
+            String port = sh_port.getString("port", "empty");
+            String sql = "select path from usr_code_img where usr_code = '" + data.get(position).getUsr_code() + "'";
+            Cursor cursor = DatabaseHelper.rawQuery(sql);
+            String path = "";
+            if (cursor != null && cursor.getCount() != 0) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        path = cursor.getString(cursor.getColumnIndex("path"));
+                    } while (cursor.moveToNext());
                 }
             }
-        });
+
+            String[] pathnew = path.split("\\\\");
+            String imgUrl = "http://" + ip + "/api/DataSync/GetImage?imgName=" + (pathnew.length > 3 ? pathnew[3] : path);
+            Log.i("imgUrl", imgUrl);
+            Picasso.get().load(imgUrl)
+                    .placeholder(R.drawable.ic_image_search)
+                    .error(R.drawable.ic_image_search)
+                    .into(holder.iv);
+
+            holder.cv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addData(data.get(position).getUsr_code());
+                }
+            });
+            holder.cv.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ItemDetail_Dialog(position, imgUrl);
+                    return false;
+                }
+            });
+
+        } //use_pic
+        else {
+            holder.txtName.setText(String.format(" %s", data.get(position).getDescription()));
+            String saleprice = String.format("%,." + frmmain.price_places + "f", data.get(position).getSaleprice());
+            holder.txtPrice.setText(saleprice);
+            holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
+            if (frmmain.withoutclass.equals("true")) {
+                if (position == 0) {
+                    holder.layoutItem.setBackgroundResource(R.drawable.categorygradiant);
+                } else {
+                    holder.layoutItem.setBackgroundResource(R.drawable.usercodegradiant);
+                }
+            }
+            holder.layoutItem.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        if (data.get(position).getUsr_code().equals("Back")) {
+                            if (formname.equals("SaleOrder"))//added by YLT
+                            {
+                                saleorder_entry.imgFilterCode.setVisibility(View.GONE);
+                                saleorder_entry.fitercode = "Category";
+                                if (categories.size() > 0) {
+                                    categories.clear();
+                                }
+                                if (frmmain.withoutclass.equals("false")) {
+                                    categories.add(new category("Back"));
+                                }
+                                Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
+                                // Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
+                                if (cursor != null && cursor.getCount() != 0) {
+                                    if (cursor.moveToFirst()) {
+                                        do {
+                                            long categoryid = cursor.getLong(cursor.getColumnIndex("category"));
+                                            String name = cursor.getString(cursor.getColumnIndex("categoryname"));
+                                            long classid = cursor.getLong(cursor.getColumnIndex("class"));
+                                            categories.add(new category(categoryid, classid, name));
+                                        } while (cursor.moveToNext());
+
+                                    }
+
+                                    cursor.close();
+                                }
+
+                                CategoryAdapter ad = new CategoryAdapter(context, categories, rv, "SaleOrder");
+                                rv.setAdapter(ad);
+                                GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
+                                rv.setLayoutManager(gridLayoutManager);
+                            } else {
+
+                                sale_entry_tv.imgFilterCode.setVisibility(View.GONE);
+                                sale_entry_tv.fitercode = "Category";
+                                if (categories.size() > 0) {
+                                    categories.clear();
+                                }
+                                if (frmmain.withoutclass.equals("false")) {
+                                    categories.add(new category("Back"));
+                                }
+                                Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
+                                // Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
+                                if (cursor != null && cursor.getCount() != 0) {
+                                    if (cursor.moveToFirst()) {
+                                        do {
+                                            long categoryid = cursor.getLong(cursor.getColumnIndex("category"));
+                                            String name = cursor.getString(cursor.getColumnIndex("categoryname"));
+                                            long classid = cursor.getLong(cursor.getColumnIndex("class"));
+                                            categories.add(new category(categoryid, classid, name));
+                                        } while (cursor.moveToNext());
+
+                                    }
+                                    cursor.close();
+                                }
+
+                                CategoryAdapter ad = new CategoryAdapter(context, categories, rv);
+                                rv.setAdapter(ad);
+                                GridLayoutManager gridLayoutManager = new GridLayoutManager(context.getApplicationContext(), 4);
+                                rv.setLayoutManager(gridLayoutManager);
+                            }
+
+                        } //Back
+                        else {
+                            addData(data.get(position).getUsr_code());
+                        }
+                    } catch (Exception ex) {
+                        System.out.println("UsrcodeAdapter : " + ex.getMessage());
+
+                    }
+                }
+            });
+        }
+
     }
 
 
@@ -357,15 +402,16 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
         long level = GetPriceLevel();
         double discount = 0;
         double dis_price = 0;
-        String sql = "select discount" + (level == 0 ? "" : String.valueOf(level)) + ",dis_price" + (level == 0 ? "" : String.valueOf(level)) + " from Pdis where code=" + code + " and unit_type=" + unit_type +
+        String plvl = level == 0 ? "" : String.valueOf(level);
+        String sql = "select discount" + plvl + ",dis_price" + plvl + " from Pdis where code=" + code + " and unit_type=" + unit_type +
                 " and locationid=" + locationid;
         Cursor cursor = DatabaseHelper.rawQuery(sql);
 
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
-                    discount = cursor.getDouble(cursor.getColumnIndex("discount" + (level == 0 ? "" : String.valueOf(level))));
-                    dis_price = cursor.getDouble(cursor.getColumnIndex("dis_price" + (level == 0 ? "" : String.valueOf(level))));
+                    discount = cursor.getDouble(cursor.getColumnIndex("discount" + plvl));
+                    dis_price = cursor.getDouble(cursor.getColumnIndex("dis_price" + plvl));
 
                 } while (cursor.moveToNext());
 
@@ -447,6 +493,29 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
 
         return level;
+    }
+
+    private void ItemDetail_Dialog(int position, String imgUrl) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
+        LayoutInflater inflater = ((Activity) context).getLayoutInflater();
+        View view = inflater.inflate(R.layout.itemdetail, null);
+        builder.setView(view);
+        TextView itemname = view.findViewById(R.id.itemname);
+        TextView txtdesc = view.findViewById(R.id.txtdesc);
+        TextView txtsprice = view.findViewById(R.id.txtsprice);
+        ImageView imageView = view.findViewById(R.id.imgview);
+        //itemname.setTypeface(font);
+        itemname.setText(data.get(position).getUsr_code());
+        String numberAsString = String.format("%,." + frmmain.price_places + "f", data.get(position).getSaleprice());
+        txtsprice.setText(numberAsString);
+        txtdesc.setText(data.get(position).getDescription());
+        Picasso.get().load(imgUrl)
+                .placeholder(R.drawable.ic_image_search)
+                .error(R.drawable.ic_image_search)
+                .into(imageView);
+        final Dialog dialog = builder.create();
+        dialog.show();
+
     }
 
     @Override

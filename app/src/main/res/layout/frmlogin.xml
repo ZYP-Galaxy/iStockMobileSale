@@ -9,8 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:background="#d3e6e4">
+        android:background="#d3e6e4"
+        android:orientation="vertical">
 
 
         <LinearLayout
@@ -21,7 +21,7 @@
             android:layout_marginRight="0dp"
             android:background="#2F4658"
             android:gravity="right"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchBtn"
@@ -65,9 +65,8 @@
                 android:text="BT Printer"
                 android:textColor="#ffffff"
                 android:textSize="15dp"
-                android:textStyle="bold" />
-
-
+                android:textStyle="bold"
+                android:visibility="gone" />
 
 
             <TextView
@@ -235,6 +234,20 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="serif"
+                android:text="@string/app_version"
+                android:textColor="#2F4658"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
