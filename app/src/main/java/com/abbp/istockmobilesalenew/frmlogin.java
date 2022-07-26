@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -15,6 +16,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
 
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -36,6 +39,7 @@ import android.widget.Toast;
 import com.abbp.istockmobilesalenew.bluetoothprinter.BaseEnum;
 import com.abbp.istockmobilesalenew.bluetoothprinter.BluetoothDeviceChooseDialog;
 import com.abbp.istockmobilesalenew.bluetoothprinter.BluetoothPrinter;
+import com.abbp.istockmobilesalenew.sunmiprinter.SunmiPrintHelper;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -158,6 +162,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     private PrinterFactory printerFactory;
     private ArrayList<PrinterInterface> printerInterfaceArrayList = new ArrayList<>();
     private PrinterInterface curPrinterInterface = null;
+    public static boolean isTVMode =false;
 //    public static double exg_rate,div_rate=0;
 
     @Override
@@ -174,6 +179,22 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         sh_printer = getSharedPreferences("printer", MODE_PRIVATE);
         sh_ptype = getSharedPreferences("ptype", MODE_PRIVATE);
         bt_printer = getSharedPreferences("bt", MODE_PRIVATE);
+        SwitchCompat switchCompat=findViewById(R.id.switchBtn);
+
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isTVMode =switchCompat.isChecked();
+            }
+        });
+        if(isTVMode){
+            switchCompat.setChecked(true);
+        }
+        //added by KLM  for auto Detect if Device is TV or Tablet 25052022
+        if(checkIsTelevision() || SunmiPrintHelper.getInstance().checkSunmiPrinter()){
+            switchCompat.setVisibility(View.GONE);
+            isTVMode=true;
+        }
         setUI();
         Detect_Font();
 
@@ -192,6 +213,13 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         //added by KLM to calculate Currency 24062022
 
         //endregion
+
+    }
+
+    private boolean checkIsTelevision() {
+        int uiMode = getApplicationContext().getResources().getConfiguration().uiMode;
+        System.out.println("tablet device");
+        return (uiMode & Configuration.UI_MODE_TYPE_MASK) == Configuration.UI_MODE_TYPE_TELEVISION;
 
     }
 

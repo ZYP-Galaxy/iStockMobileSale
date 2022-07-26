@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.abbp.istockmobilesalenew.tvsale.sale_entry_tv;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -127,6 +128,17 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         cardreturninlist = findViewById(R.id.cardreturninlist);
         // txtUsername=(TextView)findViewById(R.id.txtUsername);
         //txtUsername.setText("   "+frmlogin.username);
+
+        if(frmlogin.isTVMode){
+            cardsaleOrder.setVisibility(View.GONE);
+            cardsaleOrderlist.setVisibility(View.GONE);;
+            cardstock.setVisibility(View.GONE);;
+            cardoutstandlist.setVisibility(View.GONE);;
+            cardStockstatuslist.setVisibility(View.GONE);;
+            cardreturnin.setVisibility(View.GONE);;
+            cardreturninlist.setVisibility(View.GONE);;
+//            cardsaleorder.setVisibility(View.GONE);;
+        }
 
         cardsale.setOnClickListener(this);
         cardsaleOrder.setOnClickListener(this);//added by YLT on [20-04-2020]
@@ -257,7 +269,12 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             case R.id.cardsale:
                 //if( Allow_Sale) {
                 if (UserRight(frmlogin.LoginUserid, 1, 1)) {
-                    intent = new Intent(frmmain.this, sale_entry.class);
+                    if(frmlogin.isTVMode) {
+                        intent = new Intent(frmmain.this, sale_entry_tv.class);
+                    }
+                    else {
+                        intent = new Intent(frmmain.this, sale_entry.class);
+                    }
                     startActivity(intent);
                     finish();
 
@@ -342,7 +359,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             case R.id.cardsalelist:
                 //if (Allow_Sale) {
                 if (UserRight(frmlogin.LoginUserid, 1, 2)) {
-                    intent = new Intent(frmmain.this, frmsalelist.class);
+                   intent = new Intent(frmmain.this, frmsalelist.class);
                     startActivity(intent);
                     finish();
 

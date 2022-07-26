@@ -23,6 +23,23 @@
             android:gravity="right"
             android:orientation="horizontal" >
 
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="20dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="TV Mode"
+                android:textColor="@color/white"
+                android:textOff="Off"
+                android:textOn="ON"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:theme="@style/Theme.MyTheme"
+                app:showText="false" />
+
 
             <TextView
                 android:id="@+id/btnSetting"
