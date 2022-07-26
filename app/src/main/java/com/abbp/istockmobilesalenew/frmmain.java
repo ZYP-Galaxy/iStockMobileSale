@@ -129,17 +129,6 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         // txtUsername=(TextView)findViewById(R.id.txtUsername);
         //txtUsername.setText("   "+frmlogin.username);
 
-        if (frmlogin.isTVMode) {
-            cardsaleOrder.setVisibility(View.GONE);
-            cardsaleOrderlist.setVisibility(View.GONE);
-            cardstock.setVisibility(View.GONE);
-            cardoutstandlist.setVisibility(View.GONE);
-            cardStockstatuslist.setVisibility(View.GONE);
-            cardreturnin.setVisibility(View.GONE);
-            cardreturninlist.setVisibility(View.GONE);
-
-        }
-
         cardsale.setOnClickListener(this);
         cardsaleOrder.setOnClickListener(this);//added by YLT on [20-04-2020]
         cardsaleOrderlist.setOnClickListener(this);//added by YLT on [24-04-2020]
@@ -162,6 +151,16 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             cardStockstatuslist.setVisibility(View.GONE);
         }
 
+        if (frmlogin.isTVMode) {
+            cardsaleOrder.setVisibility(View.GONE);
+            cardsaleOrderlist.setVisibility(View.GONE);
+            cardstock.setVisibility(View.GONE);
+            cardoutstandlist.setVisibility(View.GONE);
+            cardStockstatuslist.setVisibility(View.GONE);
+            cardreturnin.setVisibility(View.GONE);
+            cardreturninlist.setVisibility(View.GONE);
+            frmmain.withoutclass = "false";
+        }
 
     }
 

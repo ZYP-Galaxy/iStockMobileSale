@@ -324,7 +324,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         defloc = frmlogin.det_locationid;
         defunit = frmmain.defunit;
         def_cashid = frmlogin.def_cashid;
-        rlchangePrice = (RelativeLayout) findViewById(R.id.rlchangePrice);
+        rlchangePrice = findViewById(R.id.rlchangePrice);
         comfirm = false;
         logout = false;
         sh_printer = getSharedPreferences("printer", MODE_PRIVATE);
@@ -339,23 +339,15 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         itemPosition = -1;
         ref_tranid = 0;
         entrygrid.setOnItemLongClickListener(this);
-        entrygrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                itemPosition = position;
-            }
-        });
+        entrygrid.setOnItemClickListener((parent, view, position, id) -> itemPosition = position);
 
         isCodeFinding = false;
         SetUI();
-//        if (frmmain.withoutclass.equals("true")) {
-//            gridview.setVisibility(View.VISIBLE);
-//            BindingCategory();
-//        } else {
+
         gridclassview.setVisibility(View.VISIBLE);
         gridcodeview.setVisibility(View.VISIBLE);
         BindingClass();
-//        }
+
         if (sd.size() > 0) sd.clear();
         if (sh.size() > 0) sh.clear();
 
@@ -363,7 +355,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             getHeaderOffline();
         } else {
             GetHeader();
-//            GetVoucherList(0);
         }
 
         getData();
@@ -373,9 +364,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         fitercode = "Code";
         sortcode = "usr_code";
         isCategory = true;
-        //imgFilterCode.setVisibility(View.GONE);
-        GetBillPrintCount();
 
+        GetBillPrintCount();
         CheckConnection();
 
     }
@@ -3669,8 +3659,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
                         addDialog.dismiss();
                     }
-
-
                 }
 
             }

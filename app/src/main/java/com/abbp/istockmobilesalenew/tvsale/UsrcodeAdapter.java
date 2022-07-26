@@ -88,7 +88,7 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater lf = LayoutInflater.from(parent.getContext());
-        View v = null;
+        View v;
         if (frmmain.use_pic == 1) {
             v = lf.inflate(R.layout.itemwithpic, parent, false);
         } else {
