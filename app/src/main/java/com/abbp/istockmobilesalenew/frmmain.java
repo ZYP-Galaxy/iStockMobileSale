@@ -47,7 +47,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     SharedPreferences sh_port;
     Intent intent;
     public static int CCount = 0;
-    public static  boolean usedefaultcurrency;
+    public static boolean usedefaultcurrency;
 
     public static boolean Allow_Oustand;
     public static boolean Allow_StockStatus;
@@ -55,8 +55,8 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     public static boolean Allow_SaleOrder;
     public static boolean All_Users;
     AlertDialog dialog, msg, downloadAlert;
-    public static double exg_rate,div_rate=0;
-    public static String currencyshort="MMK";
+    public static double exg_rate, div_rate = 0;
+    public static String currencyshort = "MMK";
 
 
     @Override
@@ -68,10 +68,10 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         sh_port = getSharedPreferences("port", MODE_PRIVATE);
         getSystemSetting();
         GetAppSetting getAppSetting = new GetAppSetting("Use_DefaultCurrency");
-        usedefaultcurrency= getAppSetting.getSetting_Value().toLowerCase().equals("y");
+        usedefaultcurrency = getAppSetting.getSetting_Value().toLowerCase().equals("y");
         //added by KLM to calculate Currency 24062022
         isusemulticurrency();
-        if(use_multicurrency){
+        if (use_multicurrency) {
             GetExg_Rate();
         }
 
@@ -79,9 +79,9 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void GetExg_Rate() {
-        String sqlString="select exg_rate,div_rate,short from Currency where currency="+frmlogin.def_currency;
-        Cursor cursor=DatabaseHelper.rawQuery(sqlString);
-        if(cursor!=null && cursor.getCount()>0){
+        String sqlString = "select exg_rate,div_rate,short from Currency where currency=" + frmlogin.def_currency;
+        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
+        if (cursor != null && cursor.getCount() > 0) {
             if (cursor.moveToFirst()) {
                 do {
                     exg_rate = cursor.getInt(cursor.getColumnIndex("exg_rate"));
@@ -129,15 +129,15 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         // txtUsername=(TextView)findViewById(R.id.txtUsername);
         //txtUsername.setText("   "+frmlogin.username);
 
-        if(frmlogin.isTVMode){
+        if (frmlogin.isTVMode) {
             cardsaleOrder.setVisibility(View.GONE);
-            cardsaleOrderlist.setVisibility(View.GONE);;
-            cardstock.setVisibility(View.GONE);;
-            cardoutstandlist.setVisibility(View.GONE);;
-            cardStockstatuslist.setVisibility(View.GONE);;
-            cardreturnin.setVisibility(View.GONE);;
-            cardreturninlist.setVisibility(View.GONE);;
-//            cardsaleorder.setVisibility(View.GONE);;
+            cardsaleOrderlist.setVisibility(View.GONE);
+            cardstock.setVisibility(View.GONE);
+            cardoutstandlist.setVisibility(View.GONE);
+            cardStockstatuslist.setVisibility(View.GONE);
+            cardreturnin.setVisibility(View.GONE);
+            cardreturninlist.setVisibility(View.GONE);
+
         }
 
         cardsale.setOnClickListener(this);
@@ -245,7 +245,6 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-
     public static boolean UserRight(int userid, int groupid, int subgroupid) {
         boolean allow = false;
         Cursor cursor = DatabaseHelper.rawQuery("SELECT count(userid) allow FROM menu_user WHERE userid=" + userid + " AND groupid = " + groupid + " AND subgroupid = " + subgroupid);
@@ -269,10 +268,9 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             case R.id.cardsale:
                 //if( Allow_Sale) {
                 if (UserRight(frmlogin.LoginUserid, 1, 1)) {
-                    if(frmlogin.isTVMode) {
+                    if (frmlogin.isTVMode) {
                         intent = new Intent(frmmain.this, sale_entry_tv.class);
-                    }
-                    else {
+                    } else {
                         intent = new Intent(frmmain.this, sale_entry.class);
                     }
                     startActivity(intent);
@@ -354,12 +352,10 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             //added by YLT on 24/04/2020
-
-
             case R.id.cardsalelist:
                 //if (Allow_Sale) {
                 if (UserRight(frmlogin.LoginUserid, 1, 2)) {
-                   intent = new Intent(frmmain.this, frmsalelist.class);
+                    intent = new Intent(frmmain.this, frmsalelist.class);
                     startActivity(intent);
                     finish();
 
@@ -421,7 +417,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         String ip = sh_ip.getString("ip", "Localhost");
         String port = sh_port.getString("port", "80");
         String Device = frmlogin.Device_Name.replace(" ", "%20");
-        String Url ="http://" +  ip+ "/api/DataSync/LockUser?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + false;
+        String Url = "http://" + ip + "/api/DataSync/LockUser?userid=" + frmlogin.LoginUserid + "&hostname=" + Device + "&locked=" + false;
 
         requestQueue = Volley.newRequestQueue(this);
 

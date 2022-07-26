@@ -162,7 +162,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     private PrinterFactory printerFactory;
     private ArrayList<PrinterInterface> printerInterfaceArrayList = new ArrayList<>();
     private PrinterInterface curPrinterInterface = null;
-    public static boolean isTVMode =false;
+    public static boolean isTVMode = false;
 //    public static double exg_rate,div_rate=0;
 
     @Override
@@ -179,22 +179,27 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         sh_printer = getSharedPreferences("printer", MODE_PRIVATE);
         sh_ptype = getSharedPreferences("ptype", MODE_PRIVATE);
         bt_printer = getSharedPreferences("bt", MODE_PRIVATE);
-        SwitchCompat switchCompat=findViewById(R.id.switchBtn);
+        SwitchCompat switchCompat = findViewById(R.id.switchBtn);
 
+        isTVMode = sh_printer.getBoolean("isTVMode", false);
+        //added by KLM  for auto Detect if Device is TV or Tablet 25052022
+        if (checkIsTelevision() || SunmiPrintHelper.getInstance().checkSunmiPrinter()) {
+            switchCompat.setVisibility(View.GONE);
+            isTVMode = true;
+            SharedPreferences.Editor editor = sh_printer.edit();
+            editor.putBoolean("isTVMode", isTVMode);
+            editor.apply();
+        }
+        switchCompat.setChecked(isTVMode);
         switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isTVMode =switchCompat.isChecked();
+                isTVMode = switchCompat.isChecked();
+                SharedPreferences.Editor editor = sh_printer.edit();
+                editor.putBoolean("isTVMode", switchCompat.isChecked());
+                editor.apply();
             }
         });
-        if(isTVMode){
-            switchCompat.setChecked(true);
-        }
-        //added by KLM  for auto Detect if Device is TV or Tablet 25052022
-        if(checkIsTelevision() || SunmiPrintHelper.getInstance().checkSunmiPrinter()){
-            switchCompat.setVisibility(View.GONE);
-            isTVMode=true;
-        }
         setUI();
         Detect_Font();
 

@@ -193,8 +193,6 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
     }
 
     private static void addData(String usr_code) {
-
-
         int defUnit = frmmain.defunit;
         int[] ut = new int[3];
         int i = 0;
@@ -249,9 +247,6 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
                     }
                     cursor.close();
                 }
-//                sale_entry_tv.itemAdapter.notifyDataSetChanged();
-//                sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
-//                sale_entry_tv.getSummary();
 
             } else {
                 int utt = 2;
@@ -299,9 +294,6 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
                     cursor.close();
                 }
-//                sale_entry_tv.itemAdapter.notifyDataSetChanged();
-//                sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
-//                sale_entry_tv.getSummary();
             }
 
         } else if (i == 1 || defUnit == 1) {
@@ -345,9 +337,6 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
 
                 cursor.close();
             }
-//            sale_entry_tv.itemAdapter.notifyDataSetChanged();
-//            sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
-//            sale_entry_tv.getSummary();
         }
 
         if (formname.equals("Sale")) {
@@ -390,17 +379,11 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
             sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_percent(discount);
             double disprice = sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).getSale_price() - (sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).getSale_price() * (discount / 100));
             sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_price(disprice);
-//            sale_entry_tv.itemAdapter.notifyDataSetChanged();
-//            sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
-//            sale_entry_tv.getSummary();
 
         } else if (dis_price > 0) {
             sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_type(5);
             //double disprice = sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).getSale_price() - dis_price;
             sale_entry_tv.sd.get(sale_entry_tv.sd.size() - 1).setDis_price(dis_price);
-//            sale_entry_tv.itemAdapter.notifyDataSetChanged();
-//            sale_entry_tv.entrygrid.smoothScrollToPosition(sale_entry_tv.sd.size());
-//            sale_entry_tv.getSummary();
         }
 
     }
@@ -414,9 +397,9 @@ public class UsrcodeAdapter extends RecyclerView.Adapter<UsrcodeAdapter.MyViewHo
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
-                    useUserpricelevel = cursor.getInt(cursor.getColumnIndex("use_user_pricelevel")) == 1 ? true : false;
-                    useCustpricelevel = cursor.getInt(cursor.getColumnIndex("use_cust_pricelevel")) == 1 ? true : false;
-                    useSpecialPrice = cursor.getInt(cursor.getColumnIndex("use_specialprice")) == 1 ? true : false;
+                    useUserpricelevel = cursor.getInt(cursor.getColumnIndex("use_user_pricelevel")) == 1;
+                    useCustpricelevel = cursor.getInt(cursor.getColumnIndex("use_cust_pricelevel")) == 1;
+                    useSpecialPrice = cursor.getInt(cursor.getColumnIndex("use_specialprice")) == 1;
                 } while (cursor.moveToNext());
 
             }
