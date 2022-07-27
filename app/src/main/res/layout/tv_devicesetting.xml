@@ -358,7 +358,7 @@
                 android:textSize="18sp" />
 
             <LinearLayout
-                android:id="@+id/layout_btprinter"
+                android:id="@+id/layout_btprinterdfdf"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

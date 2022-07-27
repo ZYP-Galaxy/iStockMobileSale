@@ -61,8 +61,8 @@ import com.abbp.istockmobilesalenew.CashAdapter;
 import com.abbp.istockmobilesalenew.CustGroupAdapter;
 import com.abbp.istockmobilesalenew.CustomerAdapter;
 import com.abbp.istockmobilesalenew.DatabaseHelper;
-import com.abbp.istockmobilesalenew.DisTypeAdapter;
-import com.abbp.istockmobilesalenew.Dis_Type;
+
+
 import com.abbp.istockmobilesalenew.GetAppSetting;
 import com.abbp.istockmobilesalenew.GetTranid;
 import com.abbp.istockmobilesalenew.GlobalClass;
