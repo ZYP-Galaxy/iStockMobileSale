@@ -150,7 +150,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
             }
             cursor.close();
             if (useCustpricelevel) {
-                String sSql = "select pricelevel from customer where customerid =" + sale_entry.sh.get(0).getCustomerid();
+                String sSql = "select pricelevel from customer where customerid =" + sale_entry_tv.sh.get(0).getCustomerid();
                 cursor = DatabaseHelper.rawQuery(sSql);
                 if (cursor != null && cursor.getCount() != 0) {
                     if (cursor.moveToFirst()) {
@@ -267,73 +267,73 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                         da.dismiss();
                     }
                 } else {
-                    sale_entry.sd.get(itemposition).setUnit_type(data.get(position).getUnit_type());
-                    sale_entry.sd.get(itemposition).setUnit_short(data.get(position).getShortdes());
+                    sale_entry_tv.sd.get(itemposition).setUnit_type(data.get(position).getUnit_type());
+                    sale_entry_tv.sd.get(itemposition).setUnit_short(data.get(position).getShortdes());
                     String price_level = GetSpecialPriceLevel();
-                    sale_entry.sd.get(itemposition).setPriceLevel(price_level);
+                    sale_entry_tv.sd.get(itemposition).setPriceLevel(price_level);
 
 
                     int level = 0;
                     switch (price_level) {
                         case "SP":
-                            sale_entry.sd.get(itemposition).setSale_price(data.get(position).getSale_price());
-                            sale_entry.sd.get(itemposition).setDis_price(data.get(position).getSale_price());
-                            sale_entry.sd.get(itemposition).setDis_type(0);
+                            sale_entry_tv.sd.get(itemposition).setSale_price(data.get(position).getSale_price());
+                            sale_entry_tv.sd.get(itemposition).setDis_price(data.get(position).getSale_price());
+                            sale_entry_tv.sd.get(itemposition).setDis_type(0);
                             level = 0;
 
                             break;
                         case "SP1":
-                            sale_entry.sd.get(itemposition).setSale_price(data.get(position).getSale_Price1());
-                            sale_entry.sd.get(itemposition).setDis_price(data.get(position).getSale_Price1());
-                            sale_entry.sd.get(itemposition).setDis_type(0);
+                            sale_entry_tv.sd.get(itemposition).setSale_price(data.get(position).getSale_Price1());
+                            sale_entry_tv.sd.get(itemposition).setDis_price(data.get(position).getSale_Price1());
+                            sale_entry_tv.sd.get(itemposition).setDis_type(0);
                             level = 1;
                             break;
                         case "SP2":
-                            sale_entry.sd.get(itemposition).setSale_price(data.get(position).getSale_price2());
-                            sale_entry.sd.get(itemposition).setDis_price(data.get(position).getSale_price2());
-                            sale_entry.sd.get(itemposition).setDis_type(0);
+                            sale_entry_tv.sd.get(itemposition).setSale_price(data.get(position).getSale_price2());
+                            sale_entry_tv.sd.get(itemposition).setDis_price(data.get(position).getSale_price2());
+                            sale_entry_tv.sd.get(itemposition).setDis_type(0);
                             level = 2;
                             break;
                         case "SP3":
-                            sale_entry.sd.get(itemposition).setSale_price(data.get(position).getSale_price3());
-                            sale_entry.sd.get(itemposition).setDis_price(data.get(position).getSale_price3());
-                            sale_entry.sd.get(itemposition).setDis_type(0);
+                            sale_entry_tv.sd.get(itemposition).setSale_price(data.get(position).getSale_price3());
+                            sale_entry_tv.sd.get(itemposition).setDis_price(data.get(position).getSale_price3());
+                            sale_entry_tv.sd.get(itemposition).setDis_type(0);
                             level = 3;
                             break;
                     }
-                    sale_entry.sd.get(itemposition).setQty(sale_entry.sd.get(itemposition).getUnit_qty() * data.get(position).getSmallest_unit_qty());
+                    sale_entry_tv.sd.get(itemposition).setQty(sale_entry_tv.sd.get(itemposition).getUnit_qty() * data.get(position).getSmallest_unit_qty());
                     if (showqty) {
-                        sale_entry.editUnit_type = data.get(position).getUnit_type();
-                        sale_entry.txtshowUnit.setText(data.get(position).getShortdes());
-                        txtprice.setText(String.valueOf(sale_entry.sd.get(itemposition).getSale_price()));
+                        sale_entry_tv.editUnit_type = data.get(position).getUnit_type();
+                        sale_entry_tv.txtshowUnit.setText(data.get(position).getShortdes());
+                        txtprice.setText(String.valueOf(sale_entry_tv.sd.get(itemposition).getSale_price()));
                         double qty = Double.parseDouble(txtunit_qty.getText().toString()) * data.get(position).getSmallest_unit_qty();
                         txtqty.setText(String.valueOf(qty));
-                        double amt = Double.parseDouble(txtunit_qty.getText().toString()) * sale_entry.sd.get(itemposition).getSale_price();
+                        double amt = Double.parseDouble(txtunit_qty.getText().toString()) * sale_entry_tv.sd.get(itemposition).getSale_price();
                         txtnet.setText(String.valueOf(amt));
                         btnDiscount.setText("Normal");
-                        sale_entry.txtsmqty.setText(String.valueOf(getsqty(sale_entry.sd.get(itemposition).getCode(), data.get(position).getUnit_type())));
-                        sale_entry.txtsprice.setText(String.valueOf(getSprice(sale_entry.sd.get(itemposition).getCode())));
-                        sale_entry.getSummary();
+                        sale_entry_tv.txtsmqty.setText(String.valueOf(getsqty(sale_entry_tv.sd.get(itemposition).getCode(), data.get(position).getUnit_type())));
+                        sale_entry_tv.txtsprice.setText(String.valueOf(getSprice(sale_entry_tv.sd.get(itemposition).getCode())));
+                        sale_entry_tv.getSummary();
                         row_index = position;
-                        sale_entry.pad = new priceLevelAdapter(context, itemposition, sale_entry.txtChangePrice, sale_entry.txtChangeQty, sale_entry.txtamt, level);
-                        sale_entry.rcvSP.setAdapter(sale_entry.pad);
+                        sale_entry_tv.pad = new priceLevelAdapter(context, itemposition, sale_entry_tv.txtChangePrice, sale_entry_tv.txtChangeQty, sale_entry_tv.txtamt, level);
+                        sale_entry_tv.rcvSP.setAdapter(sale_entry_tv.pad);
                         GridLayoutManager gridPricelevel = new GridLayoutManager(context, 4);
-                        sale_entry.rcvSP.setLayoutManager(gridPricelevel);
-                        SummaryFormat(txtprice, sale_entry.sd.get(itemposition).getSale_price());
+                        sale_entry_tv.rcvSP.setLayoutManager(gridPricelevel);
+                        SummaryFormat(txtprice, sale_entry_tv.sd.get(itemposition).getSale_price());
                         SummaryFormat(txtnet, amt);
-                        sale_entry.uad.notifyDataSetChanged();
+                        sale_entry_tv.uad.notifyDataSetChanged();
 
 
                     } else {
-                        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry.sd.get(itemposition).getCode() +
-                                " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type()
+                        Cursor cursor = DatabaseHelper.rawQuery("select smallest_unit_qty from usr_code where code=" + sale_entry_tv.sd.get(itemposition).getCode() +
+                                " and unit_type=" + sale_entry_tv.sd.get(itemposition).getUnit_type()
                         );
                         if (cursor != null && cursor.getCount() != 0) {
                             if (cursor.moveToFirst()) {
                                 do {
                                     double sqty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
-                                    double gallon = sale_entry.sd.get(itemposition).getUnit_qty() * sqty;
-                                    sale_entry.sd.get(itemposition).setGallon(gallon);
+                                    double gallon = sale_entry_tv.sd.get(itemposition).getUnit_qty() * sqty;
+                                    sale_entry_tv.sd.get(itemposition).setGallon(gallon);
 
                                 } while (cursor.moveToNext());
 
@@ -341,8 +341,8 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
 
                         }
                         cursor.close();
-                        sale_entry.itemAdapter.notifyDataSetChanged();
-                        sale_entry.getSummary();
+                        sale_entry_tv.itemAdapter.notifyDataSetChanged();
+                        sale_entry_tv.getSummary();
                         da.dismiss();
                     }
                 }
@@ -463,7 +463,7 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
                 }
             }
         } else {
-            price_level = sale_entry.sd.get(itemposition).getPriceLevel();
+            price_level = sale_entry_tv.sd.get(itemposition).getPriceLevel();
             long level = 0;
             boolean useUserpricelevel = false;
             boolean useCustpricelevel = false;
@@ -483,9 +483,9 @@ public class UnitAdapter extends RecyclerView.Adapter<UnitAdapter.MyViewHolder> 
             cursor.close();
 
             if (useSpecialPrice) {
-                String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry.sd.get(itemposition).getCode() +
-                        " and unit_type=" + sale_entry.sd.get(itemposition).getUnit_type() + " and ( " +
-                        sale_entry.sd.get(itemposition).getUnit_qty() + " between min_qty and max_qty)";
+                String sql = "select sale_price,price_level from S_SalePrice where code=" + sale_entry_tv.sd.get(itemposition).getCode() +
+                        " and unit_type=" + sale_entry_tv.sd.get(itemposition).getUnit_type() + " and ( " +
+                        sale_entry_tv.sd.get(itemposition).getUnit_qty() + " between min_qty and max_qty)";
                 cursor = DatabaseHelper.rawQuery(sql);
 
                 if (cursor != null && cursor.getCount() != 0) {

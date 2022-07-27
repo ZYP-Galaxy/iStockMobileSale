@@ -155,11 +155,10 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/usericon"
                             android:ems="10"
-                            android:hint="User"
+                            android:hint="  User"
                             android:imeOptions="actionDone|flagNoExtractUi"
                             android:inputType="none"
                             android:textColor="@color/black"
-
                             android:textColorHint="@color/black"
                             android:textIsSelectable="true" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -245,7 +244,7 @@
                 android:layout_marginBottom="10dp"
                 android:fontFamily="serif"
                 android:text="@string/app_version"
-                android:textColor="#2F4658"
+                android:textColor="#08263C"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

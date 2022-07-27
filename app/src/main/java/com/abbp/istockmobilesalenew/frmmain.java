@@ -55,7 +55,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     public static boolean Allow_SaleOrder;
     public static boolean All_Users;
     AlertDialog dialog, msg, downloadAlert;
-    public static double exg_rate, div_rate = 0;
+    public static double exg_rate, div_rate = 1;
     public static String currencyshort = "MMK";
 
 
