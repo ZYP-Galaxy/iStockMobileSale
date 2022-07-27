@@ -1,5 +1,9 @@
 package com.abbp.istockmobilesalenew;
 
+import androidx.annotation.NonNull;
+
+import org.jetbrains.annotations.NotNull;
+
 public class unitforcode {
     int code;
     String usr_code;
@@ -113,5 +117,12 @@ public class unitforcode {
 
     public void setSmallest_unit_qty(double smallest_unit_qty) {
         this.smallest_unit_qty = smallest_unit_qty;
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public String toString() {
+        return unitname;
     }
 }
