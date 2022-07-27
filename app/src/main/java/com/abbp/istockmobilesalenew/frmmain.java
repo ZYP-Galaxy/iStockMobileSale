@@ -11,6 +11,9 @@ import androidx.cardview.widget.CardView;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abbp.istockmobilesalenew.tvsale.sale_entry_tv;
@@ -35,8 +38,6 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     AlertDialog showmsg;
 
     private RequestQueue requestQueue;
-
-    //private TextView txtUsername;
     public static int qty_places = 0;
     public static int price_places = 0;
     public static String withoutclass = "true";
@@ -71,7 +72,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         usedefaultcurrency = getAppSetting.getSetting_Value().toLowerCase().equals("y");
         //added by KLM to calculate Currency 24062022
         isusemulticurrency();
-        if (use_multicurrency) {
+        if (use_multicurrency && !frmlogin.isTVMode) {
             GetExg_Rate();
         }
 
@@ -126,8 +127,11 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         cardlogout = findViewById(R.id.cardlogout);
         cardreturnin = findViewById(R.id.cardreturnin);
         cardreturninlist = findViewById(R.id.cardreturninlist);
-        // txtUsername=(TextView)findViewById(R.id.txtUsername);
-        //txtUsername.setText("   "+frmlogin.username);
+        TextView shopName = findViewById(R.id.shopname);
+        shopName.setText(GlobalClass.GetSystemSetting("title"));
+        TextView txtUsername = findViewById(R.id.txt_username);
+        txtUsername.setText(frmlogin.username);
+        RelativeLayout headerLayout = findViewById(R.id.layout_header);
 
         cardsale.setOnClickListener(this);
         cardsaleOrder.setOnClickListener(this);//added by YLT on [20-04-2020]
@@ -160,6 +164,9 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
             cardreturnin.setVisibility(View.GONE);
             cardreturninlist.setVisibility(View.GONE);
             frmmain.withoutclass = "false";
+            headerLayout.setVisibility(View.VISIBLE);
+        } else {
+            headerLayout.setVisibility(View.GONE);
         }
 
     }
@@ -364,10 +371,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
 
 
             case R.id.cardlogout:
-                UnLockUser(frmlogin.LoginUserid);
-                intent = new Intent(frmmain.this, frmlogin.class);
-                startActivity(intent);
-                finish();
+                onBackPressed();
                 break;
 
 
@@ -422,11 +426,8 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         final Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 DatabaseHelper.execute("delete from Login_User where userid=" + frmlogin.LoginUserid);
             }
-
-
         };
 
         final Response.ErrorListener error = new Response.ErrorListener() {
@@ -435,7 +436,6 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 Toast.makeText(frmmain.this, error.getMessage(), Toast.LENGTH_LONG).show();
             }
         };
-
 
         StringRequest req = new StringRequest(Request.Method.GET, Url, listener, error);
         requestQueue.add(req);

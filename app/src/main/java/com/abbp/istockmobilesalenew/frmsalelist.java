@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -583,7 +584,6 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(frmsalelist.this, frmmain.class);
         startActivity(intent);
         finish();
@@ -598,8 +598,9 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
 //            url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader'?userid=" + frmlogin.LoginUserid + "&uid=" + FilterUser.uid + "&fdate=" + dateFormat.format(fdate) + "&tdate=" + dateFormat.format(tdate) + "&ccid=" + FilterCustomer.ccid + "&locid=" + FilterLocation.locid + "&brandid=" + FilterBrand.uid + "&language=" + frmlogin.Font_Language + "&formname=sale";
-            url = "http://" + ip + "/api/DataSync/GetEnqList?userid=" + frmlogin.LoginUserid + "&uid=" + FilterUser.uid + "&fdate=" + dateFormat.format(fdate) + "&tdate=" + dateFormat.format(tdate) + "&ccid=" + FilterCustomer.ccid + "&locid=" + FilterLocation.locid + "&brandid=" + FilterBrand.uid + "&language=" + frmlogin.Font_Language + "&entryStatus=1";
 //            url = ip+"/api/DataSync/GetSaleList?userid="+frmlogin.LoginUserid+"&uid="+FilterUser.uid+"&fdate="+dateFormat.format(fdate)+"&tdate="+dateFormat.format(tdate)+"&ccid="+FilterCustomer.ccid+"&locid="+FilterLocation.locid+"&brandid="+FilterBrand.uid+"&language="+frmlogin.Font_Language+ "&entryStatus=1";
+            url = "http://" + ip + "/api/DataSync/GetEnqList?userid=" + frmlogin.LoginUserid + "&uid=" + FilterUser.uid + "&fdate=" + dateFormat.format(fdate) + "&tdate=" + dateFormat.format(tdate) + "&ccid=" + FilterCustomer.ccid + "&locid=" + FilterLocation.locid + "&brandid=" + FilterBrand.uid + "&language=" + frmlogin.Font_Language + "&entryStatus=1";
+            Log.i("salelist", url);
             requestQueue = Volley.newRequestQueue(listcontext);
             final Response.Listener<String> listener = new Response.Listener<String>() {
                 @Override
