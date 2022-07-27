@@ -34,7 +34,7 @@ androidx.appcompat.app.AlertDialog da;
 //            contextString=context.getClass().toString();
 //            Log.i("Customer",contextString);
             contextString=context.getClass().toString().split("com.abbp.istockmobilesalenew.")[1];
-//            System.out.println(contextString+"fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"+context.getClass().toString().split("com.abbp.istockmobilesalenew.")[0]);
+
             Log.i("Customer new",contextString);
     }
     public CustomerAdapter(Context context, ArrayList<customer> data, Button btn, Button btnpay, androidx.appcompat.app.AlertDialog da, String frm) {
