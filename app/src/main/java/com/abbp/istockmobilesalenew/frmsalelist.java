@@ -27,6 +27,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.abbp.istockmobilesalenew.tvsale.sale_entry_tv;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -172,11 +173,14 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
         findViewById(R.id.imgAdd).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(frmsalelist.this, sale_entry.class);
+                Intent intent;
+                if (frmlogin.isTVMode) {
+                    intent = new Intent(frmsalelist.this, sale_entry_tv.class);
+                } else {
+                    intent = new Intent(frmsalelist.this, sale_entry.class);
+                }
                 startActivity(intent);
                 finish();
-
             }
         });
         findViewById(R.id.imgEdit).setOnClickListener(new View.OnClickListener() {
@@ -202,7 +206,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                 showfiltermenu();
             }
         });
-//Added by abbp sale list filter on 12/7/2019
+        //Added by abbp sale list filter on 12/7/2019
         selectfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -526,7 +530,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
 //                        " ORDER BY DATE ASC,sh.tranid desc,docid ";//added sh.tranid by KLM
                 String sqlstring = "select sh.tranid,ifnull(invoice_no,docid) docid,sh.date,p.short user_short,c.customer_name,pt.short pay_type,sh.net_amount,cur.short " +
                         " from Sale_Head_Main sh join Posuser p on p.userid=sh.userid join customer c on c.customerid=sh.customerid join Payment_Type pt on pt.pay_type=sh.pay_type" +
-                        " join Currency cur on cur.currency=sh.currency "+
+                        " join Currency cur on cur.currency=sh.currency " +
                         filter +
                         " ORDER BY DATE ASC,sh.tranid desc,docid ";//added sh.tranid by KLM
                 Cursor cursor = DatabaseHelper.rawQuery(sqlstring);
@@ -538,7 +542,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                             String docid = cursor.getString(cursor.getColumnIndex("docid"));
                             String pay_type = cursor.getString(cursor.getColumnIndex("pay_type"));
                             String dateStr = cursor.getString(cursor.getColumnIndex("date"));
-                            String currShort=cursor.getString(cursor.getColumnIndex("short"));
+                            String currShort = cursor.getString(cursor.getColumnIndex("short"));
 
                             if (dateStr.split("/").length > 1) {
                                 String[] ds = dateStr.split("/");
@@ -565,7 +569,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                 if (frmlogin.hide_sale_summary == 1) {
                     txtTotal.setText("0");
                 } else {
-                    txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total)+" "+frmmain.currencyshort);
+                    txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total) + " " + frmmain.currencyshort);
                 }
                 pb.dismiss();
 
@@ -594,7 +598,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
             String ip = sh_ip.getString("ip", "empty");
             String port = sh_port.getString("port", "empty");
 //            url = "http://" + ip + ":" + port + "/api/DataSync/GetHeader'?userid=" + frmlogin.LoginUserid + "&uid=" + FilterUser.uid + "&fdate=" + dateFormat.format(fdate) + "&tdate=" + dateFormat.format(tdate) + "&ccid=" + FilterCustomer.ccid + "&locid=" + FilterLocation.locid + "&brandid=" + FilterBrand.uid + "&language=" + frmlogin.Font_Language + "&formname=sale";
-            url = "http://" + ip+"/api/DataSync/GetEnqList?userid="+frmlogin.LoginUserid+"&uid="+FilterUser.uid+"&fdate="+dateFormat.format(fdate)+"&tdate="+dateFormat.format(tdate)+"&ccid="+FilterCustomer.ccid+"&locid="+FilterLocation.locid+"&brandid="+FilterBrand.uid+"&language="+frmlogin.Font_Language+ "&entryStatus=1";
+            url = "http://" + ip + "/api/DataSync/GetEnqList?userid=" + frmlogin.LoginUserid + "&uid=" + FilterUser.uid + "&fdate=" + dateFormat.format(fdate) + "&tdate=" + dateFormat.format(tdate) + "&ccid=" + FilterCustomer.ccid + "&locid=" + FilterLocation.locid + "&brandid=" + FilterBrand.uid + "&language=" + frmlogin.Font_Language + "&entryStatus=1";
 //            url = ip+"/api/DataSync/GetSaleList?userid="+frmlogin.LoginUserid+"&uid="+FilterUser.uid+"&fdate="+dateFormat.format(fdate)+"&tdate="+dateFormat.format(tdate)+"&ccid="+FilterCustomer.ccid+"&locid="+FilterLocation.locid+"&brandid="+FilterBrand.uid+"&language="+frmlogin.Font_Language+ "&entryStatus=1";
             requestQueue = Volley.newRequestQueue(listcontext);
             final Response.Listener<String> listener = new Response.Listener<String>() {
@@ -605,8 +609,8 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                         if (salelists.size() > 0) {
                             salelists.clear();
                         }
-                        if(frmlogin.Font_Language.equals("Zawgyi")){
-                            response= Rabbit.uni2zg(response);
+                        if (frmlogin.Font_Language.equals("Zawgyi")) {
+                            response = Rabbit.uni2zg(response);
                         }
                         JSONArray jarr = new JSONArray(response);
                         for (int i = 0; i < jarr.length(); i++) {
@@ -614,7 +618,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                             int tranid = obj.getInt("tranid");
                             String docid = obj.getString("docid");
                             String currency = obj.getString("currency");
-                            int currencyid=obj.getInt("currencyid");
+                            int currencyid = obj.getInt("currencyid");
                             String pay_type = obj.getString("pay_type");
                             String dateStr = obj.getString("date");
                             double net_amount = obj.getDouble("net_amount");
@@ -624,8 +628,8 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                             String customer_name = obj.getString("customer_name");
 
                             salelists.add(new salelist(tranid, dateStr, docid, pay_type, currency, net_amount, usershort, customer_name));
-                            if(frmmain.use_multicurrency&&currencyid!=1){
-                                net_amount=usrcodeAdapter.GetCurrencyPrice(net_amount,currencyid);
+                            if (frmmain.use_multicurrency && currencyid != 1) {
+                                net_amount = usrcodeAdapter.GetCurrencyPrice(net_amount, currencyid);
                             }
                             total += net_amount;
 
@@ -635,7 +639,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
                         if (frmlogin.hide_sale_summary == 1) {
                             txtTotal.setText("0");
                         } else {
-                            txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total)+" "+frmmain.currencyshort);
+                            txtTotal.setText(String.format("%,." + frmmain.price_places + "f", total) + " " + frmmain.currencyshort);
                         }
                         pb.dismiss();
                     } catch (JSONException e) {

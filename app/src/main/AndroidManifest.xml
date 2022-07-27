@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.abbp.istockmobilesalenew">
 
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -43,7 +44,7 @@
         <activity
             android:name=".tvsale.sale_entry_tv"
             android:screenOrientation="landscape"
-            android:theme="@style/Theme2" />
+            android:theme="@style/Theme3" />
         <activity
             android:name=".saleorder_entry"
             android:screenOrientation="landscape"

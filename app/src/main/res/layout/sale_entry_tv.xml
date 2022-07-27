@@ -274,7 +274,8 @@
                         android:text="Liter"
                         android:textColor="@color/black"
                         android:textSize="12sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/qty"
@@ -504,7 +505,7 @@
                                     android:layout_toEndOf="@+id/txtNet"
                                     android:gravity="end"
                                     android:text="0"
-                                    android:textColor="#00C853"
+                                    android:textColor="@color/green"
                                     android:textSize="22sp"
                                     android:textStyle="bold" />
                             </RelativeLayout>
@@ -839,7 +840,7 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/bg_button"
-                            android:backgroundTint="#00C853"
+                            android:backgroundTint="@color/green"
                             android:padding="5dp">
 
                             <ImageButton

@@ -842,7 +842,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                     builder.setMessage("Please check and reconnect your network");
                     builder.setTitle("iStock");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -855,12 +855,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         }
                     });
                     dialog = builder.create();
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialog1) {
-                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                        }
-                    });
                     dialog.show();
                 }
             };
@@ -869,7 +863,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
 
         } catch (Exception ee) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
             builder.setMessage(ee.getMessage());
             builder.setTitle("iStock");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -882,12 +876,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 }
             });
             dialog = builder.create();
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog1) {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                }
-            });
             dialog.show();
 
         }
@@ -1506,7 +1494,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                             entrygrid.setAdapter(itemAdapter);
                             String tax = "Tax" + (getTax() > 0 ? "( " + getTax() + "% )" : "");
                             txttax.setText(tax);
-                            txtfoc.setText("0.00");
+                            txtfoc.setText(CurrencyFormat(0.0));
                             sh.get(0).setIstemdis_amount(0.0);
                             sh.get(0).setTax_per(getTax());
                             sh.get(0).setTax_amount(0.0);
@@ -2072,7 +2060,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                     builder.setMessage("Please check and reconnect your network");
                     builder.setTitle("iStock");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -2085,12 +2073,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         }
                     });
                     dialog = builder.create();
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialog1) {
-                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                        }
-                    });
                     dialog.show();
                 }
             };
@@ -2102,7 +2084,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
 
         } catch (Exception ee) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
             builder.setMessage(ee.getMessage());
             builder.setTitle("iStock");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -2115,12 +2097,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 }
             });
             dialog = builder.create();
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog1) {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                }
-            });
             dialog.show();
 
 
@@ -2237,7 +2213,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                     builder.setMessage("Please check and reconnect your network");
                     builder.setTitle("iStock");
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -2250,12 +2226,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         }
                     });
                     dialog = builder.create();
-                    dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialog1) {
-                            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                        }
-                    });
                     dialog.show();
                 }
             };
@@ -2267,7 +2237,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
 
         } catch (Exception ee) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+            AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
             builder.setMessage(ee.getMessage());
             builder.setTitle("iStock");
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -2280,14 +2250,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 }
             });
             dialog = builder.create();
-            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                @Override
-                public void onShow(DialogInterface dialog1) {
-                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                }
-            });
             dialog.show();
-
 
         }
 
@@ -2490,7 +2453,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 if (!comfirm && sd.size() > 0) {
                     AlertDialog.Builder conf = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
                     conf.setTitle("iStock");
-                    conf.setMessage("Do you Comfirm Voucher? if you do not comfirm,you lost your data");
+                    conf.setMessage("Do you Confirm Voucher? if you do not confirm,you lost your data");
                     conf.setCancelable(false);
                     conf.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -3513,7 +3476,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     int TaxCal = 0;
                     Cursor cursor = DatabaseHelper.rawQuery(sqlString);
                     if (cursor != null && cursor.getCount() > 0) {
-                        AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry_tv.this);
+                        AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                         bd.setCancelable(false);
                         bd.setTitle("iStock");
                         bd.setMessage("This name alredy exists. Do you want to create?");
@@ -3539,19 +3502,10 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                             }
                         });
                         msg = bd.create();
-                        msg.setOnShowListener(new DialogInterface.OnShowListener() {
-                            @Override
-                            public void onShow(DialogInterface dialog) {
-                                msg.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                                msg.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.BLACK);
-                            }
-                        });
                         msg.show();
 
 
-                    }
-                    ///
-                    else {
+                    } else {
                         if (frmlogin.Font_Language.equals("Unicode")) {
                             sqlstring = Rabbit.uni2zg(sqlstring);
                         }
@@ -4390,7 +4344,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 if (!salePerson.equals("")) {
                     DatabaseHelper.execute(salePerson);
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                 builder.setTitle("iStock");
                 builder.setMessage("Confirm Successfully (Offline).");
                 builder.setCancelable(false);
@@ -4671,7 +4625,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     public void onResponse(String response) {
 
                         try {
-                            AlertDialog.Builder b = new AlertDialog.Builder(sale_entry_tv.this);
+                            AlertDialog.Builder b = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                             b.setTitle("iStock");
                             b.setMessage(response);
                             b.setCancelable(false);
@@ -4699,12 +4653,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                 }
                             });
                             dialog = b.create();
-                            dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                                @Override
-                                public void onShow(DialogInterface dialog1) {
-                                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                                }
-                            });
                             dialog.show();
 
                         } catch (Exception e) {
@@ -4719,7 +4667,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     public void onErrorResponse(VolleyError error) {
 
                         progressDialog.dismiss();
-                        AlertDialog.Builder b = new AlertDialog.Builder(sale_entry_tv.this);
+                        AlertDialog.Builder b = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                         b.setTitle("iStock");
                         b.setMessage("Printer is not found!");
                         b.setCancelable(false);
@@ -4747,13 +4695,6 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                             }
                         });
                         dialog = b.create();
-                        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                            @Override
-                            public void onShow(DialogInterface alert) {
-                                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-
-                            }
-                        });
                         dialog.show();
 
                     }
@@ -6522,7 +6463,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     ConfirmedTranid = Long.parseLong(value[0]);
                     docid = value[1];
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                 builder.setTitle("iStock");
                 if (ConfirmedTranid > 0) {
                     sh.get(0).setDocid(docid);
@@ -6572,7 +6513,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         docid = value[1];
                     }
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry_tv.this, R.style.AlertDialogTheme);
                     builder.setTitle("iStock");
                     if (ConfirmedTranid > 0) {
                         sh.get(0).setDocid(docid);
@@ -6604,10 +6545,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
             final Response.ErrorListener error = error1 -> {
                 progressDialog.dismiss();
-
                 GlobalClass.showAlertDialog(sale_entry_tv.this, "iStock",
                         "Check your network connection.\nTry Again.");
-
 
             };
 

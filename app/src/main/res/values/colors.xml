@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <color name="colorPrimary">#E87D2D</color>
+    <color name="colorPrimaryDark">#101010</color>
+    <color name="colorAccent">#2C3B46</color>
+
     <color name="colorPrimary1">#FF610583</color>
     <color name="colorPrimaryDark1">#111</color>
     <color name="colorAccent1">#9708cc</color>
@@ -16,7 +21,7 @@
     <color name="Cyan">#9708cc</color>
     <color name="secbarcolor">#4DB6FA</color>
     <color name="DatePickerDialog">#2f8eb3</color>
-
+    <color name="green">#00C853</color>
 
     <color name="headerinfo">#4b5d67</color>
     <color name="headerbar">#235667</color>
