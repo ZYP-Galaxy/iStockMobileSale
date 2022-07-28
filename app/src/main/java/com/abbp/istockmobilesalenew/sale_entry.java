@@ -3481,10 +3481,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             bd.setView(view);
             RecyclerView rv = view.findViewById(R.id.rcvChange);
             ImageButton imgClose = view.findViewById(R.id.imgNochange);
+
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnSalesmen.setText("Choose");
+                    if(name.equals("Salesmen")){
+                        btnSalesmen.setText("Choose");
+                    }
+
                     da.dismiss();
                 }
             });
