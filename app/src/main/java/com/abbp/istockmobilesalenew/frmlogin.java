@@ -24,6 +24,7 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -166,6 +167,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     private PrinterInterface curPrinterInterface = null;
     public static boolean isTVMode = false;
 //    public static double exg_rate,div_rate=0;
+    public static String lastDownloadedDateTime="2000-01-01";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,6 +186,9 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         SwitchCompat switchCompat = findViewById(R.id.switchBtn);
 
         isTVMode = sh_printer.getBoolean("isTVMode", false);
+        lastDownloadedDateTime=sh_printer.getString("DateTime","2000-01-01");
+        Log.i("lastDownloadedDateTime",lastDownloadedDateTime);
+
         //added by KLM  for auto Detect if Device is TV or Tablet 25052022
         if (checkIsTelevision() || SunmiPrintHelper.getInstance().checkSunmiPrinter()) {
             switchCompat.setVisibility(View.GONE);
@@ -844,6 +849,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         Response.Listener listener = new Response.Listener() {
             @Override
             public void onResponse(Object response) {
+                lastDownloadedDateTime="2000-01-01";
+                ClearData();
 
                 final String[] result = response.toString().split("/");
                 AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
@@ -957,8 +964,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 
 
     }
-
-    private void ResetData() {
+    private void ClearData() {
         sqlString = "delete from Customer";
         DatabaseHelper.execute(sqlString);
         sqlString = "delete from usr_code";
@@ -1026,6 +1032,74 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         DatabaseHelper.execute(sqlString);
     }
 
+    private void ResetData() {
+//        sqlString = "delete from Customer";
+//        DatabaseHelper.execute(sqlString);
+        //sqlString = "delete from usr_code";
+        //DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Posuser";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Location";
+        DatabaseHelper.execute(sqlString);
+
+
+//        sqlString = "delete from SystemSetting";
+//        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Payment_Type";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Dis_Type";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from AppSetting";
+        DatabaseHelper.execute(sqlString);
+
+//        sqlString = "delete from Salesmen";
+//        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Alias_Code";
+        DatabaseHelper.execute(sqlString);
+
+//        sqlString = "delete from usr_code_img";
+//        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from menu_user";
+        DatabaseHelper.execute(sqlString);
+
+//        sqlString = "delete from S_Sprice";
+//        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Sale_Head_Main";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Sale_Det";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Tranid";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Sale_Head_Tmp_Mp";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from SalesVoucher_Salesmen_Tmp";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from cash";
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Pdis";
+        DatabaseHelper.execute(sqlString);
+
+//        sqlString = "delete from S_SalePrice";
+//        DatabaseHelper.execute(sqlString);
+
+//        sqlString = "delete from Currency";
+//        DatabaseHelper.execute(sqlString);
+    }
+
     private boolean CheckOfflineData() {
         boolean check = false;
         String sqlString = "select * from Sale_Head_Main where tranid in(select tranid from Sale_Det)";
@@ -1060,7 +1134,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     ip = sh_ip.getString("ip", "empty");
                     port = sh_port.getString("port", "empty");
 //                    String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?download=true&language=" + frmlogin.Font_Language;
-                    String url = "http://" + ip + "/api/DataSync/DownloadData?download=true&language=" + frmlogin.Font_Language;
+                    String url = "http://" + ip + "/api/DataSync/DownloadData?download=true&language=" + frmlogin.Font_Language+"&lastDownloadedDatetime="+lastDownloadedDateTime;
+                    Log.i("LOGIN",url);
                     RequestQueue request = Volley.newRequestQueue(context);
                     final Response.Listener<String> listener = new Response.Listener<String>() {
                         @Override
@@ -1171,6 +1246,12 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int sspricecount = 0; sspricecount < ssprice.length(); sspricecount++) {
                         JSONObject sspriceobj = ssprice.getJSONObject(sspricecount);
                         long code = sspriceobj.getLong("code");
+                        sqlString = "delete from S_SalePrice where code=" + code;
+                        DatabaseHelper.execute(sqlString);
+                        if (sspriceobj.getBoolean("inactive")) {
+
+                            continue;
+                        }
                         String usr_code = sspriceobj.getString("usr_code");
                         int unit_type = sspriceobj.getInt("unit_type");
                         double min_qty = sspriceobj.getDouble("min_qty");
@@ -1195,6 +1276,11 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         String sql = "insert into AppSetting(Setting_No,Setting_Name,Setting_Value,Remark)" +
                                 " values(" + Setting_No + ",'" + Setting_Name + "','" + Setting_Value + "','" + Remark + "')";
                         DatabaseHelper.execute(sql);
+                        GetAppSetting getAppSetting = new GetAppSetting("lastDownloadedDatetime");
+                        SharedPreferences.Editor editor = sh_printer.edit();
+                        editor.putString("DateTime", getAppSetting.getSetting_Value());
+                        editor.apply();
+
                     }
                     break;
                 case "Posuser":
@@ -1254,6 +1340,12 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int custcount = 0; custcount < cust.length(); custcount++) {
                         JSONObject custobj = cust.getJSONObject(custcount);
                         long customerid = custobj.getLong("customerid");
+                        sqlString = "delete from Customer where customerid=" + customerid;
+                        DatabaseHelper.execute(sqlString);
+                        if (custobj.getBoolean("inactive")) {
+
+                            continue;
+                        }
                         String customername = custobj.optString("customername", "null");
                         String customercode = custobj.optString("customercode", "null");
                         int credit = custobj.optBoolean("credit", false) == true ? 1 : 0;
@@ -1302,6 +1394,13 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 
                         JSONObject codeobj = usr_code.getJSONObject(codecount);
                         long code = codeobj.getLong("code");
+                        int unit_type = codeobj.optInt("unit_type", 1);
+                        sqlString = "delete from Usr_Code where code=" + code+" and unit_type="+unit_type;
+                        DatabaseHelper.execute(sqlString);
+                        if (codeobj.getBoolean("inactive") || codeobj.getBoolean("deleted") ) {
+
+                            continue;
+                        }
                         String usrcode = codeobj.getString("usr_code");
                         String description = codeobj.optString("description", "null");
                         String shortdes = codeobj.optString("shortdes", "null");
@@ -1315,7 +1414,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         double sale_price3 = codeobj.optDouble("sale_price3", 0);
                         int open = codeobj.optBoolean("open_price", false) == true ? 1 : 0;
                         int sale_cur = codeobj.optInt("sale_curr", 1);
-                        int unit_type = codeobj.optInt("unit_type", 1);
+
                         int unit = codeobj.optInt("unit", 0);
                         String unitname = codeobj.optString("unitname", "null");
                         String unitshort = codeobj.optString("unitshort", "null");
@@ -1367,6 +1466,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     JSONArray sys = data.getJSONObject(0).getJSONArray("systemsetting");
 
                     for (int syscount = 0; syscount < sys.length(); syscount++) {
+                        DatabaseHelper.execute("delete from SystemSetting");
                         JSONObject systobj = sys.getJSONObject(syscount);
                         int Use_Tax = systobj.optBoolean("Use_Tax", false) == true ? 1 : 0;
                         double default_tax_percent = systobj.optDouble("default_tax_percent", 0);
@@ -1404,6 +1504,12 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int salesmencount = 0; salesmencount < salesmen.length(); salesmencount++) {
                         JSONObject salesmenobj = salesmen.getJSONObject(salesmencount);
                         int id = salesmenobj.getInt("Salesmen_id");
+                        sqlString = "delete from Salesmen where Salesmen_id=" + id;
+                        DatabaseHelper.execute(sqlString);
+                        if (salesmenobj.getBoolean("inactive")) {
+
+                            continue;
+                        }
                         String name = salesmenobj.optString("Salesmen_Name", "null");
                         String shortdes = salesmenobj.optString("short", "null");
                         int branchid = salesmenobj.getInt("branchid");
@@ -1430,6 +1536,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int usrimgcount = 0; usrimgcount < usrimg.length(); usrimgcount++) {
                         JSONObject usrimgobj = usrimg.getJSONObject(usrimgcount);
                         String usrcode = usrimgobj.optString("usr_code");
+                       // DeleteRecord("usr_code_img","usr_code",usrcode);
+                        DatabaseHelper.execute("delete from usr_code_img where usr_code='"+usrcode+"'");
                         String codeimg = usrimgobj.optString("code_img");
                         String path = usrimgobj.optString("path");
                         sqlString = "insert into usr_code_img(usr_code,code_img,path) values('" + usrcode + "','" + codeimg + "','" + path + "')";
@@ -1456,6 +1564,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int count = 0; count < currencyArr.length(); count++) {
                         JSONObject menuusrobj = currencyArr.getJSONObject(count);
                         int currency = menuusrobj.getInt("currency");
+                        DatabaseHelper.execute("delete from Currency where currency="+currency);
                         String name = menuusrobj.optString("name", "");
                         String shortCur = menuusrobj.optString("short", "");
                         double exg_rate = menuusrobj.optDouble("exg_rate", 0.0);
@@ -1491,6 +1600,10 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
             e.printStackTrace();
         }
 
+    }
+
+    private void DeleteRecord(String tableName, String whereClause, String value) {
+        DatabaseHelper.execute("delete from "+tableName+" where "+whereClause+"='"+value+"'");
     }
 
     private void SignIn() {

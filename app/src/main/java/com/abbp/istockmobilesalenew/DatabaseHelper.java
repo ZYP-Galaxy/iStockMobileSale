@@ -2,6 +2,7 @@ package com.abbp.istockmobilesalenew;
 
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -219,5 +220,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             System.out.println("DB ERROR  " + e.getMessage());
             e.printStackTrace();
         }
+    }
+
+
+    public static void upsertWithOnConflit(String table, String nullColumnHack, ContentValues initialValues, int conflictAlgorithm, String wherestr, String[] priKey) {
+        try {
+
+            if (!sqliteDb.isOpen()) {
+                sqliteDb = instance.getWritableDatabase();
+            }
+
+            int upd = sqliteDb.update(table, initialValues, wherestr, priKey);
+
+            if (upd == 0) {
+                int rd = (int) sqliteDb.insertWithOnConflict(table, null, initialValues, conflictAlgorithm);
+                System.out.println(rd + "this is rd");
+            }
+
+//            System.out.println(table + upd + "This is result!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        } catch (Exception e) {
+            System.out.println("Db Error" + e.getMessage());
+            e.printStackTrace();
+        }
+
     }
 }
