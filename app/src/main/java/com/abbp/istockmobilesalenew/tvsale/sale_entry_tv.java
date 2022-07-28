@@ -4396,7 +4396,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     private void InsertCustomer() {
         String ip = sh_ip.getString("ip", "empty");
         String port = sh_port.getString("port", "empty");
-        String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData?userid=" + frmlogin.LoginUserid + "&language=" + frmlogin.Font_Language + "&allcustomer=" + allcustomer;
+//        String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/SaveData?userid=" + frmlogin.LoginUserid + "&language=" + frmlogin.Font_Language + "&allcustomer=" + allcustomer;
+        String sqlUrl = "http://" + ip + "/api/DataSync/SaveCustomer?userid=" + frmlogin.LoginUserid + "&language=" + frmlogin.Font_Language + "&allcustomer=" + allcustomer;
         new addCust().execute(sqlUrl);
     }
 
