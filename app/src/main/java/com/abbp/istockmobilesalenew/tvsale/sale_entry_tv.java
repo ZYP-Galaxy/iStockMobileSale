@@ -3617,14 +3617,14 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
 
             RelativeLayout rlPaid = v.findViewById(R.id.rlPaid);
-            rlPaid.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    keynum = tvPaid.getText().toString();
-                    fromSaleChange = true;
-                    showKeyPad(tvAmount, tvPaid);
-                }
-            });
+//            rlPaid.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    keynum = tvPaid.getText().toString();
+//                    fromSaleChange = true;
+//                    showKeyPad(tvAmount, tvPaid);
+//                }
+//            });
 //            tvPaid.setOnClickListener(new View.OnClickListener() {
 //                @Override
 //                public void onClick(View v) {
@@ -3634,13 +3634,24 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 //                }
 //            });
 
+
+            //tvPaid.
+            tvPaid.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tvPaid.setText(ClearFormat(tvPaid.getText().toString()));
+                }
+            });
+
             tvPaid.setOnEditorActionListener(new TextView.OnEditorActionListener() {
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     try {
+                        Log.i("tvPaid",tvPaid.getText().toString());
+//                        String a="Khin";
 
                         if (actionId == EditorInfo.IME_ACTION_DONE) {
-                            String paidAmount = tvPaid.getText().toString();
+                            String paidAmount = ClearFormat(tvPaid.getText().toString().trim().isEmpty() ? "0" : tvPaid.getText().toString());
                             fromSaleChange = true;
                             //showKeyPad(tvAmount, tvPaid);
                             if (fromSaleChange) {
@@ -3661,7 +3672,10 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                     bd.create().show();
                                 } else {
                                     changeamount = Double.parseDouble(paidAmount) - Double.parseDouble(ClearFormat(txtnet.getText().toString()));
-                                    SummaryFormat(tvPaid, Double.parseDouble(paidAmount));
+                                    Double paidAmt = Double.parseDouble(paidAmount);
+                                    String numberAsString = String.format("%,." + frmmain.price_places + "f", paidAmt);
+                                    tvPaid.setText(numberAsString);
+//                                    SummaryFormat(tvPaid, Double.parseDouble(paidAmount));
                                     SummaryFormat(tvChange, changeamount);
                                 }
                             }
@@ -3671,10 +3685,11 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                 tvChange.setText(String.valueOf(paidAmount));
                             }
                             frombillcount = false;
-//                        InputMethodManager keyboard = (InputMethodManager)
-//                                getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        keyboard.hideSoftInputFromWindow(tvPaid.getWindowToken(), 0);
+
                         }
+                        //return false;
+
+
                     } catch (Exception ex) {
                         GlobalClass.showAlertDialog(context, "iStock", "Incorrect number format!");
                     }

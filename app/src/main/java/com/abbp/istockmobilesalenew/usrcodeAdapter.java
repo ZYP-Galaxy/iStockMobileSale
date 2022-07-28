@@ -956,8 +956,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
 
         } else if (dis_price > 0) {
             sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_type(5);
-            double disprice = sale_entry.sd.get(sale_entry.sd.size() - 1).getSale_price() - dis_price;
-            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_price(disprice);
+//            double disprice = sale_entry.sd.get(sale_entry.sd.size() - 1).getSale_price() - dis_price;
+            sale_entry.sd.get(sale_entry.sd.size() - 1).setDis_price(dis_price);
             sale_entry.itemAdapter.notifyDataSetChanged();
             sale_entry.entrygrid.setSelection(sale_entry.sd.size());
             sale_entry.getSummary();
