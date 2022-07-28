@@ -1909,7 +1909,10 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnSalesmen.setText("Choose");
+                    if(name.equals("Salesmen")){
+                        btnSalesmen.setText("Choose");
+                    }
+
                     da.dismiss();
                 }
             });

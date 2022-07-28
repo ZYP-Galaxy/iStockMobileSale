@@ -64,16 +64,37 @@ public class SalesmenAdpater extends RecyclerView.Adapter<SalesmenAdpater.MultiV
         this.context = context;
         this.data = data;
         formname = frm;
-        if (saleorder_entry.SaleVouSalesmen.size() > 0) {
-            for (int i = 0; i < saleorder_entry.SaleVouSalesmen.size(); i++) {
-                for (int j = 0; j < data.size(); j++) {
-                    if (data.get(j).getSalesmen_Id() == saleorder_entry.SaleVouSalesmen.get(i).getSalesmen_Id()) {
-                        data.get(j).setChecked(true);
+        contextString = context.getClass().toString().split("com.abbp.istockmobilesalenew.")[1];
+        Log.i("Customer new", contextString);
+        switch (contextString){
+
+            case "saleorder_entry":
+                if (saleorder_entry.SaleVouSalesmen.size() > 0) {
+                    for (int i = 0; i < saleorder_entry.SaleVouSalesmen.size(); i++) {
+                        for (int j = 0; j < data.size(); j++) {
+                            if (data.get(j).getSalesmen_Id() == saleorder_entry.SaleVouSalesmen.get(i).getSalesmen_Id()) {
+                                data.get(j).setChecked(true);
+                            }
+                        }
                     }
+                    setSalesmen(data);
                 }
-            }
-            setSalesmen(data);
+                break;
+            case "returnin_entry":
+                if (returnin_entry.SaleVouSalesmen.size() > 0) {
+                    for (int i = 0; i < returnin_entry.SaleVouSalesmen.size(); i++) {
+                        for (int j = 0; j < data.size(); j++) {
+                            if (data.get(j).getSalesmen_Id() == returnin_entry.SaleVouSalesmen.get(i).getSalesmen_Id()) {
+                                data.get(j).setChecked(true);
+                            }
+                        }
+                    }
+                    setSalesmen(data);
+                }
+                break;
+
         }
+
     }
 
     public void setSalesmen(ArrayList<Salesmen> data) {

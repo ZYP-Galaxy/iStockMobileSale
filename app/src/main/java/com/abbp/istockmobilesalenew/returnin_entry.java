@@ -1933,7 +1933,9 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    btnSalesmen.setText("Choose");
+                    if(name.equals("Salesmen")){
+                        btnSalesmen.setText("Choose");
+                    }
                     da.dismiss();
                 }
             });
@@ -3417,8 +3419,8 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                         "ref_tranid=" + sh.get(0).getSo_id() +
                         " where tranid=" + sh.get(0).getTranid();
 
-                String det = "delete from Returnin_Det where tranid=" + sh.get(0).getTranid() +
-                        " insert into Returnin_Det(tranid,unit_qty,qty,sale_price,dis_price,dis_type,dis_percent,remark,unit_type,code,sr,srno,PriceLevel,rin_id,rin_sr,org_curr,org_exgrate) values ";
+                String det = ";delete from Returnin_Det where tranid=" + sh.get(0).getTranid() +
+                        " ;insert into Returnin_Det(tranid,unit_qty,qty,sale_price,dis_price,dis_type,dis_percent,remark,unit_type,code,sr,srno,PriceLevel,rin_id,rin_sr,org_curr,org_exgrate) values ";
 
 
                 for (int i = 0; i < sd.size(); i++) {
@@ -3489,8 +3491,8 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                 custDis = sh.get(0).getDiscount_per();
                 sqlstring = head + " " + det;
                 if (use_salesperson && SaleVouSalesmen.size() > 0) {
-                    String salePerson = " delete from RInvoucher_salesmen_Tmp where SaleOrd_TranID=" + sh.get(0).getTranid() + " and userid=" + frmlogin.LoginUserid +
-                            "insert into RInvoucher_salesmen_Tmp(SaleOrd_TranID,Salesmen_ID,rmt_copy,userid)" +
+                    String salePerson = " ;delete from RInvoucher_salesmen_Tmp where RIn_TranID=" + sh.get(0).getTranid() + " and userid=" + frmlogin.LoginUserid +
+                            ";insert into RInvoucher_salesmen_Tmp(RIn_TranID,Salesmen_ID,rmt_copy,userid)" +
                             "values ";
                     for (int i = 0; i < SaleVouSalesmen.size(); i++) {
                         salePerson = salePerson + "(" +
