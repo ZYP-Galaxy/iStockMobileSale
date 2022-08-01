@@ -91,8 +91,8 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 } while (cursor.moveToNext());
 
             }
+            cursor.close();
         }
-        cursor.close();
     }
 
     private void getSystemSetting() {

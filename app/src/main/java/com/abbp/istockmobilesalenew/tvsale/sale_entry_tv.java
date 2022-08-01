@@ -4538,7 +4538,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             LinearLayout detailLayout = voucher.findViewById(R.id.detail);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             for (int i = 0; i < sale_entry_tv.sd.size(); i++) {
-                View voucheritem = getLayoutInflater().inflate(R.layout.layout_voucher_item, null);
+                View voucheritem = getLayoutInflater().inflate(R.layout.layout_voucher_item_org, null);
                 TextView tvdescription = voucheritem.findViewById(R.id.txtdescription);
                 TextView tvamount = voucheritem.findViewById(R.id.txtAmount);
                 TextView tvqtyamount = voucheritem.findViewById(R.id.txtQtyPrice);
@@ -4595,6 +4595,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
         if (frmlogin.Confirm_PrintVou == 1 && !bill_not_print && billprintcount > 0) {
             if (use_bluetooth) {
+
                 printView();
                 if (sh.size() > 0) sh.clear();
                 if (sd.size() > 0) sd.clear();
@@ -4612,7 +4613,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     finish();
                 }
 
-            } else {
+            } //use_bluetooth
+            else {
 
                 progressDialog.show();
                 String sqlUrl = "";
@@ -4635,6 +4637,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 }
 //                sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlstring;
                 sqlUrl = "http://" + ip + "/api/DataSync/PrintVoucher?" + sqlstring;
+                Log.i("sale_entry_tv", sqlUrl);
                 requestQueue = Volley.newRequestQueue(this);
                 final Response.Listener<String> listener = new Response.Listener<String>() {
                     @Override
@@ -4738,9 +4741,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 finish();
             }
         }
-
-
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void ChangeVouDate() {

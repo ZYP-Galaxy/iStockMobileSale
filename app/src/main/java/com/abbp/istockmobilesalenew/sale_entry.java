@@ -9,7 +9,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import androidx.print.PrintHelper;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.PopupMenu;
@@ -61,6 +66,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.rt.printerlibrary.exception.SdkException;
 import com.rt.printerlibrary.printer.RTPrinter;
 
 import org.json.JSONArray;
@@ -82,7 +88,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import me.myatminsoe.mdetect.Rabbit;
 
@@ -106,7 +114,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     JSONArray data;
     JSONArray cust;
     AlertDialog addDialog = null;
-    AlertDialog comfirmMsg = null;
+    AlertDialog ConfirmMsg = null;
     RecyclerView rrvv, rrvvc;
     categoryAdapter ad;
     int isCredit = 0;
@@ -160,7 +168,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     public static boolean dis_typepercent = false;
     public static boolean changeheader = false;
     RelativeLayout rlUnit, rlLevel;
-    TextView txtEdit, txtDel, txtDelAll, txtComfirm, txtBack, txtCheckBalance;
+    TextView txtEdit, txtDel, txtDelAll, txtConfirm, txtBack, txtCheckBalance;
     public static TextView txttax;
     RelativeLayout viewEdit, viewDel, viewDelAll, viewConfirm, viewBack, viewCheckBalance;
     public static int Use_Tax = 0;
@@ -200,7 +208,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     // String itemdis="Normal";
     TextView headremark, detremark;
     Intent intent;
-    boolean comfirm = false;
+    boolean Confirm = false;
     DatePickerDialog pickerDialog;
     public static CustGroupAdapter cgd;
     public static TownshipAdapter td;
@@ -264,7 +272,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         def_cashid = frmlogin.def_cashid;
         datacontext = sale_entry.this;
         rlchangePrice = (RelativeLayout) findViewById(R.id.rlchangePrice);
-        comfirm = false;
+        Confirm = false;
         logout = false;
         sh_printer = getSharedPreferences("printer", MODE_PRIVATE);
         sh_ptype = getSharedPreferences("ptype", MODE_PRIVATE);
@@ -594,7 +602,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         txtCheckBalance = findViewById(R.id.txtCheckBalance);
         txtDelAll = findViewById(R.id.txtDelAll);
         txtEdit = findViewById(R.id.txtedit);
-        txtComfirm = findViewById(R.id.txtConfirm);
+        txtConfirm = findViewById(R.id.txtConfirm);
         txtBack = findViewById(R.id.txtBack);
         viewConfirm = findViewById(R.id.viewConfirm);
         viewEdit = findViewById(R.id.viewEdit);
@@ -607,7 +615,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         txtDel.setOnClickListener(this);
         txtDelAll.setOnClickListener(this);
         txtEdit.setOnClickListener(this);
-        txtComfirm.setOnClickListener(this);
+        txtConfirm.setOnClickListener(this);
         txtBack.setOnClickListener(this);
         viewBack.setOnClickListener(this);
         viewDelAll.setOnClickListener(this);
@@ -1259,7 +1267,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         }
 //        sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?sqlstring=" + sqlstring;
         sqlUrl = "http://" + ip + "/api/DataSync/GetData?sqlstring=" + sqlstring;
-        Log.i("sale_entry",sqlUrl);
+        Log.i("sale_entry", sqlUrl);
         requestQueue = Volley.newRequestQueue(this);
         final Response.Listener<String> listener = new Response.Listener<String>() {
             @Override
@@ -1517,11 +1525,11 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
     @Override
     public void onBackPressed() {
-        if (!comfirm && sd.size() > 0) {
+        if (!Confirm && sd.size() > 0) {
             Context context = this;
             AlertDialog.Builder bd = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
             bd.setTitle("iStock");
-            bd.setMessage("Do you Confirm Voucher? if you do not comfirm,you lost your data");
+            bd.setMessage("Do you Confirm Voucher? if you do not confirm,you lost your data");
             bd.setCancelable(false);
             bd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
@@ -1708,7 +1716,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                                 sd.get(i).setTranid(tranid);
                                             }
 
-                                            comfirm = true;
+                                            Confirm = true;
                                             voucherConfirm();
                                         } catch (Exception ee) {
                                             Intent intent = new Intent(sale_entry.this, frmmain.class);
@@ -1726,7 +1734,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 })
                                 .create().show();
                     } else {
-                        comfirm = true;
+                        Confirm = true;
                         voucherConfirm();
                     }
 
@@ -1752,11 +1760,11 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             case R.id.viewBack:
 
 
-                if (!comfirm && sd.size() > 0) {
+                if (!Confirm && sd.size() > 0) {
                     Context context = this;
                     AlertDialog.Builder bd = new AlertDialog.Builder(this, R.style.AlertDialogTheme);
                     bd.setTitle("iStock");
-                    bd.setMessage("Do you Comfirm Voucher? if you do not comfirm,you lost your data");
+                    bd.setMessage("Do you Confirm Voucher? if you do not Confirm,you lost your data");
                     bd.setCancelable(false);
                     bd.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -1818,7 +1826,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 //                public HttpResponseMessage GetDocid(Int64 EditTranid, int userid,string entryformname,string entryheadtablename,int branchid)
 //                    String sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetDocid?" + "EditTranid=" + tranid + "&userid=" + sh.get(0).getUserid() + "&entryformname=frmSaleEntry&entryheadtablename=sale_head_main&branchid=" + branchid;//added by KLM
                     String sqlUrl = "http://" + ip + "/api/DataSync/GetDocid?" + "EditTranid=" + tranid + "&userid=" + sh.get(0).getUserid() + "&entryformname=frmSaleEntry&entryheadtablename=sale_head_main&branchid=" + branchid;//added by KLM
-                    Log.i("sale_entry",sqlUrl);
+                    Log.i("sale_entry", sqlUrl);
                     requestQueue = Volley.newRequestQueue(this);
                     final Response.Listener<String> listener = new Response.Listener<String>() {
                         @Override
@@ -3044,10 +3052,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-                if (!comfirm && sd.size() > 0) {
+                if (!Confirm && sd.size() > 0) {
                     AlertDialog.Builder conf = new AlertDialog.Builder(context, R.style.AlertDialogTheme);
                     conf.setTitle("iStock");
-                    conf.setMessage("Do you Comfirm Voucher? if you do not comfirm,you lost your data");
+                    conf.setMessage("Do you Confirm Voucher? if you do not Confirm,you lost your data");
                     conf.setCancelable(false);
                     conf.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
@@ -3485,7 +3493,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(name.equals("Salesmen")){
+                    if (name.equals("Salesmen")) {
                         btnSalesmen.setText("Choose");
                     }
 
@@ -4308,7 +4316,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 @Override
                 public void onClick(View v) {
 
-                    comfirm = false;
+                    Confirm = false;
                     salechange.dismiss();
                 }
             });
@@ -5113,12 +5121,15 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     }
 
     public String CurrencyFormat(Double amt) {
-        String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
-        return numberAsString;
+        return String.format("%,." + frmmain.price_places + "f", amt);
+    }
+
+    public String QtyFormat(Double qty) {
+        return String.format("%." + frmmain.qty_places + "f", qty);
     }
 
     @SuppressLint({"SetTextI18n", "ResourceAsColor"})
-    private void printView() {
+    private void printView(Bitmap bmpVoucher) {
 
         //View view = findViewById(R.id.root_view);
         FrameLayout frame = findViewById(R.id.frame);
@@ -5127,16 +5138,18 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         View voucher = getLayoutInflater().inflate(R.layout.bluetoothvoucherprint, null);
         TextView custname = voucher.findViewById(R.id.txtcustomer);
         TextView tvdate = voucher.findViewById(R.id.txtdate);
+        TextView tvtime = voucher.findViewById(R.id.txttime);
         TextView tvinvoice = voucher.findViewById(R.id.txtinvoice);
         TextView cashiername = voucher.findViewById(R.id.txtuser);
         TextView tvtotalamount = voucher.findViewById(R.id.txttotalamount);
+        TextView tvtotalqty = voucher.findViewById(R.id.txttotalqty);
         TextView tvtotaldiscount = voucher.findViewById(R.id.txttotaldisamount);
         TextView tvtotalfocamount = voucher.findViewById(R.id.txttotalfocamount);
         TextView tvtotalnetamount = voucher.findViewById(R.id.txtnetamount);
         TextView tvpaidamount = voucher.findViewById(R.id.txtpaidamount);
         TextView tvchangeamount = voucher.findViewById(R.id.txtchangeamount);
-        LinearLayout salemenLayout=voucher.findViewById(R.id.salemenlayout);
-        TextView tvsalemenname=voucher.findViewById(R.id.txtsalemen);
+        LinearLayout salemenLayout = voucher.findViewById(R.id.salemenlayout);
+        TextView tvsalemenname = voucher.findViewById(R.id.txtsalemen);
 
         TextView tvcompanyname = voucher.findViewById(R.id.txtcompanyname);
         TextView tvheader1 = voucher.findViewById(R.id.txtheaderline1);
@@ -5213,8 +5226,6 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             tvfooter3.setVisibility(View.VISIBLE);
 
         //Header
-        //String Date = sale_entry.sh.get(0).getDate();
-        String voudate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         String invoiceno = (sh.get(0).getInvoice_no().equals("") || sh.get(0).getInvoice_no().toLowerCase().equals("null")) ? sh.get(0).getDocid() : sh.get(0).getInvoice_no();
         String Customername = null;
         String sqlString = "select customer_name from Customer where customerid=" + sh.get(0).getCustomerid();
@@ -5229,36 +5240,57 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             cursor.close();
         }
         custname.setText(Customername);
-        tvdate.setText(voudate);
+        //String Date = sale_entry.sh.get(0).getDate();
+        tvdate.setText(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+        tvtime.setText(new SimpleDateFormat("hh:mm:ss a").format(new Date()));
         tvinvoice.setText(invoiceno);
         cashiername.setText(frmlogin.username);
+        if (use_salesperson) {
+            salemenLayout.setVisibility(View.VISIBLE);
+            String salesmenString = "";
+            if (SaleVouSalesmen.size() > 0) {
+                for (int i = 0; i < SaleVouSalesmen.size() - 1; i++) {
+                    salesmenString += SaleVouSalesmen.get(i).getSalesmen_Name() + ", ";
+                }
+
+                salesmenString += SaleVouSalesmen.get(SaleVouSalesmen.size() - 1).getSalesmen_Name();
+            }
+            tvsalemenname.setText(salesmenString);
+        }
+
 
         //Detail
-        String text = "";
-        String stamount = null;
-        String qtyprice = null;
-        String item = null;
-        double amt = 0.0;
+        double totalqty = 0.0;
         LinearLayout detailLayout = voucher.findViewById(R.id.detail);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         for (int i = 0; i < sale_entry.sd.size(); i++) {
             View voucheritem = getLayoutInflater().inflate(R.layout.layout_voucher_item, null);
             TextView tvdescription = voucheritem.findViewById(R.id.txtdescription);
             TextView tvamount = voucheritem.findViewById(R.id.txtAmount);
-            TextView tvqtyamount = voucheritem.findViewById(R.id.txtQtyPrice);
+            TextView tvqtyamount = voucheritem.findViewById(R.id.txtQty);
+            TextView tvunit = voucheritem.findViewById(R.id.txtUnit);
+            TextView tvprice = voucheritem.findViewById(R.id.txtPrice);
+            TextView tvdis = voucheritem.findViewById(R.id.txtDis);
 
-            item = sale_entry.sd.get(i).getDesc();
-            amt = sale_entry.sd.get(i).getUnit_qty() * sale_entry.sd.get(i).getSale_price();
+            String itemDesc = sale_entry.sd.get(i).getDesc();
+            String itemQty = QtyFormat(sale_entry.sd.get(i).getUnit_qty());
+            String itemUnit = sale_entry.sd.get(i).getUnit_short();
+            String itemPrice = CurrencyFormat(sale_entry.sd.get(i).getSale_price());
+            String itemAmount = CurrencyFormat(sale_entry.sd.get(i).getUnit_qty() * sale_entry.sd.get(i).getSale_price());
+            totalqty += sale_entry.sd.get(i).getUnit_qty();
 
-            stamount = CurrencyFormat(amt);
-            String numberAsString = String.format("%." + frmmain.qty_places + "f", sale_entry.sd.get(i).getUnit_qty());
-            qtyprice = "( " + numberAsString + " " + sale_entry.sd.get(i).getUnit_short() + " x "
-                    + CurrencyFormat(sale_entry.sd.get(i).getSale_price()) + " )";
+//            String numberAsString = String.format("%." + frmmain.qty_places + "f", sale_entry.sd.get(i).getUnit_qty());
+//            itemQty = "( " + numberAsString + " " + sale_entry.sd.get(i).getUnit_short() + " x "
+//                    + CurrencyFormat(sale_entry.sd.get(i).getSale_price()) + " )";
 
-            tvdescription.setText(item);
-            tvamount.setText(stamount);
-            tvqtyamount.setText(qtyprice);
+            tvdescription.setText(itemDesc);
+            tvqtyamount.setText(itemQty);
+            tvunit.setText(itemUnit);
+            tvprice.setText(itemPrice);
+            tvamount.setText(itemAmount);
+            tvdis.setText(getDiscountType(i));
+            //add to detail layout
             detailLayout.addView(voucheritem);
+
         }
 
         String TotalAmount = CurrencyFormat(sh.get(0).getInvoice_amount());
@@ -5266,6 +5298,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         String FocAmount = CurrencyFormat(sh.get(0).getFoc_amount());
         String NetAmount = CurrencyFormat(net_amount);
 
+        tvtotalqty.setText(QtyFormat(totalqty));
         tvtotalamount.setText(TotalAmount);
         tvtotaldiscount.setText(DisAmount);
         tvtotalfocamount.setText(FocAmount);
@@ -5273,70 +5306,79 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         tvpaidamount.setText(CurrencyFormat(paidamount));
         tvchangeamount.setText(CurrencyFormat(changeamount));
 
-        if(use_salesperson){
-            salemenLayout.setVisibility(View.VISIBLE);
-            String salesmenString="";
-            if(SaleVouSalesmen.size()>0){
-                for(int i=0;i<SaleVouSalesmen.size()-1;i++){
-                    salesmenString+=SaleVouSalesmen.get(i).getSalesmen_Name()+", ";
-                }
-
-                salesmenString+=SaleVouSalesmen.get(SaleVouSalesmen.size()-1).getSalesmen_Name();
-            }
-            tvsalemenname.setText(salesmenString);
-        }
-
-
         rootView.addView(voucher);
-        View v = getWindow().getDecorView().getRootView();
-//            for (int i = 0; i < billprintcount; i++) {//added by KLM to print voucher as billprintcount 22032022
-//                Printama.with(this).connect(printama -> {
-//                    printama.printFromView(voucher);
-//                    // new Handler().postDelayed(printama::close, 2000); // comment by T2A 08-12-2020
-//                    frame.setVisibility(View.GONE);
-//                }, this::showToast);
-//            }
+//        View v = getWindow().getDecorView().getRootView();
 
         RTPrinter rtPrinter = BaseApplication.getInstance().getRtPrinter();
         for (int i = 0; i < billprintcount; i++) {
             BluetoothPrinter bluetoothPrinter = new BluetoothPrinter(sale_entry.this, rtPrinter);
-            bluetoothPrinter.printFromView(rootView);
-        }
-
-        AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this);
-        b.setTitle("iStock");
-        b.setMessage("Printing is successful");
-        b.setCancelable(false);
-        b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                pb.dismiss();
-                dialog.dismiss();
-                if (sh.size() > 0) sh.clear();
-                if (sd.size() > 0) sd.clear();
-                if (comfirm) {
-                    intent = new Intent(sale_entry.this, sale_entry.class);
-                    startActivity(intent);
-                    finish();
-                } else if (logout) {
-                    intent = new Intent(getApplicationContext(), frmlogin.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    intent = new Intent(getApplicationContext(), frmsalelist.class);
-                    startActivity(intent);
-                    finish();
+            if (bmpVoucher == null) {
+                bluetoothPrinter.printFromView(rootView);
+            } else {
+                try {
+                    bluetoothPrinter.escImagePrint(rtPrinter, bmpVoucher, 80);
+                } catch (SdkException e) {
+                    bluetoothPrinter.printFromView(rootView);
+                    e.printStackTrace();
                 }
             }
-        });
-        dialog = b.create();
-        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-            @Override
-            public void onShow(DialogInterface dialog1) {
-                dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(sale_entry.this);
+        builder.setTitle("iStock");
+        builder.setMessage("Printing is successful");
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            pb.dismiss();
+            dialog.dismiss();
+            if (sh.size() > 0) sh.clear();
+            if (sd.size() > 0) sd.clear();
+            if (Confirm) {
+                intent = new Intent(sale_entry.this, sale_entry.class);
+                startActivity(intent);
+                finish();
+            } else if (logout) {
+                intent = new Intent(getApplicationContext(), frmlogin.class);
+                startActivity(intent);
+                finish();
+            } else {
+                intent = new Intent(getApplicationContext(), frmsalelist.class);
+                startActivity(intent);
+                finish();
             }
         });
+        dialog = builder.create();
+        dialog.setOnShowListener(dialog1 -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK));
         dialog.show();
+
+    }
+
+    private String getDiscountType(int position) {
+        String sqlString = "select * from Dis_Type where dis_type= " + sd.get(position).getDis_type();
+        Cursor cursor = DatabaseHelper.rawQuery(sqlString);
+        sqlString = "";
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    long dis_type = cursor.getLong(cursor.getColumnIndex("dis_type"));
+                    String name = cursor.getString(cursor.getColumnIndex("name"));
+                    String shortname = cursor.getString(cursor.getColumnIndex("short"));
+                    int paid = cursor.getInt(cursor.getColumnIndex("paid"));
+                    long discount = cursor.getLong(cursor.getColumnIndex("discount"));
+                    if (dis_type == 5) {
+                        if (sd.get(position).getDis_percent() > 0) {
+                            sqlString = (int) sd.get(position).getDis_percent() + "%";
+                        } else {
+                            double dis = sd.get(position).getSale_price() - sd.get(position).getDis_price();
+                            sqlString = String.valueOf((int) dis);
+                        }
+                    } else {
+                        sqlString = shortname.toLowerCase().equals("null") ? "" : shortname;
+                    }
+                } while (cursor.moveToNext());
+            }
+        }
+        return sqlString.toLowerCase().equals("normal") ? "" : sqlString;
 
     }
 
@@ -5346,13 +5388,39 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
     private void PrintVoucher(long tranid) {
 
-        if (frmlogin.Confirm_PrintVou == 1 && bill_not_print == false && billprintcount > 0 && ConfirmedTranid > 0) {
+        if (frmlogin.Confirm_PrintVou == 1 && !bill_not_print && billprintcount > 0 && ConfirmedTranid > 0) {
 
+            pb.show();
+            String ip = sh_ip.getString("ip", "empty");
+            String port = sh_port.getString("port", "empty");
+            String printername = sh_printer.getString("printer", "Choose");
+            String printertypeid = sh_ptype.getString("ptype", "-1");
+            if (frmlogin.Cashier_PrinterType != -1 && !frmlogin.Cashier_Printer.equals("null")) {
+                printername = frmlogin.Cashier_Printer;
+                printertypeid = String.valueOf(frmlogin.Cashier_PrinterType);
+            }
+
+            if (use_bluetooth) {
+                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=0&printername=" + printername + "&printertypeid=2&report=empty";
+            } else {
+                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=" + billprintcount + "&printername=" + printername + "&printertypeid=" + printertypeid + "&report=empty";
+            }
+
+            try {
+                sqlstring = URLEncoder.encode(sqlstring, "UTF-8").replace("+", "%20")
+                        .replace("%26", "&").replace("%3D", "=")
+                        .replace("%2C", ",");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            //sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlstring;
+            String sqlUrl = "http://" + ip + "/api/DataSync/PrintVoucher?" + sqlstring;
+            Log.i("sale_entry", sqlUrl);
 
             if (use_bluetooth) {
                 try {
 
-                    printView();
+                    new DownloadImage().execute(sqlUrl);
 
                 } catch (Exception ee) {
 
@@ -5360,47 +5428,19 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     er.setMessage(ee.getMessage());
                     er.setCancelable(false);
                     er.setTitle("iStock");
-                    er.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            msg.dismiss();
-                            intent = new Intent(sale_entry.this, frmmain.class);
-                            startActivity(intent);
-                            finish();
-                        }
+                    er.setPositiveButton("OK", (dialog, which) -> {
+                        intent = new Intent(sale_entry.this, frmmain.class);
+                        startActivity(intent);
+                        finish();
                     });
                     msg = er.create();
-                    msg.setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialog) {
-                            msg.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
-                        }
-                    });
+                    msg.setOnShowListener(dialog -> msg.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK));
                     msg.show();
                 }
 
-            } else {
-                pb.show();
-                String sqlUrl = "";
-                String ip = sh_ip.getString("ip", "empty");
-                String port = sh_port.getString("port", "empty");
-                String printername = sh_printer.getString("printer", "Choose");
-                String printertypeid = sh_ptype.getString("ptype", "-1");
-                if (frmlogin.Cashier_PrinterType != -1 && !frmlogin.Cashier_Printer.equals("null")) {
-                    printername = frmlogin.Cashier_Printer;
-                    printertypeid = String.valueOf(frmlogin.Cashier_PrinterType);
-                }
+            } //use_bluetooth
+            else {
 
-                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=" + billprintcount + "&printername=" + printername + "&printertypeid=" + printertypeid + "&report=empty";
-                try {
-                    sqlstring = URLEncoder.encode(sqlstring, "UTF-8").replace("+", "%20")
-                            .replace("%26", "&").replace("%3D", "=")
-                            .replace("%2C", ",");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-//                sqlUrl = "http://" + ip + ":" + port + "/api/DataSync/GetData?" + sqlstring;
-                sqlUrl = "http://" + ip + "/api/DataSync/PrintVoucher?" + sqlstring;
                 requestQueue = Volley.newRequestQueue(this);
                 final Response.Listener<String> listener = new Response.Listener<String>() {
                     @Override
@@ -5419,7 +5459,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                     dialog.dismiss();
                                     if (sh.size() > 0) sh.clear();
                                     if (sd.size() > 0) sd.clear();
-                                    if (comfirm) {
+                                    if (Confirm) {
                                         intent = new Intent(sale_entry.this, sale_entry.class);
                                         startActivity(intent);
                                         finish();
@@ -5465,7 +5505,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                             public void onClick(DialogInterface dialog, int which) {
                                 if (sh.size() > 0) sh.clear();
                                 if (sd.size() > 0) sd.clear();
-                                if (comfirm) {
+                                if (Confirm) {
                                     intent = new Intent(sale_entry.this, sale_entry.class);
                                     startActivity(intent);
                                     finish();
@@ -5496,14 +5536,15 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     }
                 };
                 StringRequest req = new StringRequest(Request.Method.GET, sqlUrl, listener, error);
-                DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(0, -1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                DefaultRetryPolicy retryPolicy = new DefaultRetryPolicy(0, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
                 req.setRetryPolicy(retryPolicy);
                 requestQueue.add(req);
             }
+
         } else {
             if (sh.size() > 0) sh.clear();
             if (sd.size() > 0) sd.clear();
-            if (comfirm) {
+            if (Confirm) {
                 intent = new Intent(sale_entry.this, sale_entry.class);
                 startActivity(intent);
                 finish();
@@ -5519,6 +5560,35 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         }
 
 
+    }
+
+    private class DownloadImage extends AsyncTask<String, Bitmap, Bitmap> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... URL) {
+            String imageURL = URL[0];
+            Bitmap bitmap = null;
+            try {
+                URL url = new URL(imageURL);
+                Bitmap orgBmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                Bitmap scaledBmp = Bitmap.createScaledBitmap(orgBmp,
+                        orgBmp.getWidth() * 2,
+                        orgBmp.getHeight() * 2, true);
+                bitmap = GlobalClass.TrimBitmap(scaledBmp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            printView(bitmap);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -6404,12 +6474,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            comfirmMsg.dismiss();
+                            ConfirmMsg.dismiss();
 
                         }
                     });
-                    comfirmMsg = b.create();
-                    comfirmMsg.show();
+                    ConfirmMsg = b.create();
+                    ConfirmMsg.show();
 
                 } else {
                     if (da != null) {
@@ -6422,16 +6492,16 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            comfirmMsg.dismiss();
+                            ConfirmMsg.dismiss();
                             DownloadingCustomer(data);
 
                         }
                     });
-                    comfirmMsg = b.create();
+                    ConfirmMsg = b.create();
                     if (allcustomer) {
                         DownloadingCustomer(data);
                     } else {
-                        comfirmMsg.show();
+                        ConfirmMsg.show();
                     }
                 }
 

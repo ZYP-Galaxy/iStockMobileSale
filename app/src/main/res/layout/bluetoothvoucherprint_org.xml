@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="20dp">
 
         <LinearLayout
             android:id="@+id/vou_view"
@@ -16,158 +18,123 @@
 
             <TextView
                 android:id="@+id/txtcompanyname"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingVertical="5dp"
                 android:text="CompanyName"
                 android:textAlignment="center"
-                android:textColor="@color/black"
                 android:textSize="26sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtheaderline1"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:paddingVertical="3dp"
                 android:text="Header1"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/txtheaderline2"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:paddingVertical="3dp"
                 android:text="Header2"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/txtheaderline3"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:paddingVertical="3dp"
                 android:text="Header3"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textAlignment="center" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/dotted" />
+                android:background="@android:color/black" />
 
-            <TableLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                <TableRow
+                <TextView
+                    style="@style/voucher_text"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="InvoiceNo" />
+
+                <TextView
+                    style="@style/voucher_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
+                    android:text=" : " />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.2"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/voucher_text"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:text="Doc No    : " />
-
-                        <TextView
-                            android:id="@+id/txtinvoice"
-                            style="@style/voucher_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="VOU-001" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/voucher_text"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:text="Date        : "
-                            android:textColor="@color/black" />
-
-                        <TextView
-                            android:id="@+id/txtdate"
-                            style="@style/voucher_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="20/12/2020" />
-
-                    </LinearLayout>
-
-                </TableRow>
-
-                <TableRow
+                <TextView
+                    android:id="@+id/txtinvoice"
+                    style="@style/voucher_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp">
+                    android:text="tzw001" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.2"
-                        android:orientation="horizontal">
+            </LinearLayout>
 
-                        <TextView
-                            style="@style/voucher_text"
-                            android:layout_width="90dp"
-                            android:layout_height="wrap_content"
-                            android:text="User         : " />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/txtuser"
-                            style="@style/voucher_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="S1" />
+                <TextView
+                    style="@style/voucher_text"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Date" />
 
-                    </LinearLayout>
+                <TextView
+                    style="@style/voucher_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : " />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/txtdate"
+                    style="@style/voucher_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="20/12/2020" />
 
-                        <TextView
-                            style="@style/voucher_text"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:text="Time       : "
-                            android:textColor="@color/black" />
+            </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/txttime"
-                            style="@style/voucher_text"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="20/12/2020" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-                    </LinearLayout>
+                <TextView
+                    style="@style/voucher_text"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text="Customer" />
 
-                </TableRow>
+                <TextView
+                    style="@style/voucher_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : " />
 
-            </TableLayout>
+                <TextView
+                    android:id="@+id/txtcustomer"
+                    style="@style/voucher_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Customer" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/salemenlayout"
@@ -178,47 +145,57 @@
 
                 <TextView
                     style="@style/voucher_text"
-                    android:layout_width="90dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Salemen  :" />
+                    android:text="Salemen" />
+
+                <TextView
+                    style="@style/voucher_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : " />
 
                 <TextView
                     android:id="@+id/txtsalemen"
                     style="@style/voucher_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Saleman Name" />
+                    android:text="Hla" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
                     style="@style/voucher_text"
-                    android:layout_width="90dp"
+                    android:layout_width="100dp"
                     android:layout_height="wrap_content"
-                    android:text="Customer: "
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:text="Cashier" />
 
                 <TextView
-                    android:id="@+id/txtcustomer"
+                    style="@style/voucher_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" : " />
+
+                <TextView
+                    android:id="@+id/txtuser"
                     style="@style/voucher_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Customer Name" />
+                    android:text="Username" />
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/dotted" />
+                android:background="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -229,56 +206,19 @@
                     style="@style/voucher_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="1.5"
                     android:text="Description" />
 
                 <TextView
                     style="@style/voucher_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
+                    android:layout_weight="1"
                     android:gravity="end"
-                    android:text="Qty" />
-
-                <TextView
-                    style="@style/voucher_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_weight="0.4"
-                    android:text="Unit" />
-
-                <TextView
-                    style="@style/voucher_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.7"
-                    android:gravity="end"
-                    android:text="Price" />
-
-                <TextView
-                    style="@style/voucher_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:gravity="end"
+                    android:paddingHorizontal="5dp"
                     android:text="Amount" />
 
-                <TextView
-                    style="@style/voucher_text"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:gravity="end"
-                    android:text="Dis" />
-
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_marginVertical="5dp"
-                android:background="@drawable/dotted" />
 
             <LinearLayout
                 android:id="@+id/detail"
@@ -292,15 +232,13 @@
                 android:id="@+id/priceqty"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            </LinearLayout>
+                android:orientation="horizontal"></LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:layout_marginVertical="5dp"
-                android:background="@drawable/dotted" />
+                android:background="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -308,21 +246,12 @@
                 android:orientation="horizontal">
 
                 <TextView
+
                     style="@style/voucher_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.4"
-                    android:text="Total"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/txttotalqty"
-                    style="@style/voucher_text"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:text="1"
-                    android:textSize="20sp" />
+                    android:layout_weight="1"
+                    android:text="Total" />
 
                 <TextView
                     android:id="@+id/txttotalamount"
@@ -331,50 +260,48 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="1000"
-                    android:textSize="20sp" />
+                    android:paddingHorizontal="5dp"
+                    android:text="1000" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
+
                     style="@style/voucher_text"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Discount"
-                    android:textSize="20sp" />
+                    android:text="Discount" />
 
                 <TextView
                     android:id="@+id/txttotaldisamount"
                     style="@style/voucher_text"
                     android:layout_width="0dp"
-                    android:layout_height="25dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="1000"
-                    android:textSize="20sp" />
+                    android:paddingHorizontal="5dp"
+                    android:text="1000" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
+
                     style="@style/voucher_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="FOC"
-                    android:textSize="20sp" />
+                    android:text="Foc" />
 
                 <TextView
                     android:id="@+id/txttotalfocamount"
@@ -383,16 +310,10 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="1000"
-                    android:textSize="20sp" />
+                    android:paddingHorizontal="5dp"
+                    android:text="1000" />
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="3dp"
-                android:layout_marginVertical="5dp"
-                android:background="@drawable/dotted" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -414,6 +335,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:paddingHorizontal="5dp"
                     android:text="1000"
                     android:textSize="20sp" />
 
@@ -422,7 +344,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -440,6 +361,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:paddingHorizontal="5dp"
                     android:text="1000"
                     android:textSize="20sp" />
 
@@ -448,7 +370,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -466,6 +387,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
+                    android:paddingHorizontal="5dp"
                     android:text="1000"
                     android:textSize="20sp" />
 
@@ -473,38 +395,31 @@
 
             <TextView
                 android:id="@+id/txtfooterline1"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:lineSpacingExtra="3dp"
-                android:paddingVertical="3dp"
                 android:text="Footer1"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/txtfooterline2"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:paddingVertical="5dp"
                 android:text="Footer2"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/txtfooterline3"
+                style="@style/voucher_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="3dp"
-                android:paddingVertical="5dp"
                 android:text="Footer3"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textAlignment="center" />
 
         </LinearLayout>
+
     </ScrollView>
+
 </FrameLayout>

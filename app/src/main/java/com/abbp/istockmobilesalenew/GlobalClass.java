@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -113,6 +115,95 @@ public class GlobalClass {
             cursor.close();
         }
         return allow;
+    }
+
+    /**
+     * dip to px
+     */
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * px to dp
+     */
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int) (pxValue / scale + 0.5f);
+    }
+
+    public static Bitmap TrimBitmap(Bitmap bmp) {
+        int imgHeight = bmp.getHeight();
+        int imgWidth  = bmp.getWidth();
+
+
+        //TRIM WIDTH - LEFT
+        int startWidth = 0;
+        for(int x = 0; x < imgWidth; x++) {
+            if (startWidth == 0) {
+                for (int y = 0; y < imgHeight; y++) {
+                    if (bmp.getPixel(x, y) != Color.TRANSPARENT) {
+                        startWidth = x;
+                        break;
+                    }
+                }
+            } else break;
+        }
+
+
+        //TRIM WIDTH - RIGHT
+        int endWidth  = 0;
+        for(int x = imgWidth - 1; x >= 0; x--) {
+            if (endWidth == 0) {
+                for (int y = 0; y < imgHeight; y++) {
+                    if (bmp.getPixel(x, y) != Color.TRANSPARENT) {
+                        endWidth = x;
+                        break;
+                    }
+                }
+            } else break;
+        }
+
+
+
+        //TRIM HEIGHT - TOP
+        int startHeight = 0;
+        for(int y = 0; y < imgHeight; y++) {
+            if (startHeight == 0) {
+                for (int x = 0; x < imgWidth; x++) {
+                    if (bmp.getPixel(x, y) != Color.TRANSPARENT) {
+                        startHeight = y;
+                        break;
+                    }
+                }
+            } else break;
+        }
+
+
+
+        //TRIM HEIGHT - BOTTOM
+        int endHeight = 0;
+        for(int y = imgHeight - 1; y >= 0; y--) {
+            if (endHeight == 0 ) {
+                for (int x = 0; x < imgWidth; x++) {
+                    if (bmp.getPixel(x, y) != Color.WHITE) {
+                        endHeight = y;
+                        break;
+                    }
+                }
+            } else break;
+        }
+
+
+        return Bitmap.createBitmap(
+                bmp,
+                startWidth,
+                startHeight,
+                endWidth - startWidth,
+                endHeight - startHeight
+        );
+
     }
 
 }

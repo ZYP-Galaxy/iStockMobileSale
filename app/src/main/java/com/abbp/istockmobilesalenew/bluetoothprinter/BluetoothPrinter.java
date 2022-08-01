@@ -162,7 +162,28 @@ public class BluetoothPrinter {
 
     }
 
-    private void loadBitmapAndPrint(View view, int viewWidth, int viewHeight) throws IOException, SdkException {
+    public void printFromView(View rootView, int customheight) {
+        ViewTreeObserver vto = rootView.getViewTreeObserver();
+        View finalView = rootView;
+        AtomicInteger viewWidth = new AtomicInteger(rootView.getWidth());
+        AtomicInteger viewHeight = new AtomicInteger(rootView.getMeasuredHeight());
+        vto.addOnGlobalLayoutListener(() -> {
+            viewWidth.set(finalView.getWidth());
+            viewHeight.set(finalView.getMeasuredHeight());
+        });
+        new Handler().postDelayed(() -> {
+            try {
+                loadBitmapAndPrint(rootView, viewWidth.get(), customheight);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (SdkException e) {
+                e.printStackTrace();
+            }
+        }, 500);
+
+    }
+
+    public void loadBitmapAndPrint(View view, int viewWidth, int viewHeight) throws IOException, SdkException {
         Bitmap bmp = loadBitmapFromView(view, viewWidth, viewHeight);
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         executorService.execute(() -> {

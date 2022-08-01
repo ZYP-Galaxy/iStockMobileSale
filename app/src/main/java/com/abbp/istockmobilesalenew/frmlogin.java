@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -166,8 +168,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     private ArrayList<PrinterInterface> printerInterfaceArrayList = new ArrayList<>();
     private PrinterInterface curPrinterInterface = null;
     public static boolean isTVMode = false;
-//    public static double exg_rate,div_rate=0;
-    public static String lastDownloadedDateTime="2000-01-01";
+    //    public static double exg_rate,div_rate=0;
+    public static String lastDownloadedDateTime = "2000-01-01";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,8 +188,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         SwitchCompat switchCompat = findViewById(R.id.switchBtn);
 
         isTVMode = sh_printer.getBoolean("isTVMode", false);
-        lastDownloadedDateTime=sh_printer.getString("DateTime","2000-01-01");
-        Log.i("lastDownloadedDateTime",lastDownloadedDateTime);
+        lastDownloadedDateTime = sh_printer.getString("DateTime", "2000-01-01");
+        Log.i("lastDownloadedDateTime", lastDownloadedDateTime);
 
         //added by KLM  for auto Detect if Device is TV or Tablet 25052022
         if (checkIsTelevision() || SunmiPrintHelper.getInstance().checkSunmiPrinter()) {
@@ -225,6 +227,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         //added by KLM to calculate Currency 24062022
 
         //endregion
+
 
     }
 
@@ -315,7 +318,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     }
 
 
-                    if(isTVMode) {
+                    if (isTVMode) {
 //                        TextView txtTitleBTprinter = view.findViewById(R.id.txt_title_btprinter);
                         LinearLayout layoutBTprinter = view.findViewById(R.id.layout_btprinter);
                         LinearLayout layoutSunmiprinter = view.findViewById(R.id.layout_sunmi_printer);
@@ -849,7 +852,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         Response.Listener listener = new Response.Listener() {
             @Override
             public void onResponse(Object response) {
-                lastDownloadedDateTime="2000-01-01";
+                lastDownloadedDateTime = "2000-01-01";
                 ClearData();
 
                 final String[] result = response.toString().split("/");
@@ -964,6 +967,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 
 
     }
+
     private void ClearData() {
         sqlString = "delete from Customer";
         DatabaseHelper.execute(sqlString);
@@ -1134,8 +1138,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     ip = sh_ip.getString("ip", "empty");
                     port = sh_port.getString("port", "empty");
 //                    String url = "http://" + ip + ":" + port + "/api/DataSync/GetData?download=true&language=" + frmlogin.Font_Language;
-                    String url = "http://" + ip + "/api/DataSync/DownloadData?download=true&language=" + frmlogin.Font_Language+"&lastDownloadedDatetime="+lastDownloadedDateTime;
-                    Log.i("LOGIN",url);
+                    String url = "http://" + ip + "/api/DataSync/DownloadData?download=true&language=" + frmlogin.Font_Language + "&lastDownloadedDatetime=" + lastDownloadedDateTime;
+                    Log.i("LOGIN", url);
                     RequestQueue request = Volley.newRequestQueue(context);
                     final Response.Listener<String> listener = new Response.Listener<String>() {
                         @Override
@@ -1395,9 +1399,9 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         JSONObject codeobj = usr_code.getJSONObject(codecount);
                         long code = codeobj.getLong("code");
                         int unit_type = codeobj.optInt("unit_type", 1);
-                        sqlString = "delete from Usr_Code where code=" + code+" and unit_type="+unit_type;
+                        sqlString = "delete from Usr_Code where code=" + code + " and unit_type=" + unit_type;
                         DatabaseHelper.execute(sqlString);
-                        if (codeobj.getBoolean("inactive") || codeobj.getBoolean("deleted") ) {
+                        if (codeobj.getBoolean("inactive") || codeobj.getBoolean("deleted")) {
 
                             continue;
                         }
@@ -1536,8 +1540,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int usrimgcount = 0; usrimgcount < usrimg.length(); usrimgcount++) {
                         JSONObject usrimgobj = usrimg.getJSONObject(usrimgcount);
                         String usrcode = usrimgobj.optString("usr_code");
-                       // DeleteRecord("usr_code_img","usr_code",usrcode);
-                        DatabaseHelper.execute("delete from usr_code_img where usr_code='"+usrcode+"'");
+                        // DeleteRecord("usr_code_img","usr_code",usrcode);
+                        DatabaseHelper.execute("delete from usr_code_img where usr_code='" + usrcode + "'");
                         String codeimg = usrimgobj.optString("code_img");
                         String path = usrimgobj.optString("path");
                         sqlString = "insert into usr_code_img(usr_code,code_img,path) values('" + usrcode + "','" + codeimg + "','" + path + "')";
@@ -1564,7 +1568,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     for (int count = 0; count < currencyArr.length(); count++) {
                         JSONObject menuusrobj = currencyArr.getJSONObject(count);
                         int currency = menuusrobj.getInt("currency");
-                        DatabaseHelper.execute("delete from Currency where currency="+currency);
+                        DatabaseHelper.execute("delete from Currency where currency=" + currency);
                         String name = menuusrobj.optString("name", "");
                         String shortCur = menuusrobj.optString("short", "");
                         double exg_rate = menuusrobj.optDouble("exg_rate", 0.0);
@@ -1603,7 +1607,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     }
 
     private void DeleteRecord(String tableName, String whereClause, String value) {
-        DatabaseHelper.execute("delete from "+tableName+" where "+whereClause+"='"+value+"'");
+        DatabaseHelper.execute("delete from " + tableName + " where " + whereClause + "='" + value + "'");
     }
 
     private void SignIn() {
@@ -2022,7 +2026,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         final Response.ErrorListener error = new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this);
+                AlertDialog.Builder bd = new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme);
                 bd.setMessage("Process is Fail!Check your Network Connection");
                 bd.setTitle("iStock");
 
@@ -2030,7 +2034,6 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        showmsg.dismiss();
                     }
                 });
                 dialog = bd.create();
@@ -2214,29 +2217,34 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                switch (state) {
-                    case CommonEnum.CONNECT_STATE_SUCCESS:
-                        showToast(printerInterface.getConfigObject().toString() + " - connect success");
-                        tv_device_selected.setText(printerInterface.getConfigObject().toString());
-                        tv_device_selected.setTag(BaseEnum.HAS_DEVICE);
-                        curPrinterInterface = printerInterface;//设置为当前连接， set current Printer Interface
-                        printerInterfaceArrayList.add(printerInterface);//多连接-添加到已连接列表
-                        rtPrinter.setPrinterInterface(printerInterface);
+                try {
+                    switch (state) {
+                        case CommonEnum.CONNECT_STATE_SUCCESS:
+                            showToast(printerInterface.getConfigObject().toString() + " - connect success");
+                            tv_device_selected.setText(printerInterface.getConfigObject().toString());
+                            tv_device_selected.setTag(BaseEnum.HAS_DEVICE);
+                            curPrinterInterface = printerInterface;//设置为当前连接， set current Printer Interface
+                            printerInterfaceArrayList.add(printerInterface);//多连接-添加到已连接列表
+                            rtPrinter.setPrinterInterface(printerInterface);
 
-                        break;
-                    case CommonEnum.CONNECT_STATE_INTERRUPTED:
-                        if (printerInterface != null && printerInterface.getConfigObject() != null) {
-                            showToast(printerInterface.getConfigObject().toString() + " disconnected");
-                        } else {
-                            showToast("disconnected");
-                        }
-                        tv_device_selected.setTag(BaseEnum.NO_DEVICE);
-                        curPrinterInterface = null;
-                        printerInterfaceArrayList.remove(printerInterface);//多连接-从已连接列表中移除
+                            break;
+                        case CommonEnum.CONNECT_STATE_INTERRUPTED:
+                            if (printerInterface != null && printerInterface.getConfigObject() != null) {
+                                showToast(printerInterface.getConfigObject().toString() + " disconnected");
+                            } else {
+                                showToast("disconnected");
+                            }
+                            tv_device_selected.setTag(BaseEnum.NO_DEVICE);
+                            curPrinterInterface = null;
+                            printerInterfaceArrayList.remove(printerInterface);//多连接-从已连接列表中移除
 
-                        break;
-                    default:
-                        break;
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    showToast("disconnected");
                 }
             }
         });

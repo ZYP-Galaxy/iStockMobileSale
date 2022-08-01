@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="50dp"
     android:layout_marginBottom="4dp"
     android:orientation="vertical">
 
@@ -10,33 +10,70 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="5dp">
+        android:paddingVertical="8dp">
 
         <TextView
             android:id="@+id/txtdescription"
             style="@style/voucher_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:layout_weight="1"
             android:text="Apple" />
+
+        <TextView
+            android:id="@+id/txtQty"
+            style="@style/voucher_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:gravity="end"
+            android:text="Qty" />
+
+        <TextView
+            android:id="@+id/txtUnit"
+            style="@style/voucher_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="0.4"
+            android:text="Unit" />
+
+        <TextView
+            android:id="@+id/txtPrice"
+            style="@style/voucher_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:gravity="end"
+            android:text="Price" />
 
         <TextView
             android:id="@+id/txtAmount"
             style="@style/voucher_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_weight="1"
-            android:gravity="right"
+            android:layout_weight="0.8"
+            android:gravity="end"
             android:text="1000" />
+
+        <TextView
+            android:id="@+id/txtDis"
+            style="@style/voucher_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_weight="0.4"
+            android:gravity="end"
+            android:text="foc" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txtQtyPrice"
-        style="@style/voucher_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="10dp"
-        tools:text="1x1000" />
+    <!--    <TextView-->
+    <!--        android:id="@+id/txtQtyPrice"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        tools:text="1x1000"-->
+    <!--        android:paddingStart="10dp"-->
+    <!--        android:textSize="20sp" />-->
 
 </LinearLayout>
