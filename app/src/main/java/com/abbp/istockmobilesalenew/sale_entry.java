@@ -2055,7 +2055,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     public void onClick(View v) {
 
 
-                        invoice_no = txtinvoiceNo.getText().toString().trim().isEmpty() ? "NULL" : txtinvoiceNo.getText().toString().trim();
+                        invoice_no = txtinvoiceNo.getText().toString().trim().isEmpty() ? "" : txtinvoiceNo.getText().toString().trim();
                         sh.get(0).setInvoice_no(invoice_no);
 
                         //region by YLT on [15-06-2020]

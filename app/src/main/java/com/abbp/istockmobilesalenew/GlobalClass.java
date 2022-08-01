@@ -15,6 +15,12 @@ import java.net.URLConnection;
 
 public class GlobalClass {
 
+    public static String saleEntry="sale_entry";
+    public static String saleOrdEntry="saleorder_entry";
+    public static String returnInEntry="returnin_entry";
+    public static String saleEntryTV="sale_entry_tv";
+
+
     public static void showToast(Context ctx, String message) {
         Toast.makeText(ctx, message, Toast.LENGTH_LONG).show();
     }
