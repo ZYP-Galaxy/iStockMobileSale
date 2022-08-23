@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -76,6 +78,7 @@ public class frmoustandlist extends AppCompatActivity {
     List<Calendar> calendars = new ArrayList<>();
     public static ArrayList<outstandlist> outstandlistslists = new ArrayList<>();
     ImageButton imgFilterClear, imgAdd, imgEdit, imgDelete, filtermenu, refresh, specialfiltermenu;
+    public static Typeface font;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -95,6 +98,8 @@ public class frmoustandlist extends AppCompatActivity {
         if (outstandlistslists.size() > 0) {
             outstandlistslists.clear();
         }
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.title), this, 18, font);
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.outstandgv), this, 13, font);
         FilterBranch.BranchiID = frmlogin.def_branchid;
         FilterBranch.formname = "frmoutstand";
         FilterCustomer.formname = "frmoutstand";

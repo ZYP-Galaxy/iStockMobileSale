@@ -132,6 +132,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
     public static int Cashier_PrinterType;
     public static String Font_Language;
     public static int allow_so_update;
+    public static int languageid;
     SharedPreferences sh_printer, sh_ptype;
     public static ArrayList<String> Printers = new ArrayList<>();
     public static ArrayList<Printer_Type> ptype = new ArrayList<>();
@@ -926,6 +927,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         tableNames.add("Pdis");
         tableNames.add("cash");
         tableNames.add("currency");
+        tableNames.add("Dictionary");
     }
 
     private void GetDownloading() {
@@ -1034,6 +1036,10 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 
         sqlString = "delete from Currency";
         DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Dictionary";//added by KNO for language 22-08-2022
+        DatabaseHelper.execute(sqlString);
+
     }
 
     private void ResetData() {
@@ -1325,14 +1331,15 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         int use_petrol = postobj.optBoolean("use_oil", false) == true ? 1 : 0;
                         int hide_sale_summary = postobj.optBoolean("hide_sale_summary", false) == true ? 1 : 0;
                         int def_currency = postobj.optInt("def_currency", 1);//added by KLM for currency 24062022
+                        int languageid = postobj.optInt("languageid", 1); // added by KNO for language 22-08-2022
                         // int Allow_Oustand=postobj.optInt("Allow_Oustand", 1);
                         // int Allow_StockStatus=postobj.optInt("Allow_StockStatus", 1);
                         sqlString = "insert into Posuser(userid,name,knockcode,Confirm_PrintVou,def_locationid,short,saleprice_level,select_location,select_customer," +
-                                " change_price,change_date,tax,discount,allow_pricelevel,def_payment,Allow_Over_Credit_Limit,def_cashid,Cashier_Printer,Cashier_PrinterType,Allow_Oustand,Allow_StockStatus,Allow_Sale,Allow_SaleOrder,use_offline, allow_so_update,all_users,allow_delete,use_oil,def_branchid,hide_sale_summary,def_currency)" +
+                                " change_price,change_date,tax,discount,allow_pricelevel,def_payment,Allow_Over_Credit_Limit,def_cashid,Cashier_Printer,Cashier_PrinterType,Allow_Oustand,Allow_StockStatus,Allow_Sale,Allow_SaleOrder,use_offline, allow_so_update,all_users,allow_delete,use_oil,def_branchid,hide_sale_summary,def_currency,languageid)" +
                                 " values(" + userid + ",'" + name + "','" + knockcode + "'," + Confirm_PrintVou + "," + defloc + ",'" + shortdes + "'," +
                                 saleprice_level + "," + select_location + "," + select_customer + "," + change_price + "," + change_date + "," + tax + "," + discount + "," + allow_pricelevel + "," + def_payment + ","
                                 + Allow_Over_Credit_Limit + "," + def_cashid + ",'" + Cashier_Printer + "'," + Cashier_PrinterType + "," + Allow_Oustand + ","
-                                + Allow_StockStatus + "," + Allow_Sale + "," + Allow_SaleOrder + "," + use_offline + "," + so_update + "," + all_users + "," + allow_delete + "," + use_petrol + "," + defbrid + "," + hide_sale_summary + "," + def_currency + ")";
+                                + Allow_StockStatus + "," + Allow_Sale + "," + Allow_SaleOrder + "," + use_offline + "," + so_update + "," + all_users + "," + allow_delete + "," + use_petrol + "," + defbrid + "," + hide_sale_summary + "," + def_currency + "," + languageid + ")";
 
                         DatabaseHelper.execute(sqlString);
 
@@ -1580,6 +1587,19 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         DatabaseHelper.execute(sqlString);
                     }
                     break;
+                case "Dictionary":
+                    JSONArray dic = data.getJSONObject(0).getJSONArray("Dictionary");
+
+                    for (int diccount = 0; diccount < dic.length(); diccount++) {
+                        JSONObject dictobj = dic.getJSONObject(diccount);
+                        String language1 = dictobj.optString("language1");
+                        String language2 = dictobj.optString("language2");
+                        String language3 = dictobj.optString("language3");
+                        sqlString = "insert into Dictionary(language1,language2,language3) values('" + language1 + "','" + language2 + "','" + language3 + "')";
+                        DatabaseHelper.execute(sqlString);
+
+                    }
+                    break;
             }
             runOnUiThread(new Runnable() {
                 @Override
@@ -1762,7 +1782,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     int branchid = cursor.getInt(cursor.getColumnIndex("def_branchid"));
                     int hide_sale_summary = cursor.getInt(cursor.getColumnIndex("hide_sale_summary"));
                     int def_currency = cursor.getInt(cursor.getColumnIndex("def_currency")) == 0 ? 1 : cursor.getInt(cursor.getColumnIndex("def_currency"));
-                    aryUsers.add(new posuser(userid, name, Confirm_PrintVou, allow_priceLevel, select_location, select_customer, change_date, tax, discount, change_price, pass, locid, def_payment, Allow_Over_Credit_Limit, def_cashid, Cashier_Printer, CAshier_PrinterType, use_offline, allow_so_update, use_petrol, branchid, hide_sale_summary, def_currency));
+                    int languageid = cursor.getInt(cursor.getColumnIndex("languageid"));
+                    aryUsers.add(new posuser(userid, name, Confirm_PrintVou, allow_priceLevel, select_location, select_customer, change_date, tax, discount, change_price, pass, locid, def_payment, Allow_Over_Credit_Limit, def_cashid, Cashier_Printer, CAshier_PrinterType, use_offline, allow_so_update, use_petrol, branchid, hide_sale_summary, def_currency, languageid));
                 } while (cursor.moveToNext());
 
             }
@@ -1796,6 +1817,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                 frmlogin.use_oil = aryUsers.get(position).getUse_oil();
                 frmlogin.def_branchid = aryUsers.get(position).getDef_branchid();
                 hide_sale_summary = aryUsers.get(position).getHide_sale_summary();
+                frmlogin.languageid = aryUsers.get(position).getLanguageid();
                 //def_currency=aryUsers.get(position).getDef_currency()==0?1:aryUsers.get(position).getDef_currency();
 //                Toast.makeText(getApplicationContext()," currency "+def_currency,Toast.LENGTH_LONG).show();
                 dialog.dismiss();

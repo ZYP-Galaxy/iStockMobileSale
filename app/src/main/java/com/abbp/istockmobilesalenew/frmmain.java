@@ -3,6 +3,7 @@ package com.abbp.istockmobilesalenew;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -58,7 +60,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     AlertDialog dialog, msg, downloadAlert;
     public static double exg_rate, div_rate = 1;
     public static String currencyshort = "MMK";
-
+    public static Typeface font;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         if (use_multicurrency && !frmlogin.isTVMode) {
             GetExg_Rate();
         }
-
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.lmenu), this, 14, font);
 
     }
 

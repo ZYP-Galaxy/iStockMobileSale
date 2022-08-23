@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -72,6 +74,7 @@ public class frmsaleorderlist extends AppCompatActivity implements View.OnClickL
     AlertDialog msg;
     int filterV = 0;
     public static Context listcontext;
+    public static Typeface font;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,8 +112,8 @@ public class frmsaleorderlist extends AppCompatActivity implements View.OnClickL
         }
         cursor.close();
         BindingData();
-
-
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.title), this, 18, font);
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.saleorderlistgv), this, 13, font);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

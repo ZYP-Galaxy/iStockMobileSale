@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -94,7 +96,7 @@ public class frmstockstatuslist extends AppCompatActivity {
 
     public static SharedPreferences sh_ip,sh_port;
     public static Context listcontext;
-
+    public static Typeface font;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -115,7 +117,8 @@ public class frmstockstatuslist extends AppCompatActivity {
         }
         Specialfilter="Code";
         txtSearchCode.setHint("Search Code");
-
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.title), this, 18, font);
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.stockgv), this, 13, font);
     }
 
     private void getSystemSetting() {
