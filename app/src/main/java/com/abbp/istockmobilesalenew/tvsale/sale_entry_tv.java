@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -306,7 +308,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     public String priceLvl = "";
     public String unitShort = "";
     static String salesmen = "";
-
+    public static Typeface font;
     //endregion
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -366,6 +368,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
         GetBillPrintCount();
         CheckConnection();
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.saleentry_tvgv), this, 13, font);
 
     }
 
