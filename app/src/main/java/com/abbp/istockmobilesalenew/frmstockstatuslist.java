@@ -157,9 +157,9 @@ public class frmstockstatuslist extends AppCompatActivity {
 
             }
         }
-        else {
-            da.dismiss();
-        }
+//        else {
+//            da.dismiss();
+//        }
         cursor.close();
         txtdate=findViewById(R.id.txtdate);
         txtdate.setOnClickListener(this::onClick);
@@ -331,7 +331,7 @@ public class frmstockstatuslist extends AppCompatActivity {
         selectfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(selectfilter.getText().toString().trim().equals("Choose Class") || (filterV==1 && selectfilter.getText().toString().trim().equals("Choose Class") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Class"))){
+                if(selectfilter.getText().toString().trim().equals("Choose Class") || (filterV==1 && !selectfilter.getText().toString().trim().equals("Choose Category") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Class"))){
                     filterV=1;
                     selecter("Class",selectfilter);
                 }else if(selectfilter.getText().toString().trim().equals("Choose Category") || (filterV==2 && !selectfilter.getText().toString().trim().equals("Choose Category") && !selectfilter.getText().toString().trim().equals("Choose") && !selectfilter.getText().toString().trim().equals("Choose Category"))){
@@ -658,7 +658,7 @@ public class frmstockstatuslist extends AppCompatActivity {
                             JSONObject obj=jarr.getJSONObject(i);
 
                             String usrcode=obj.getString("usrcode");
-                            String descripiton=obj.getString("description");
+                            String descripiton=obj.optString("description",usrcode);
                             double saleAmount=obj.optDouble("saleAmount",0);
                             String balanceAmount=obj.getString("balanceAmount");
                             String location= obj.getString("Location");

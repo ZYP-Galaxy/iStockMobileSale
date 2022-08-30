@@ -21,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -444,7 +445,35 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             }
         });
 
+
         edtBarcodeScan = findViewById(R.id.edtBarcodeScan);
+        edtBarcodeScan.requestFocus();
+        edtBarcodeScan.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+//                setImeVisibility(hasFocus);
+                edtBarcodeScan.setShowSoftInputOnFocus(false);
+                if (hasFocus) {
+                    hideSoftKeyboard(view);
+                }
+
+            }
+        });
+//edtBarcodeScan.setOnF
+//        edtBarcodeScan.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent motionEvent) {
+//                view.onTouchEvent(motionEvent);
+//                InputMethodManager keyboard = (InputMethodManager)
+//                        getSystemService(view.getContext().INPUT_METHOD_SERVICE);
+//
+//                if(keyboard!=null){
+//                    keyboard.hideSoftInputFromWindow(view.getWindowToken(), 0);
+//                }
+//                return true;
+//            }
+//        });
+        //edtBarcodeScan.setOnF
         edtBarcodeScan.setShowSoftInputOnFocus(false);
         edtBarcodeScan.addTextChangedListener(new TextWatcher() {
             @Override
@@ -474,6 +503,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 }
             }
         });
+        hideSoftKeyboard(edtBarcodeScan);
 
         imgFilterCode = findViewById(R.id.imgFilterCode);
         imgFilterCode.setOnClickListener(new View.OnClickListener() {
@@ -1962,6 +1992,13 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
                 dialog = builder.create();
                 dialog.show();
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        hideSoftKeyboard(edtBarcodeScan);
+//                        Toast.makeText(getApplicationContext(),"This is toast from dismiss",Toast.LENGTH_LONG).show();
+                    }
+                });
                 break;
 
             //not change_date in sale entry txtdate modified by ABBP
@@ -1975,6 +2012,12 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
         }
 
+    }
+
+
+    private void hideSoftKeyboard(View v){
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 
     private void GetRefOrdID() {
@@ -3647,7 +3690,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     try {
-                        Log.i("tvPaid",tvPaid.getText().toString());
+                        Log.i("tvPaid", tvPaid.getText().toString());
 //                        String a="Khin";
 
                         if (actionId == EditorInfo.IME_ACTION_DONE) {

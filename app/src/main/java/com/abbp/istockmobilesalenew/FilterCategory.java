@@ -40,6 +40,7 @@ public class FilterCategory extends RecyclerView.Adapter<FilterCategory.MyViewHo
 
                 btn.setText( data.get(position).getName());
                 uid = data.get(position).getCategory();
+                FilterClass.uid=-1;
                 FilterCustomer.ccid = -1;
                // FilterLocation.locid = -1;
 

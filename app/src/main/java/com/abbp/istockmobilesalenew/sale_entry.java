@@ -238,7 +238,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     int defloc = 1;
     int defunit = -1;
     int def_cashid;
-    CheckBox chkDeliver;
+    CheckBox chkDeliver,chkbillnotprint;
     SharedPreferences sh_printer, sh_ptype;
     String ToDeliver = "";
     private AlertDialog downloadAlert;
@@ -418,6 +418,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
         TextView tvUnit = findViewById(R.id.unit);
         chkDeliver = findViewById(R.id.chkToDeliver);
+        chkbillnotprint=findViewById(R.id.chkbillprint);
+        chkbillnotprint.setVisibility(View.GONE);
+        chkbillnotprint.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                bill_not_print=isChecked;
+            }
+        });
         boolean use_unit = false;
         Cursor cursorplvl = DatabaseHelper.rawQuery("select use_unit from SystemSetting");
         if (cursorplvl != null && cursorplvl.getCount() != 0) {
@@ -2120,6 +2128,16 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                 dialog = builder.create();
                 dialog.show();
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        if(sh.get(0).getPay_type()==2){
+                            bill_not_print=false;
+                            use_bluetooth=true;
+                            chkbillnotprint.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
 
 
                 break;
@@ -2739,6 +2757,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 long so_id = ref_tranid;
                                 int so_sr = saleObj.getInt("so_sr");
                                 String remark = saleObj.optString("REMARK", "");
+                                remark=remark.equals("null")?"":remark;
                                 so_dets.add(new so_det(unit_qty, unit_type, price, dis_price, dis_type, discount, code, unit_short, desc, pricelevel, so_id, so_sr, usr_code, remark));
                             }
 
@@ -2751,7 +2770,8 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 int pay_type = head.getInt("pay_type");
                                 double discount = head.getDouble("discount");
                                 String discount_per = head.optString("discount_per", "0");
-                                String remark = head.optString("Remark", "").equals("null") ? "" : head.optString("Remark", "");
+                                String remark = head.optString("Remark", "");
+                                remark=remark.equals("null") ? "" : remark;
                                 if (discount_per.equals("null") || discount_per.equals("")) {
                                     discount_per = "0";
                                 }
@@ -4227,7 +4247,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 }
             });
             chkPrint.setChecked(false);
-            bill_not_print = false;
+            bill_not_print = false;//cmt by KLM
 
             chkPrint.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
@@ -4326,7 +4346,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         } else {
 
             //This Customer's Credit Limit is Over.Do you want to continue ???
-            bill_not_print = false;
+//            bill_not_print = false;//cmt by KLM
             double outstandamt = net_amount + Double.parseDouble(ClearFormat(txtoutstand.getText().toString()));
             if (outstandamt > sale_entry.credit_limit && sale_entry.credit_limit != 0) {
                 if (frmlogin.Allow_Over_Credit_Limit == 1) {
@@ -6464,7 +6484,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             pb.dismiss();
             try {
 
-                if (msg.equals("Addding New Customer is Fail!!")) {
+                if (msg.equals("Adding New Customer is Fail!!")) {
                     AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
                     b.setTitle("iStock");
                     if (allcustomer) {
@@ -6488,7 +6508,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     String data = s;
                     AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
                     b.setTitle("iStock");
-                    b.setMessage("Addding New Customer is successful!");
+                    b.setMessage("Adding New Customer is successful!");
                     b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {

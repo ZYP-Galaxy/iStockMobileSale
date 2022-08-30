@@ -4949,6 +4949,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                                 long so_id = ref_tranid;
                                 int so_sr = saleObj.getInt("rin_sr");
                                 String remark = saleObj.optString("remark", "");
+                                remark=remark.equals("null")?"":remark;
                                 so_dets.add(new so_det(unit_qty, unit_type, price, dis_price, dis_type, discount, code, unit_short, desc, pricelevel, so_id, so_sr, usr_code, remark));
                             }
 
@@ -4960,7 +4961,8 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                                 int cash_id = head.getInt("cash_id");
                                 int pay_type = head.getInt("pay_type");
                                 double discount = head.getDouble("discount");
-                                String remark = head.optString("Remark", "").equals("null") ? "" : head.optString("Remark", "");
+                                String remark = head.optString("Remark", "");
+                                remark=remark.equals("null")?"":remark;
                                 String discount_per = head.optString("discount_per", "0");
                                 if (discount_per.equals("null") || discount_per.equals("")) {
                                     discount_per = "0";

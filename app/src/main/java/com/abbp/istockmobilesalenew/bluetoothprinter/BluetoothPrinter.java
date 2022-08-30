@@ -220,7 +220,7 @@ public class BluetoothPrinter {
                 cmd.append(cmd.getHeaderCmd());
 
                 CommonSetting commonSetting = new CommonSetting();
-                commonSetting.setAlign(CommonEnum.ALIGN_MIDDLE);
+                commonSetting.setAlign(CommonEnum.ALIGN_BOTH_SIDES);
                 cmd.append(cmd.getCommonSettingCmd(commonSetting));
 
                 BitmapSetting bitmapSetting = new BitmapSetting();

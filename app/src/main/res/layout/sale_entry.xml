@@ -975,6 +975,31 @@
                             android:src="@drawable/filtertablet"
                             android:visibility="gone" />
 
+                        <LinearLayout
+                            android:id="@+id/layoutbillprint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="2dp"
+                            android:layout_toLeftOf="@+id/imgscanner"
+                            android:orientation="horizontal"
+                            >
+
+                            <CheckBox
+                                android:id="@+id/chkbillprint"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Bill not print"
+                                android:textColor="#ffffff"
+                                android:textSize="15dp"
+                                android:textStyle="bold">
+
+                            </CheckBox>
+
+
+                        </LinearLayout>
+
                         <ImageButton
                             android:id="@+id/imgscanner"
                             android:layout_width="wrap_content"
