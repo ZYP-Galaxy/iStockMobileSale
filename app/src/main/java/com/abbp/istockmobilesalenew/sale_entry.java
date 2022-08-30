@@ -14,6 +14,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -30,6 +31,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,6 +40,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -261,7 +264,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     static long specialPrice = 0;//added by klm 14022022
     ProgressDialog progressDialog;
     private boolean isFillVou;
-
+    public static Typeface font;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -328,7 +331,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         isCategory = true;
         imgFilterCode.setVisibility(View.GONE);
         GetBillPrintCount();
-
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.saleentrygv), this, 13, font);
     }
 
 

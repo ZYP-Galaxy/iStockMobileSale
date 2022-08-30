@@ -8,6 +8,7 @@
     tools:context=".frmstockstatuslist">
 
     <RelativeLayout
+        android:id="@+id/stockgv"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -20,6 +21,7 @@
             app:cardBackgroundColor="#2F4658">
 
             <RelativeLayout
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical">

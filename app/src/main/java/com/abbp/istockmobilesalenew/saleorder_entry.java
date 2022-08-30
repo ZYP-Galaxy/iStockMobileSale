@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,6 +32,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -226,7 +228,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
     public static int editUnit_type = 0;
     private boolean allcustomer;
     static long specialPrice = 0;//added by klm 14022022
-
+    public static Typeface font;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -292,6 +294,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         isCategory = true;
         imgFilterCode.setVisibility(View.GONE);
         GetBillPrintCount();
+        GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.saleorderentrygv), this, 14, font);
     }
 
     private void GetBillPrintCount() {

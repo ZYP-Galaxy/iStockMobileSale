@@ -10,21 +10,23 @@ public class posuser {
     private int change_date;
     private int change_price;
     private String knockcode;
-    private  int def_locationid;
-    private  int def_payment;
+    private int def_locationid;
+    private int def_payment;
     private int tax;
     private int discount;
-    private  int Allow_Over_Credit_Limit;
-    private  int def_cashid;
-    private  String Cashier_Printer;
-    private  int Cashier_PrinterType;
-    private  int use_offline;
-    private  int  allow_so_update;
+    private int Allow_Over_Credit_Limit;
+    private int def_cashid;
+    private String Cashier_Printer;
+    private int Cashier_PrinterType;
+    private int use_offline;
+    private int allow_so_update;
     private int use_oil;
-    private  int def_branchid;
+    private int def_branchid;
     private int hide_sale_summary;
     private int def_currency;
-    public posuser(int userid, String name, int confirm_PrintVou, int allow_priceLevel, int select_location, int select_customer, int change_date,int tax,int discount, int change_price, String knockcode, int def_locationid,int def_payment,int Allow_Over_Credit_Limit,int def_cashid,String Cashier_Printer,int Cashier_PrinterType,int use_offline,int  allow_so_update,int use_oil,int def_branchid,int hide_sale_summary,int def_currency) {
+    private int languageid;
+
+    public posuser(int userid, String name, int confirm_PrintVou, int allow_priceLevel, int select_location, int select_customer, int change_date, int tax, int discount, int change_price, String knockcode, int def_locationid, int def_payment, int Allow_Over_Credit_Limit, int def_cashid, String Cashier_Printer, int Cashier_PrinterType, int use_offline, int allow_so_update, int use_oil, int def_branchid, int hide_sale_summary, int def_currency, int languageid) {
         this.userid = userid;
         this.name = name;
         Confirm_PrintVou = confirm_PrintVou;
@@ -32,26 +34,28 @@ public class posuser {
         this.select_location = select_location;
         this.select_customer = select_customer;
         this.change_date = change_date;
-        this.tax=tax;
-        this.discount=discount;
+        this.tax = tax;
+        this.discount = discount;
         this.change_price = change_price;
         this.knockcode = knockcode;
         this.def_locationid = def_locationid;
-        this.def_payment=def_payment;
-        this.Allow_Over_Credit_Limit=Allow_Over_Credit_Limit;
-        this.def_cashid=def_cashid;
-        this.Cashier_Printer=Cashier_Printer;
-        this.Cashier_PrinterType=Cashier_PrinterType;
-        this.use_offline=use_offline;
-        this.allow_so_update=allow_so_update;
-        this.use_oil=use_oil;
-        this.def_branchid=def_branchid;
-        this.hide_sale_summary=hide_sale_summary;
-        this.def_currency=def_currency;
+        this.def_payment = def_payment;
+        this.Allow_Over_Credit_Limit = Allow_Over_Credit_Limit;
+        this.def_cashid = def_cashid;
+        this.Cashier_Printer = Cashier_Printer;
+        this.Cashier_PrinterType = Cashier_PrinterType;
+        this.use_offline = use_offline;
+        this.allow_so_update = allow_so_update;
+        this.use_oil = use_oil;
+        this.def_branchid = def_branchid;
+        this.hide_sale_summary = hide_sale_summary;
+        this.def_currency = def_currency;
+        this.languageid = languageid;
     }
-    public posuser(int userid, String name){
-        this.userid=userid;
-        this.name=name;
+
+    public posuser(int userid, String name) {
+        this.userid = userid;
+        this.name = name;
     }
 
     public int getUse_oil() {
@@ -228,7 +232,9 @@ public class posuser {
         return hide_sale_summary;
     }
 
-    public void setHide_sale_summary(int hide_sale_summary){ this.hide_sale_summary=hide_sale_summary;}
+    public void setHide_sale_summary(int hide_sale_summary) {
+        this.hide_sale_summary = hide_sale_summary;
+    }
 
     public int getDef_currency() {
         return def_currency;
@@ -236,5 +242,13 @@ public class posuser {
 
     public void setDef_currency(int def_currency) {
         this.def_currency = def_currency;
+    }
+
+    public int getLanguageid() {
+        return languageid;
+    }
+
+    public void setLanguageid(int languageid) {
+        this.languageid = languageid;
     }
 }
