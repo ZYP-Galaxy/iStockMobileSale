@@ -98,6 +98,7 @@ import com.abbp.istockmobilesalenew.pay_type;
 import com.abbp.istockmobilesalenew.priceLevelAdapter;
 import com.abbp.istockmobilesalenew.reportviewer;
 import com.abbp.istockmobilesalenew.sale_det;
+import com.abbp.istockmobilesalenew.sale_entry;
 import com.abbp.istockmobilesalenew.so_det;
 import com.abbp.istockmobilesalenew.so_head;
 import com.abbp.istockmobilesalenew.sunmiprinter.SunmiPrintHelper;
@@ -2018,7 +2019,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     }
 
 
-    private void hideSoftKeyboard(View v){
+    private void hideSoftKeyboard(View v) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
@@ -3619,6 +3620,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
             tvChange = v.findViewById(R.id.txtChange);
             EditText tvPaid = v.findViewById(R.id.txtpaidAmount);
+            tvPaid.setText(txtnet.getText().toString());
             tvPaid.selectAll();
             CheckBox chkPrint = v.findViewById(R.id.chkPrint);
             CheckBox chkBluetooth = v.findViewById(R.id.chkBluetooth);
@@ -3709,10 +3711,11 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                                     bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
-                                            changeamount = 0;
-                                            tvChange.setText("0");
-                                            tvPaid.setText(paidAmount);
-                                            dialog.dismiss();
+                                            changeamount = Double.parseDouble(paidAmount) - Double.parseDouble(ClearFormat(txtnet.getText().toString()));
+                                            Double paidAmt = Double.parseDouble(paidAmount);
+                                            String numberAsString = String.format("%,." + frmmain.price_places + "f", paidAmt);
+                                            tvPaid.setText(numberAsString);
+                                            SummaryFormat(tvChange, changeamount);
                                         }
                                     });
                                     bd.create().show();
@@ -3746,40 +3749,46 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             imgSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!tvBillCount.getText().toString().trim().equals("0")) {
-                        billprintcount = Integer.parseInt(tvBillCount.getText().toString());
+                    String paidAmount = ClearFormat(tvPaid.getText().toString().trim().isEmpty() ? "0" : tvPaid.getText().toString());
+                    if (Double.parseDouble(paidAmount) < Double.parseDouble(ClearFormat(txtnet.getText().toString())) && Double.parseDouble(paidAmount) >= 0) {
+                        GlobalClass.showAlertDialog(sale_entry_tv.this, "iStock", "Paid Amount is less than Net Amount!");
                     } else {
-                        GetBillPrintCount();
-                    }
-
-                    if (tvPaid.getText().toString().trim().isEmpty()) {
-                        paidamount = 0;
-                        paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString().trim()));
-                    } else {
-                        paidamount = Double.parseDouble(ClearFormat(tvPaid.getText().toString().trim()));
-                        if (paidamount == 0) {
-                            paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString()).trim());
+                        if (!tvBillCount.getText().toString().trim().equals("0")) {
+                            billprintcount = Integer.parseInt(tvBillCount.getText().toString());
+                        } else {
+                            GetBillPrintCount();
                         }
-                    }
-                    if (tvChange.getText().toString().trim().isEmpty()) {
-                        changeamount = 0;
-                    } else {
-                        changeamount = Double.parseDouble(ClearFormat(tvChange.getText().toString().trim()));
-                    }
 
-                    if (frmlogin.UseOffline == 1) {
-                        String shTmp = " insert into Sale_Head_Tmp_Mp(tranid,currency,exg_rate,amount,change) " +
-                                "values(" + tranid + ",1,1," + paidamount + "," + changeamount + ")";
-                        DatabaseHelper.execute(shTmp);
-                    }
-                    UpdateVoucher();
+                        if (tvPaid.getText().toString().trim().isEmpty()) {
+                            paidamount = 0;
+                            paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString().trim()));
+                        } else {
+                            paidamount = Double.parseDouble(ClearFormat(tvPaid.getText().toString().trim()));
+                            if (paidamount == 0) {
+                                paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString()).trim());
+                            }
+                        }
+                        if (tvChange.getText().toString().trim().isEmpty()) {
+                            changeamount = 0;
+                        } else {
+                            changeamount = Double.parseDouble(ClearFormat(tvChange.getText().toString().trim()));
+                        }
+
+                        if (frmlogin.UseOffline == 1) {
+                            String shTmp = " insert into Sale_Head_Tmp_Mp(tranid,currency,exg_rate,amount,change) " +
+                                    "values(" + tranid + ",1,1," + paidamount + "," + changeamount + ")";
+                            DatabaseHelper.execute(shTmp);
+                        }
+                        UpdateVoucher();
 //                    ConfirmVoucher();
 //                    SaleVouSalesmen.clear();
-                    ConfirmedTranid = Long.parseLong("0");
+                        ConfirmedTranid = Long.parseLong("0");
 
-                    salechange.dismiss();
+                        salechange.dismiss();
+                    }
                 }
             });
+
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

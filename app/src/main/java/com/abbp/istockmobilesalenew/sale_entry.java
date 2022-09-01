@@ -60,6 +60,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.abbp.istockmobilesalenew.bluetoothprinter.BluetoothPrinter;
+import com.abbp.istockmobilesalenew.tvsale.sale_entry_tv;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -241,7 +242,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     int defloc = 1;
     int defunit = -1;
     int def_cashid;
-    CheckBox chkDeliver,chkbillnotprint;
+    CheckBox chkDeliver, chkbillnotprint;
     SharedPreferences sh_printer, sh_ptype;
     String ToDeliver = "";
     private AlertDialog downloadAlert;
@@ -265,6 +266,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     ProgressDialog progressDialog;
     private boolean isFillVou;
     public static Typeface font;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -421,12 +423,12 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
         TextView tvUnit = findViewById(R.id.unit);
         chkDeliver = findViewById(R.id.chkToDeliver);
-        chkbillnotprint=findViewById(R.id.chkbillprint);
+        chkbillnotprint = findViewById(R.id.chkbillprint);
         chkbillnotprint.setVisibility(View.GONE);
         chkbillnotprint.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                bill_not_print=isChecked;
+                bill_not_print = isChecked;
             }
         });
         boolean use_unit = false;
@@ -2134,9 +2136,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialogInterface) {
-                        if(sh.get(0).getPay_type()==2){
-                            bill_not_print=false;
-                            use_bluetooth=true;
+                        if (sh.get(0).getPay_type() == 2) {
+                            bill_not_print = false;
+                            use_bluetooth = true;
                             chkbillnotprint.setVisibility(View.VISIBLE);
                         }
                     }
@@ -2760,7 +2762,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 long so_id = ref_tranid;
                                 int so_sr = saleObj.getInt("so_sr");
                                 String remark = saleObj.optString("REMARK", "");
-                                remark=remark.equals("null")?"":remark;
+                                remark = remark.equals("null") ? "" : remark;
                                 so_dets.add(new so_det(unit_qty, unit_type, price, dis_price, dis_type, discount, code, unit_short, desc, pricelevel, so_id, so_sr, usr_code, remark));
                             }
 
@@ -2774,7 +2776,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                                 double discount = head.getDouble("discount");
                                 String discount_per = head.optString("discount_per", "0");
                                 String remark = head.optString("Remark", "");
-                                remark=remark.equals("null") ? "" : remark;
+                                remark = remark.equals("null") ? "" : remark;
                                 if (discount_per.equals("null") || discount_per.equals("")) {
                                     discount_per = "0";
                                 }
@@ -4239,6 +4241,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
             tvChange = v.findViewById(R.id.txtChange);
             TextView tvPaid = v.findViewById(R.id.txtpaidAmount);
+            tvPaid.setText(txtnet.getText().toString());
             CheckBox chkPrint = v.findViewById(R.id.chkPrint);
             CheckBox chkBluetooth = v.findViewById(R.id.chkBluetooth);
             chkBluetooth.setChecked(use_bluetooth);
@@ -4304,35 +4307,40 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             imgSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!tvBillCount.getText().toString().trim().equals("0")) {
-                        billprintcount = Integer.parseInt(tvBillCount.getText().toString());
+                    String paidAmount = ClearFormat(tvPaid.getText().toString().trim().isEmpty() ? "0" : tvPaid.getText().toString());
+                    if (Double.parseDouble(paidAmount) < Double.parseDouble(ClearFormat(txtnet.getText().toString())) && Double.parseDouble(paidAmount) >= 0) {
+                        GlobalClass.showAlertDialog(sale_entry.this, "iStock", "Paid Amount is less than Net Amount!");
                     } else {
-                        GetBillPrintCount();
-                    }
-                    salechange.dismiss();
-                    if (tvPaid.getText().toString().trim().isEmpty()) {
-                        paidamount = 0;
-                        paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString().trim()));
-                    } else {
-                        paidamount = Double.parseDouble(ClearFormat(tvPaid.getText().toString().trim()));
-                        if (paidamount == 0) {
-                            paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString()).trim());
+                        if (!tvBillCount.getText().toString().trim().equals("0")) {
+                            billprintcount = Integer.parseInt(tvBillCount.getText().toString());
+                        } else {
+                            GetBillPrintCount();
                         }
-                    }
-                    if (tvChange.getText().toString().trim().isEmpty()) {
-                        changeamount = 0;
-                    } else {
-                        changeamount = Double.parseDouble(ClearFormat(tvChange.getText().toString().trim()));
-                    }
+                        salechange.dismiss();
+                        if (tvPaid.getText().toString().trim().isEmpty()) {
+                            paidamount = 0;
+                            paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString().trim()));
+                        } else {
+                            paidamount = Double.parseDouble(ClearFormat(tvPaid.getText().toString().trim()));
+                            if (paidamount == 0) {
+                                paidamount = Double.parseDouble(ClearFormat(txtnet.getText().toString()).trim());
+                            }
+                        }
+                        if (tvChange.getText().toString().trim().isEmpty()) {
+                            changeamount = 0;
+                        } else {
+                            changeamount = Double.parseDouble(ClearFormat(tvChange.getText().toString().trim()));
+                        }
 
 
-                    if (frmlogin.UseOffline == 1) {
-                        String shTmp = " insert into Sale_Head_Tmp_Mp(tranid,currency,exg_rate,amount,change) " +
-                                "values(" + tranid + "," + sh.get(0).getCurrency() + "," + frmmain.exg_rate + "," + paidamount + "," + changeamount + ")";
-                        DatabaseHelper.execute(shTmp);
+                        if (frmlogin.UseOffline == 1) {
+                            String shTmp = " insert into Sale_Head_Tmp_Mp(tranid,currency,exg_rate,amount,change) " +
+                                    "values(" + tranid + "," + sh.get(0).getCurrency() + "," + frmmain.exg_rate + "," + paidamount + "," + changeamount + ")";
+                            DatabaseHelper.execute(shTmp);
+                        }
+                        updateVoucher();
+                        ConfirmedTranid = Long.parseLong("0");
                     }
-                    updateVoucher();
-                    ConfirmedTranid = Long.parseLong("0");
                 }
             });
             imgClose.setOnClickListener(new View.OnClickListener() {
@@ -4905,20 +4913,9 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
 
                         if (fromSaleChange) {
                             if (Double.parseDouble(keynum) < Double.parseDouble(ClearFormat(txtnet.getText().toString())) && Double.parseDouble(keynum) > 0) {
-                                AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
-                                bd.setTitle("iStock");
-                                bd.setMessage("Paid Amount is less than Net Amount");
-                                bd.setCancelable(false);
-                                bd.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        changeamount = 0;
-                                        tvChange.setText("0");
-                                        source.setText("0");
-                                        dialog.dismiss();
-                                    }
-                                });
-                                bd.create().show();
+                                GlobalClass.showAlertDialog(sale_entry.this, "iStock", "Paid Amount is less than Net Amount!");
+                                changeamount = Double.parseDouble(keynum) - Double.parseDouble(ClearFormat(txtnet.getText().toString()));
+                                SummaryFormat(tvChange, changeamount);
                             } else {
                                 changeamount = Double.parseDouble(keynum) - Double.parseDouble(ClearFormat(txtnet.getText().toString()));
                                 SummaryFormat(tvChange, changeamount);
