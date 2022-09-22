@@ -5422,11 +5422,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 printername = frmlogin.Cashier_Printer;
                 printertypeid = String.valueOf(frmlogin.Cashier_PrinterType);
             }
-
+            String reportname="empty";
+            if(sh.get(0).getPay_type()==2 && use_bluetooth){
+                reportname="Voucher Outstand";
+            }
             if (use_bluetooth) {
-                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=0&printername=" + printername + "&printertypeid=2&report=empty";
+                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=0&printername=" + printername + "&printertypeid=2&report="+reportname;
             } else {
-                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=" + billprintcount + "&printername=" + printername + "&printertypeid=" + printertypeid + "&report=empty";
+                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=" + billprintcount + "&printername=" + printername + "&printertypeid=" + printertypeid + "&report="+reportname;
             }
 
             try {
