@@ -1,5 +1,6 @@
 package com.abbp.istockmobilesalenew;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -20,6 +22,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -317,10 +320,13 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                     } else {
                         btnPrinter.setText("Choose");
                     }
-
+                    //added by KLM to Satisfy Bluetooth permission in android 12 21092022
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        Log.i("SDK", Build.VERSION.SDK_INT + "");
+                        checkPermissions();
+                    }
 
                     if (isTVMode) {
-//                        TextView txtTitleBTprinter = view.findViewById(R.id.txt_title_btprinter);
                         LinearLayout layoutBTprinter = view.findViewById(R.id.layout_btprinter);
                         LinearLayout layoutSunmiprinter = view.findViewById(R.id.layout_sunmi_printer);
                         RelativeLayout rlPrinter = view.findViewById(R.id.rlprinter);
@@ -329,12 +335,12 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         rlPrinterType.setVisibility(View.GONE);
                         if (SunmiPrintHelper.getInstance().checkSunmiPrinter()) {
                             layoutSunmiprinter.setVisibility(View.VISIBLE);
-//                            txtTitleBTprinter.setVisibility(View.GONE);
+
                             layoutBTprinter.setVisibility(View.GONE);
 
                         } else {
                             layoutSunmiprinter.setVisibility(View.GONE);
-//                            txtTitleBTprinter.setVisibility(View.VISIBLE);
+
                             layoutBTprinter.setVisibility(View.VISIBLE);
                         }
 
@@ -564,6 +570,44 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         }
 
 
+    }
+
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//            Manifest.permission.ACCESS_FINE_LOCATION,
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+    };
+    private static String[] PERMISSIONS_LOCATION = {
+//            Manifest.permission.ACCESS_FINE_LOCATION,
+//            Manifest.permission.ACCESS_COARSE_LOCATION,
+//            Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+            Manifest.permission.BLUETOOTH_SCAN,
+            Manifest.permission.BLUETOOTH_CONNECT,
+            Manifest.permission.BLUETOOTH_PRIVILEGED
+    };
+
+    private void checkPermissions() {
+        int permission1 = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission2 = ActivityCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_SCAN);
+        if (permission1 != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_STORAGE,
+                    1
+            );
+        } else if (permission2 != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    PERMISSIONS_LOCATION,
+                    1
+            );
+        }
     }
 
     private void getSavedPrinter(TextView connectedTo) {
