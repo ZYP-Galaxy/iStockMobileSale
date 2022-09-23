@@ -816,7 +816,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 do {
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
-                                    double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
+                                    double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                     //added by KLM to correct dis_price while use multicurrency 08072022
                                     int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
                                     price = GetCurrencyPrice(price, sale_curr);
