@@ -1187,7 +1187,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 //                            long customerid=obj.getLong("customerid");
 //                            double tax_per=getTax();
                             //sh.add(new Sale_head_main(tranid, frmlogin.LoginUserid,  "VOU-1",  date,  "",  "",  1,  1,   1, 0,  1,  0,  0,  0,  0,  0,  0,  0,  0,0));
-                            sh.add(new Sale_head_main(tranid, frmlogin.LoginUserid, "VOU-1", date, "", false, "", frmlogin.det_locationid, 1, frmlogin.def_cashid, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+                            sh.add(new Sale_head_main(tranid, frmlogin.LoginUserid, "VOU-1", date, "", false, "", frmlogin.det_locationid, 1, frmlogin.def_cashid, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, getTax()));
                             sh.get(0).setCurrency(frmlogin.def_currency);//added by KLM to save currency base on default currency 27062022
                         }
                         //InsertheadMain();
@@ -2655,7 +2655,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
     }
 
     public static void getSummary() {
-        sh.get(0).setTax_per(getTax());
+
         totalAmt_tmp = 0.0;
         qty_tmp = 0.0;
         vouDis_tmp = 0.0;
