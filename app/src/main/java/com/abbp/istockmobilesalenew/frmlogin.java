@@ -1095,8 +1095,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         sqlString = "delete from Posuser";
         DatabaseHelper.execute(sqlString);
 
-        sqlString = "delete from Location";
-        DatabaseHelper.execute(sqlString);
+//        sqlString = "delete from Location";
+//        DatabaseHelper.execute(sqlString);
 
 
 //        sqlString = "delete from SystemSetting";
@@ -1428,6 +1428,9 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 
                         JSONObject locobj = loc.getJSONObject(loccount);
                         long locationid = locobj.getLong("locationid");
+                        sqlString = "delete from Location where locationid=" + locationid;
+                        DatabaseHelper.execute(sqlString);
+
                         String locationname = locobj.optString("Location_Name", "null");
                         String locationcode = locobj.optString("Location_Short", "null");
                         long locgroupid = locobj.getLong("LocGroupID");
