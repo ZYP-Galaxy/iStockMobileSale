@@ -41,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -271,6 +272,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sale_entry);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         isOnline = true;
         defloc = frmlogin.det_locationid;
         defunit = frmmain.defunit;
@@ -6486,10 +6488,10 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
             String msg = s;
             pb.dismiss();
             try {
-
+                AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
+                b.setTitle("iStock");
                 if (msg.equals("Adding New Customer is Fail!!")) {
-                    AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
-                    b.setTitle("iStock");
+
                     if (allcustomer) {
                         msg = "Customer Downloading Fail!!";
                     }
@@ -6504,13 +6506,26 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     ConfirmMsg = b.create();
                     ConfirmMsg.show();
 
-                } else {
+                }
+                else if(msg.isEmpty()){
+                    b.setMessage("Adding New Customer is Fail! Please check connection.");
+                    b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ConfirmMsg.dismiss();
+
+
+                        }
+                    });
+                    ConfirmMsg = b.create();
+                    ConfirmMsg.show();
+                }
+                else {
                     if (da != null) {
                         da.dismiss();
                     }
                     String data = s;
-                    AlertDialog.Builder b = new AlertDialog.Builder(sale_entry.this, R.style.AlertDialogTheme);
-                    b.setTitle("iStock");
+
                     b.setMessage("Adding New Customer is successful!");
                     b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
