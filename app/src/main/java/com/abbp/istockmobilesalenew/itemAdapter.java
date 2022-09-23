@@ -122,8 +122,7 @@ public class itemAdapter extends BaseAdapter {
             tvgallon.setVisibility(View.GONE);
             isgallon = false;
         }
-        //added by KLM for currency 27062022
-//        if(frmmain.use_multicurrency){
+        //added by KLM for currency 27062022//        if(frmmain.use_multicurrency){
 //            switch (formname){
 //                case "SaleOrder":
 //                    if(!saleorder_entry.sd.get(position).getChangeSalePrice())

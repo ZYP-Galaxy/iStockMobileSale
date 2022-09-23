@@ -1337,7 +1337,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
             bd.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    intent = new Intent(context, frmsalelist.class);
+                    intent = new Intent(context, frmsaleorderlist.class);
                     startActivity(intent);
                     finish();
 

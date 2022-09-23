@@ -313,7 +313,7 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="2dp">
 
                                     <TextView
                                         android:id="@+id/txtTotal"
@@ -323,7 +323,7 @@
                                         android:layout_marginLeft="10dp"
                                         android:text="Amount"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold"
 
                                         />
@@ -339,14 +339,14 @@
                                         android:gravity="end"
                                         android:text="0"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="2dp">
 
                                     <TextView
                                         android:id="@+id/txtFoc"
@@ -356,7 +356,7 @@
                                         android:layout_marginLeft="10dp"
                                         android:text="Discount"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold"
 
                                         />
@@ -372,14 +372,14 @@
                                         android:gravity="end"
                                         android:text="0"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="2dp"
                                     android:visibility="visible">
 
                                     <TextView
@@ -390,7 +390,7 @@
                                         android:layout_marginLeft="10dp"
                                         android:text="Previous Amount"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold"
                                         android:visibility="gone"
 
@@ -407,7 +407,7 @@
                                         android:gravity="end"
                                         android:text="0"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold"
                                         android:visibility="gone"/>
                                 </RelativeLayout>
@@ -426,7 +426,7 @@
                                         android:layout_marginLeft="10dp"
                                         android:text="Tax"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold"
 
                                         />
@@ -442,14 +442,14 @@
                                         android:gravity="end"
                                         android:text="0"
                                         android:textColor="#2F4658"
-                                        android:textSize="15dp"
+                                        android:textSize="13dp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp">
+                                    android:layout_marginTop="2dp">
 
                                     <TextView
                                         android:id="@+id/txtNet"
@@ -459,7 +459,7 @@
                                         android:layout_marginLeft="10dp"
                                         android:text="Total Amount"
                                         android:textColor="#2F4658"
-                                        android:textSize="18dp"
+                                        android:textSize="16dp"
                                         android:textStyle="bold"
 
                                         />
@@ -475,7 +475,7 @@
                                         android:gravity="end"
                                         android:text="0"
                                         android:textColor="#59ad00"
-                                        android:textSize="20dp"
+                                        android:textSize="18dp"
                                         android:textStyle="bold" />
                                 </RelativeLayout>
 
