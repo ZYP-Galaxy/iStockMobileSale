@@ -362,8 +362,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                                         double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = GetCurrencyPrice(price, sale_curr);
 
                                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -387,7 +387,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 0,
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
-                                        saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
+                                        saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setChangeSalePrice(true);
                                         saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
@@ -417,8 +417,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                                         double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = GetCurrencyPrice(price, sale_curr);
 
                                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -442,7 +442,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 0,
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
-                                        saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
+                                        saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setChangeSalePrice(true);
                                         saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
@@ -469,8 +469,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                     //added by KLM to correct dis_price while use multicurrency 08072022
-                                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                    price=GetCurrencyPrice(price,sale_curr);
+                                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                    price = GetCurrencyPrice(price, sale_curr);
 
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -494,7 +494,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP));
-                                    saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
+                                    saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setChangeSalePrice(true);
                                     saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                 } while (cursor.moveToNext());
                             }
@@ -536,8 +536,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                                         double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = GetCurrencyPrice(price, sale_curr);
 
                                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -561,7 +561,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 0,
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
-                                        returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
+                                        returnin_entry.sd.get(returnin_entry.sd.size() - 1).setChangeSalePrice(true);
                                         returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
@@ -591,8 +591,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                                         double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = GetCurrencyPrice(price, sale_curr);
 
                                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -616,7 +616,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 0,
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP));
-                                        returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
+                                        returnin_entry.sd.get(returnin_entry.sd.size() - 1).setChangeSalePrice(true);
                                         returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
@@ -643,8 +643,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                     //added by KLM to correct dis_price while use multicurrency 08072022
-                                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                    price=GetCurrencyPrice(price,sale_curr);
+                                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                    price = GetCurrencyPrice(price, sale_curr);
 
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -668,7 +668,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP));
-                                    returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
+                                    returnin_entry.sd.get(returnin_entry.sd.size() - 1).setChangeSalePrice(true);
                                     returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                 } while (cursor.moveToNext());
                             }
@@ -711,8 +711,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                                         double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = GetCurrencyPrice(price, sale_curr);
 
                                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -736,7 +736,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 0,
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-                                        sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
+                                        sale_entry.sd.get(sale_entry.sd.size() - 1).setChangeSalePrice(true);
                                         sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
@@ -766,8 +766,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                                         double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = GetCurrencyPrice(price, sale_curr);
 
                                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -791,7 +791,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                                 0,
                                                 "",
                                                 code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-                                        sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
+                                        sale_entry.sd.get(sale_entry.sd.size() - 1).setChangeSalePrice(true);
                                         sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                     } while (cursor.moveToNext());
                                 }
@@ -818,8 +818,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                                     //added by KLM to correct dis_price while use multicurrency 08072022
-                                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                    price=GetCurrencyPrice(price,sale_curr);
+                                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                    price = GetCurrencyPrice(price, sale_curr);
 
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -843,7 +843,7 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP, smallest_unit_qty));
-                                    sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
+                                    sale_entry.sd.get(sale_entry.sd.size() - 1).setChangeSalePrice(true);
                                     sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                                 } while (cursor.moveToNext());
                             }
@@ -869,10 +869,10 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
     }
 
     public static double GetCurrencyPrice(double price, int sale_curr) {
-        double codeOrgExgRate=0;
-        if(frmlogin.def_currency!=sale_curr){
-            codeOrgExgRate=itemAdapter.GetExgRate(sale_curr);
-            price=price*codeOrgExgRate/frmmain.exg_rate;
+        double codeOrgExgRate = 0;
+        if (frmlogin.def_currency != sale_curr) {
+            codeOrgExgRate = itemAdapter.GetExgRate(sale_curr);
+            price = price * codeOrgExgRate / frmmain.exg_rate;
         }
         return price;
     }
@@ -989,8 +989,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                         double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                         //added by KLM to correct dis_price while use multicurrency 08072022
-                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                        price=GetCurrencyPrice(price,sale_curr);
+                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                        price = GetCurrencyPrice(price, sale_curr);
 
                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -1014,8 +1014,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 0,
                                 "",
                                 code, unit_short, desc, CalNoTax, SP));
-                        saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setChangeSalePrice(true);
-                        saleorder_entry.sd.get(saleorder_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                        saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setChangeSalePrice(true);
+                        saleorder_entry.sd.get(saleorder_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                     } while (cursor.moveToNext());
                 }
 
@@ -1032,8 +1032,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                         double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                         //added by KLM to correct dis_price while use multicurrency 08072022
-                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                        price=GetCurrencyPrice(price,sale_curr);
+                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                        price = GetCurrencyPrice(price, sale_curr);
 
                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -1057,8 +1057,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 0,
                                 "",
                                 code, unit_short, desc, CalNoTax, SP));
-                        returnin_entry.sd.get(returnin_entry.sd.size()-1).setChangeSalePrice(true);
-                        returnin_entry.sd.get(returnin_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                        returnin_entry.sd.get(returnin_entry.sd.size() - 1).setChangeSalePrice(true);
+                        returnin_entry.sd.get(returnin_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                     } while (cursor.moveToNext());
                 }
 
@@ -1075,8 +1075,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                         long code = cursor.getLong(cursor.getColumnIndex("code"));
                         double price = cursor.getDouble(cursor.getColumnIndex("sale_price"));
                         //added by KLM to correct dis_price while use multicurrency 08072022
-                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                        price=GetCurrencyPrice(price,sale_curr);
+                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                        price = GetCurrencyPrice(price, sale_curr);
 
                         int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                         double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -1100,8 +1100,8 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                                 0,
                                 "",
                                 code, unit_short, desc, CalNoTax, SP));
-                        sale_entry.sd.get(sale_entry.sd.size()-1).setChangeSalePrice(true);
-                        sale_entry.sd.get(sale_entry.sd.size()-1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
+                        sale_entry.sd.get(sale_entry.sd.size() - 1).setChangeSalePrice(true);
+                        sale_entry.sd.get(sale_entry.sd.size() - 1).setOrgSalePrice(price);//added by KLM for org_currency to calculate currency in itemAdapter 27062022
                     } while (cursor.moveToNext());
                 }
 

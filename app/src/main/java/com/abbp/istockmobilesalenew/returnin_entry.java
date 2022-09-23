@@ -237,6 +237,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
     static long specialPrice = 0;//added by klm 14022022
     ArrayList<Cash> cash = new ArrayList<>();
     public static Typeface font;
+    TextView txtgallon;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -381,6 +382,13 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
     private void SetUI() {
 
         SaleVouSalesmen.clear();
+        txtgallon = findViewById(R.id.gallon);
+        if (frmlogin.use_oil == 1) {
+            txtgallon.setVisibility(View.VISIBLE);
+        } else {
+            txtgallon.setVisibility(View.GONE);
+        }
+
         TextView tvUnit = findViewById(R.id.unit);
         chkDeliver = findViewById(R.id.chkToDeliver);
         boolean use_unit = false;

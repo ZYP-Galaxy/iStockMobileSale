@@ -524,7 +524,7 @@ public class frmsalelist extends AppCompatActivity implements View.OnClickListen
             if (salelists.size() > 0) salelists.clear();
             if (frmlogin.UseOffline == 1) {
 
-
+                total = 0.0;
                 String filter = " where " + (FilterLocation.locid != -1 ? " sh.locationid=" + FilterLocation.locid : "1=1") +
                         " and " + (FilterCustomer.ccid != -1 ? "sh.customerid=" + FilterCustomer.ccid : "1=1");
 

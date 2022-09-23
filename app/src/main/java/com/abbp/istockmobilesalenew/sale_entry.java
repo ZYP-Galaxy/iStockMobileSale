@@ -194,7 +194,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     public static double itemDis_tmp = 0.0;
     public static double foc_tmp = 0.0;
     public static double paidAmt_tmp = 0.0;
-    public static double taxper_tmp = .0;
+    public static double taxper_tmp = 0.0;
     public static double taxamt_tmp = 0.0;
     public static double calresult_tmp = 0.0;
     public static double netamt_tmp = 0.0;
@@ -313,6 +313,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
         if (frmlogin.UseOffline == 1) {
 
             getHeaderOffline();
+
         } else {
             pb = new ProgressDialog(sale_entry.this, R.style.AlertDialogTheme);
             pb.setTitle("iStock");
@@ -1330,7 +1331,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     "values(" + tranid + "," + frmlogin.LoginUserid + ",'" + vou + "','" + date + "')";
             DatabaseHelper.execute(sql);
             double tax_per = getTax();
-            sh.add(new Sale_head_main(tranid, frmlogin.LoginUserid, vou, voudate, "", false, "", frmlogin.det_locationid, 1, frmlogin.def_cashid, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+            sh.add(new Sale_head_main(tranid, frmlogin.LoginUserid, vou, voudate, "", false, "", frmlogin.det_locationid, 1, frmlogin.def_cashid, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, getTax()));
             voudate = new SimpleDateFormat("dd/MM/yyyy").format(dateFormat.parse(sh.get(0).getDate()));
             sh.get(0).setCurrency(frmlogin.def_currency);
             txtdate.setText(voudate);

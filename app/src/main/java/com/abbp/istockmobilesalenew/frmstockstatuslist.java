@@ -170,8 +170,6 @@ public class frmstockstatuslist extends AppCompatActivity {
         txtchooseLocation.setOnClickListener(this::onClick);
 
 
-
-
         imgFilterClear=findViewById(R.id.imgFilterClear);
         filtermenu=(ImageButton) findViewById(R.id.filtermenu);
         specialfiltermenu=(ImageButton)findViewById(R.id.filterSpecial);
@@ -586,8 +584,6 @@ public class frmstockstatuslist extends AppCompatActivity {
                                 {
                                     PlusValue="";
                                 }
-
-
 
 
                                 if(chkZero.isChecked())
