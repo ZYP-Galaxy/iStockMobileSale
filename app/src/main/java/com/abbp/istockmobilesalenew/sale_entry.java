@@ -171,7 +171,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     public static double dis_percent;
     public static double disamt;
     public static boolean dis_typepercent = false;
-    public static boolean changeheader = false;
+    public boolean changeheader = false;
     RelativeLayout rlUnit, rlLevel;
     TextView txtEdit, txtDel, txtDelAll, txtConfirm, txtBack, txtCheckBalance;
     public static TextView txttax;
@@ -5422,14 +5422,14 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                 printername = frmlogin.Cashier_Printer;
                 printertypeid = String.valueOf(frmlogin.Cashier_PrinterType);
             }
-            String reportname="empty";
-            if(sh.get(0).getPay_type()==2 && use_bluetooth){
-                reportname="Voucher Outstand";
+            String reportname = "empty";
+            if (sh.get(0).getPay_type() == 2 && use_bluetooth) {
+                reportname = "Voucher Outstand";
             }
             if (use_bluetooth) {
-                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=0&printername=" + printername + "&printertypeid=2&report="+reportname;
+                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=0&printername=" + printername + "&printertypeid=2&report=" + reportname;
             } else {
-                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=" + billprintcount + "&printername=" + printername + "&printertypeid=" + printertypeid + "&report="+reportname;
+                sqlstring = "userid=" + frmlogin.LoginUserid + "&tranid=" + tranid + "&net_amount=" + ClearFormat(txtnet.getText().toString()) + "&billcount=" + billprintcount + "&printername=" + printername + "&printertypeid=" + printertypeid + "&report=" + reportname;
             }
 
             try {
@@ -5895,7 +5895,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
     public void EditInfo() {
         if (itemPosition > -1 && sd.size() > 0) {
 
-            changeheader = true;
+//            changeheader = true;
             editUnit_type = sd.get(itemPosition).getUnit_type();
 
             Cursor cursor = null;
@@ -6507,8 +6507,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     ConfirmMsg = b.create();
                     ConfirmMsg.show();
 
-                }
-                else if(msg.isEmpty()){
+                } else if (msg.isEmpty()) {
                     b.setMessage("Adding New Customer is Fail! Please check connection.");
                     b.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         @Override
@@ -6520,8 +6519,7 @@ public class sale_entry extends AppCompatActivity implements View.OnClickListene
                     });
                     ConfirmMsg = b.create();
                     ConfirmMsg.show();
-                }
-                else {
+                } else {
                     if (da != null) {
                         da.dismiss();
                     }
