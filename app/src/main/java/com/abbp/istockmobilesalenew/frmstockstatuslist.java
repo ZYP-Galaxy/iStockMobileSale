@@ -300,6 +300,8 @@ public class frmstockstatuslist extends AppCompatActivity {
                 FilterBrand.uid =-1;
                 FilterUser.uid=-1;
                 FilterLocation.locid=-1;
+                FilterCategory.uid=-1;
+                FilterClass.uid=-1;
                 btnLocation.setText("Choose Location");
                 fdate = new Date();
                 tdate = new Date();
