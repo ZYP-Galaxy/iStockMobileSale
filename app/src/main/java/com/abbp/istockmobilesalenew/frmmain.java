@@ -276,7 +276,11 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
                 //if( Allow_Sale) {
                 if (UserRight(frmlogin.LoginUserid, 1, 1)) {
                     if (frmlogin.isTVMode) {
-                        intent = new Intent(frmmain.this, sale_entry_tv.class);
+                        if (frmlogin.UseOffline == 1) {
+                            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_LONG).show();
+                        } else {
+                            intent = new Intent(frmmain.this, sale_entry_tv.class);
+                        }
                     } else {
                         intent = new Intent(frmmain.this, sale_entry.class);
                     }

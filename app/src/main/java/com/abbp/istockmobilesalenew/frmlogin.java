@@ -846,7 +846,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
             isData = false;
         }
         cursor.close();
-        ;
+
     }
 
 
@@ -1965,27 +1965,32 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                 public void onErrorResponse(VolleyError error) {
                     isOnline = false;
                     btnconnect.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.wifidis, 0, 0);
-                    new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme)
-                            .setTitle("iStock")
-                            .setMessage("Your Network Condition is unavailable!Do you want to change offline?")
-                            .setCancelable(false)
-                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    frmlogin.UseOffline = 1;
-                                    Intent intent = new Intent(frmlogin.this, frmmain.class);
-                                    startActivity(intent);
-                                    finish();
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .create().show();
+                    if (frmlogin.isTVMode == false) {
+                        new AlertDialog.Builder(frmlogin.this, R.style.AlertDialogTheme)
+                                .setTitle("iStock")
+                                .setMessage("Your Network Condition is unavailable!Do you want to change offline?")
+                                .setCancelable(false)
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        frmlogin.UseOffline = 1;
+                                        Intent intent = new Intent(frmlogin.this, frmmain.class);
+                                        startActivity(intent);
+                                        finish();
+                                        dialog.dismiss();
+                                    }
+                                })
+
+                                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create().show();
+                    } else {
+                        GlobalClass.showAlertDialog(frmlogin.this, "iStock", "No Internet Connection!");
+                    }
                 }
             };
             StringRequest req = new StringRequest(Request.Method.GET, Url, listener, error);

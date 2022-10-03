@@ -364,6 +364,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
+                                    android:layout_marginStart="10dp"
                                     android:text="Amount"
                                     android:textColor="#2F4658"
                                     android:textSize="16sp"
