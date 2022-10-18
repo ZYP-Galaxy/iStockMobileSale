@@ -1,2 +1,8 @@
-# iStockMobileSale_736
-iStockMobileSale_736 with TVSale
+# iStockMobileSale
+iStock Mobile POS with AndroidTV UI
+
+### Coordinators
+
+- ZYP
+- KLM
+- KNO
