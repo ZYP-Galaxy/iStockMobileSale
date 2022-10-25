@@ -61,7 +61,7 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
     public static double exg_rate, div_rate = 1;
     public static String currencyshort = "MMK";
     public static Typeface font;
-
+    public static String inClass = "0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,10 +77,33 @@ public class frmmain extends AppCompatActivity implements View.OnClickListener {
         if (use_multicurrency && !frmlogin.isTVMode) {
             GetExg_Rate();
         }
+        getUserClass();
         GlobalClass.ChangeLanguage((ViewGroup) findViewById(R.id.lmenu), this, 14, font);
 
     }
+    private void getUserClass() {//YLT
+        //Modify by KLM to Show usrcode associated with user class 21032022
+        inClass = "0";
+        try {
+            Cursor cursor = DatabaseHelper.rawQuery("select distinct class from userclass where userid=" + frmlogin.LoginUserid);
+            if (cursor != null && cursor.getCount() != 0) {
+                if (cursor.moveToFirst()) {
+                    do {
 
+                        int classid = cursor.getInt(cursor.getColumnIndex("class"));
+                        inClass += "," + classid;
+                        //notinClass+="class="+classid+" or ";4
+                        //DatabaseHelper.execute("delete from usr_code where class <>"+classid);
+
+                    } while (cursor.moveToNext());
+                }
+            }
+            cursor.close();
+            // DatabaseHelper.execute("delete from usr_code where class not in("+notinClass+")");
+        } catch (Exception ee) {
+
+        }
+    }
     private void GetExg_Rate() {
         String sqlString = "select exg_rate,div_rate,short from Currency where currency=" + frmlogin.def_currency;
         Cursor cursor = DatabaseHelper.rawQuery(sqlString);

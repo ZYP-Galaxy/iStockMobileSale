@@ -184,6 +184,9 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                 holder.iv.setVisibility(View.GONE);
                 holder.tv.setTextColor(Color.parseColor("#FFFFFF"));
             } else {
+                holder.cv.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
+                holder.iv.setVisibility(View.VISIBLE);
+                holder.tv.setTextColor(Color.parseColor("#000000"));
                 String[] pathnew = path.split("\\\\");
                 String imgUrl = "http://" + ip + "/api/DataSync/GetImage?imgName=" + (pathnew.length > 3 ? pathnew[3] : path);
                 Log.i("imgUrl", imgUrl);
@@ -247,8 +250,14 @@ public class usrcodeAdapter extends RecyclerView.Adapter<usrcodeAdapter.MyViewHo
                     if (frmmain.withoutclass.equals("false")) {
                         categories.add(new category("Back"));
                     }
-                    Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
-                    // Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
+                    String sqlstr = "";
+                    if (frmmain.inClass.length() > 1) {
+                        sqlstr = "select distinct category,categoryname,class from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+                    } else {
+                        sqlstr = "select distinct category,categoryname,class from Usr_Code order by classname";
+                    }
+
+                    Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
                     if (cursor != null && cursor.getCount() != 0) {
                         if (cursor.moveToFirst()) {
                             do {

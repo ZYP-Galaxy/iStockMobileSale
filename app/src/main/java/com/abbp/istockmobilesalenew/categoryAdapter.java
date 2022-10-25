@@ -104,7 +104,15 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyView
                         } else {
                             sale_entry.imgFilterCode.setVisibility(View.GONE);
                         }
-                        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"class", "classname"}, "classname");
+//                        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"class", "classname"}, "classname");
+//                        Modify by KLM to Show usrcode associated with user class 21032022
+                        String sqlstr = "";
+                        if (frmmain.inClass.length() > 1) {
+                            sqlstr = "select distinct class,classname from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+                        } else {
+                            sqlstr = "select distinct class,classname from Usr_Code order by classname";
+                        }
+                        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
                         if (formname == "SaleOrder")//added by YLT
                         {
                             if (saleorder_entry.class_items.size() > 0)

@@ -1298,7 +1298,28 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
         if (class_items.size() > 0) {
             class_items.clear();
         }
-        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"class", "classname"}, "classname");
+        Cursor csr = DatabaseHelper.rawQuery("select * from posuser");
+        if (csr != null && csr.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        csr.close();
+        Cursor cs = DatabaseHelper.rawQuery("select * from usr_code");
+        if (cs != null && cs.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        cs.close();
+//        String sqlstr="select distinct class,classname from Usr_Code where "+frmmain.notinClass+"class=0 order by classname";
+//        Modify by KLM to Show usrcode associated with user class 21032022မ
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select distinct class,classname from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+        } else {
+            sqlstr = "select distinct class,classname from Usr_Code order by classname";
+        }
+
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
+//        Cursor cursor=DatabaseHelper.rawQuery("select distinct class,classname from Usr_Code where class in ("+frmmain.notinClass+") order by classname");
+//        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"class","classname"},"classname");
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -1309,10 +1330,11 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
 
             }
 
+
         }
         cursor.close();
 
-        cad = new classAdapter(returnin_entry.this, class_items, gridclassview, "ReturnIn");//added by YLT
+        cad = new classAdapter(returnin_entry.this, class_items, gridclassview, "Sale Order");
         gridclassview.setAdapter(cad);
         LinearLayoutManager classlayoutmanger = new LinearLayoutManager(returnin_entry.this, LinearLayoutManager.HORIZONTAL, false);
         gridclassview.setLayoutManager(classlayoutmanger);
@@ -1323,9 +1345,30 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
         if (categories.size() > 0) {
             categories.clear();
         }
-        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
-        //Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
-        // Cursor cursor=DatabaseHelper.rawQuery("select * from Usr_Code");
+
+        Cursor csr = DatabaseHelper.rawQuery("select * from posuser");
+        if (csr != null && csr.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        csr.close();
+        Cursor cs = DatabaseHelper.rawQuery("select * from usr_code");
+        if (cs != null && cs.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        cs.close();
+//        String sqlstr="select distinct class,classname from Usr_Code where "+frmmain.notinClass+"class=0 order by classname";
+        //Modify by KLM to Show usrcode associated with user class 21032022မ
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select distinct category,categoryname,class from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+        } else {
+            sqlstr = "select distinct category,categoryname,class from Usr_Code order by classname";
+        }
+
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
+//        Cursor cursor=DatabaseHelper.rawQuery("select distinct class,classname from Usr_Code where class in ("+frmmain.notinClass+") order by classname");
+//        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"class","classname"},"classname");
+
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -1340,7 +1383,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
         }
         cursor.close();
 
-        ad = new categoryAdapter(returnin_entry.this, categories, gridview, "ReturnIn");//YLT
+        ad = new categoryAdapter(returnin_entry.this, categories, gridview);
         gridview.setAdapter(ad);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
@@ -1947,7 +1990,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(name.equals("Salesmen")){
+                    if (name.equals("Salesmen")) {
                         btnSalesmen.setText("Choose");
                     }
                     da.dismiss();
@@ -4727,10 +4770,13 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
 
     private List<usr_code> GetCodes() {
         List<usr_code> codes = new ArrayList<>();
-        //Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"code","usr_code","description","sale_price"},"sortcode,categoryname");
-        Cursor cursor = DatabaseHelper.rawQuery("select code,usr_code,description,sale_price from Usr_Code where unit_type=1 order by sortcode,categoryname");
-        //Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
-        // Cursor cursor=DatabaseHelper.rawQuery("select * from Usr_Code");
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select code,usr_code,description,sale_price from Usr_Code where unit_type=1 and class in (" + frmmain.inClass + ")  order by sortcode,categoryname";
+        } else {
+            sqlstr = "select code,usr_code,description,sale_price from Usr_Code where unit_type=1 order by sortcode,categoryname";
+        }
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -4963,7 +5009,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                                 long so_id = ref_tranid;
                                 int so_sr = saleObj.getInt("rin_sr");
                                 String remark = saleObj.optString("remark", "");
-                                remark=remark.equals("null")?"":remark;
+                                remark = remark.equals("null") ? "" : remark;
                                 so_dets.add(new so_det(unit_qty, unit_type, price, dis_price, dis_type, discount, code, unit_short, desc, pricelevel, so_id, so_sr, usr_code, remark));
                             }
 
@@ -4976,7 +5022,7 @@ public class returnin_entry extends AppCompatActivity implements View.OnClickLis
                                 int pay_type = head.getInt("pay_type");
                                 double discount = head.getDouble("discount");
                                 String remark = head.optString("Remark", "");
-                                remark=remark.equals("null")?"":remark;
+                                remark = remark.equals("null") ? "" : remark;
                                 String discount_per = head.optString("discount_per", "0");
                                 if (discount_per.equals("null") || discount_per.equals("")) {
                                     discount_per = "0";

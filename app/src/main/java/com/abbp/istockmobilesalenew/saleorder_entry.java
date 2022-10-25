@@ -1270,7 +1270,28 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         if (class_items.size() > 0) {
             class_items.clear();
         }
-        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"class", "classname"}, "classname");
+        Cursor csr = DatabaseHelper.rawQuery("select * from posuser");
+        if (csr != null && csr.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        csr.close();
+        Cursor cs = DatabaseHelper.rawQuery("select * from usr_code");
+        if (cs != null && cs.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        cs.close();
+//        String sqlstr="select distinct class,classname from Usr_Code where "+frmmain.notinClass+"class=0 order by classname";
+//        Modify by KLM to Show usrcode associated with user class 21032022မ
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select distinct class,classname from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+        } else {
+            sqlstr = "select distinct class,classname from Usr_Code order by classname";
+        }
+
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
+//        Cursor cursor=DatabaseHelper.rawQuery("select distinct class,classname from Usr_Code where class in ("+frmmain.notinClass+") order by classname");
+//        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"class","classname"},"classname");
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -1281,10 +1302,11 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
             }
 
+
         }
         cursor.close();
 
-        cad = new classAdapter(saleorder_entry.this, class_items, gridclassview, "SaleOrder");//added by YLT
+        cad = new classAdapter(saleorder_entry.this, class_items, gridclassview, "Sale Order");
         gridclassview.setAdapter(cad);
         LinearLayoutManager classlayoutmanger = new LinearLayoutManager(saleorder_entry.this, LinearLayoutManager.HORIZONTAL, false);
         gridclassview.setLayoutManager(classlayoutmanger);
@@ -1295,9 +1317,30 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         if (categories.size() > 0) {
             categories.clear();
         }
-        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"category", "categoryname", "class"}, "sortcode,categoryname");
-        //Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
-        // Cursor cursor=DatabaseHelper.rawQuery("select * from Usr_Code");
+
+        Cursor csr = DatabaseHelper.rawQuery("select * from posuser");
+        if (csr != null && csr.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        csr.close();
+        Cursor cs = DatabaseHelper.rawQuery("select * from usr_code");
+        if (cs != null && cs.getCount() != 0) {
+            System.out.println(csr.getCount());
+        }
+        cs.close();
+//        String sqlstr="select distinct class,classname from Usr_Code where "+frmmain.notinClass+"class=0 order by classname";
+        //Modify by KLM to Show usrcode associated with user class 21032022မ
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select distinct category,categoryname,class from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+        } else {
+            sqlstr = "select distinct category,categoryname,class from Usr_Code order by classname";
+        }
+
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
+//        Cursor cursor=DatabaseHelper.rawQuery("select distinct class,classname from Usr_Code where class in ("+frmmain.notinClass+") order by classname");
+//        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"class","classname"},"classname");
+
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -1312,7 +1355,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
         }
         cursor.close();
 
-        ad = new categoryAdapter(saleorder_entry.this, categories, gridview, "SaleOrder");//YLT
+        ad = new categoryAdapter(saleorder_entry.this, categories, gridview);
         gridview.setAdapter(ad);
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
@@ -1914,7 +1957,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
             imgClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(name.equals("Salesmen")){
+                    if (name.equals("Salesmen")) {
                         btnSalesmen.setText("Choose");
                     }
 
@@ -3538,7 +3581,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                         "townshipid=" + sh.get(0).getTownshipid() + ",\n" +
                         "pay_type=" + sh.get(0).getPay_type() + ",\n" +
                         // "due_indays="+sh.get(0).getDue_in_days()+",\n" +
-                        "currency=" +sh.get(0).getCurrency()+ ",\n" +
+                        "currency=" + sh.get(0).getCurrency() + ",\n" +
                         "discount=" + sh.get(0).getDiscount() + ",\n" +
                         "paid_amount=" + sh.get(0).getPaid_amount() + ",\n" +
                         "invoice_amount=" + sh.get(0).getInvoice_amount() + ",\n" +
@@ -3585,7 +3628,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                 // sd.get(i).getPriceLevel()+"',"+
                                 getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()) + "," +
 
-                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price())+ "," +
+                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
                                 +sh.get(0).getCurrency() + "," +
                                 frmmain.exg_rate
 
@@ -3609,7 +3652,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                 (i + 1) + "," +
                                 // sd.get(i).getPriceLevel()+"',"+
                                 getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()) + "," +
-                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price())+ "," +
+                                getSPrice(sd.get(i).getCode(), getSmallestQty(sd.get(i).getCode(), sd.get(i).getUnit_qty(), sd.get(i).getUnit_type()), sd.get(i).getUnit_qty(), sd.get(i).getSale_price()) + "," +
                                 +sh.get(0).getCurrency() + "," +
                                 frmmain.exg_rate
                                 + " )";
@@ -4072,7 +4115,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                     Double amt = Double.parseDouble(txtChangeQty.getText().toString()) * Double.parseDouble(ClearFormat(txtChangePrice.getText().toString()));
                     String numberAsString = String.format("%,." + frmmain.price_places + "f", amt);
                     txtamt.setText(numberAsString);
-                    sd.get(itemPosition).setOrgSalePrice( Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));//added by KLM for currency 27062022
+                    sd.get(itemPosition).setOrgSalePrice(Double.parseDouble(ClearFormat(txtChangePrice.getText().toString())));//added by KLM for currency 27062022
                     sd.get(itemPosition).setChangeSalePrice(true);//added by KLM for currency 27062022
                 }
 
@@ -4320,7 +4363,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                 btnCash = view.findViewById(R.id.cash);
                 chkDeliver = view.findViewById(R.id.chkToDeliver); //added by YLT
                 chkDeliver.setVisibility(View.GONE);//added by YLT
-                TextView currencyid=view.findViewById(R.id.currencyid);
+                TextView currencyid = view.findViewById(R.id.currencyid);
                 currencyid.setText(frmmain.currencyshort);
                 // TextView lblToDeliver=findViewById(R.id.lblToDeliver);//added by YLT
                 // lblToDeliver.setVisibility(View.GONE);//added by YLT
@@ -4669,10 +4712,10 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                    if(frmmain.use_multicurrency){
+                                    if (frmmain.use_multicurrency) {
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = usrcodeAdapter.GetCurrencyPrice(price, sale_curr);
                                     }
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -4696,7 +4739,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP));
-                                    sd.get(sd.size()-1).setOrgSalePrice(price);//added by KLM for currency 27062022
+                                    sd.get(sd.size() - 1).setOrgSalePrice(price);//added by KLM for currency 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -4724,10 +4767,10 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
                                     long code = cursor.getLong(cursor.getColumnIndex("code"));
                                     double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                    if(frmmain.use_multicurrency){
+                                    if (frmmain.use_multicurrency) {
                                         //added by KLM to correct dis_price while use multicurrency 08072022
-                                        int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                        price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                        int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                        price = usrcodeAdapter.GetCurrencyPrice(price, sale_curr);
                                     }
                                     int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                     double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -4751,7 +4794,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                             0,
                                             "",
                                             code, unit_short, desc, CalNoTax, SP));
-                                    sd.get(sd.size()-1).setOrgSalePrice(price);//added by KLM for currency 27062022
+                                    sd.get(sd.size() - 1).setOrgSalePrice(price);//added by KLM for currency 27062022
                                 } while (cursor.moveToNext());
                             }
 
@@ -4776,10 +4819,10 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
                                 long code = cursor.getLong(cursor.getColumnIndex("code"));
                                 double price = cursor.getDouble(cursor.getColumnIndex(sale_price));
-                                if(frmmain.use_multicurrency){
+                                if (frmmain.use_multicurrency) {
                                     //added by KLM to correct dis_price while use multicurrency 08072022
-                                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                                    price=usrcodeAdapter.GetCurrencyPrice(price,sale_curr);
+                                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                                    price = usrcodeAdapter.GetCurrencyPrice(price, sale_curr);
                                 }
                                 int open_price = cursor.getInt(cursor.getColumnIndex("open_price"));
                                 double smallest_unit_qty = cursor.getDouble(cursor.getColumnIndex("smallest_unit_qty"));
@@ -4803,7 +4846,7 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                                         0,
                                         "",
                                         code, unit_short, desc, CalNoTax, SP));
-                                sd.get(sd.size()-1).setOrgSalePrice(price);//added by KLM for currency 27062022
+                                sd.get(sd.size() - 1).setOrgSalePrice(price);//added by KLM for currency 27062022
                             } while (cursor.moveToNext());
                         }
 
@@ -4827,10 +4870,13 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
 
     private List<usr_code> GetCodes() {
         List<usr_code> codes = new ArrayList<>();
-        //Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code",new String[]{"code","usr_code","description","sale_price"},"sortcode,categoryname");
-        Cursor cursor = DatabaseHelper.rawQuery("select code,usr_code,description,sale_price from Usr_Code where unit_type=1 order by sortcode,categoryname");
-        //Cursor cursor = DatabaseHelper.DistinctSelectQuery("Usr_Code",new String[]{"category","categoryname","class"});
-        // Cursor cursor=DatabaseHelper.rawQuery("select * from Usr_Code");
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select code,usr_code,description,sale_price from Usr_Code where unit_type=1 and class in (" + frmmain.inClass + ")  order by sortcode,categoryname";
+        } else {
+            sqlstr = "select code,usr_code,description,sale_price from Usr_Code where unit_type=1 order by sortcode,categoryname";
+        }
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -5154,8 +5200,8 @@ public class saleorder_entry extends AppCompatActivity implements View.OnClickLi
                     }
                     sale_price = cursor.getDouble(cursor.getColumnIndex(level));
                     //added by KLM to correct dis_price while use multicurrency 08072022
-                    int sale_curr=cursor.getInt(cursor.getColumnIndex("sale_curr"));
-                    sale_price=usrcodeAdapter.GetCurrencyPrice(sale_price,sale_curr);
+                    int sale_curr = cursor.getInt(cursor.getColumnIndex("sale_curr"));
+                    sale_price = usrcodeAdapter.GetCurrencyPrice(sale_price, sale_curr);
                     //added by KLM to correct dis_price while use multicurrency 08072022
 
                 } while (cursor.moveToNext());

@@ -810,7 +810,15 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
         if (class_items.size() > 0) {
             class_items.clear();
         }
-        Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"class", "classname"}, "classname");
+        String sqlstr = "";
+        if (frmmain.inClass.length() > 1) {
+            sqlstr = "select distinct class,classname from Usr_Code where class in (" + frmmain.inClass + ") order by classname";
+        } else {
+            sqlstr = "select distinct class,classname from Usr_Code order by classname";
+        }
+
+        Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
+        //Cursor cursor = DatabaseHelper.DistinctCategorySelectQuery("Usr_Code", new String[]{"class", "classname"}, "classname");
         if (cursor != null && cursor.getCount() != 0) {
             if (cursor.moveToFirst()) {
                 do {
@@ -1149,7 +1157,15 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     rrvvc = gridclassview;
                 }
                 filteredList = new ArrayList<>();
-                Cursor cursorcate = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"category", "categoryname", "class"}, "categoryname LIKE?", new String[]{"%" + s + "%"});
+                String sqlstr = "";
+                if (frmmain.inClass.length() > 1) {
+                    sqlstr = "select distinct category,categoryname,class from Usr_Code where class in (" + frmmain.inClass + ") and categoryname LIKE? '%" + s + "%'";
+                } else {
+                    sqlstr = "select distinct category,categoryname,class from Usr_Code where categoryname LIKE '%" + s + "%' ";
+                }
+
+                Cursor cursorcate = DatabaseHelper.rawQuery(sqlstr);
+                //Cursor cursorcate = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"category", "categoryname", "class"}, "categoryname LIKE?", new String[]{"%" + s + "%"});
                 if (filteredList.size() > 0) filteredList.clear();
                 if (frmmain.withoutclass.equals("false")) {
                     filteredCode.clear();
@@ -1189,7 +1205,14 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             case "Code":
                 filteredCode = new ArrayList<>();
                 if (isCategory) {
-                    Cursor cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND  usr_code LIKE?", new String[]{s});
+                    if (frmmain.inClass.length() > 1) {
+                        sqlstr = "select distinct usr_code,description,sale_price from Usr_Code where class in (" + frmmain.inClass + ") and unit_type = 1 AND usr_code LIKE '%" + s + "%'";
+                    } else {
+                        sqlstr = "select distinct usr_code,description,sale_price from Usr_Code where unit_type = 1 AND usr_code LIKE '%" + s + "%'";
+                    }
+
+                    Cursor cursor = DatabaseHelper.rawQuery(sqlstr);
+                    //Cursor cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND  usr_code LIKE?", new String[]{s});
                     if (sale_entry_tv.usr_codes.size() > 0)
                         if (frmmain.withoutclass.equals("true")) {
                             filteredCode.add(new usr_code("Back", "Back"));
@@ -1207,9 +1230,15 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         }
                         cursor.close();
                     } else {
+                        Cursor urcursor;
+                        if (frmmain.inClass.length() > 1) {
+                            urcursor = DatabaseHelper.rawQuery("select usc.usr_code,usc.description,usc.sale_price from Alias_Code al join Usr_Code usc on usc.usr_code=al.usr_code " +
+                                    " where class in (" + frmmain.inClass + ") and usc.unit_type = 1 AND al.al_code LIKE '" + s + "'");
+                        } else {
+                           urcursor = DatabaseHelper.rawQuery("select usc.usr_code,usc.description,usc.sale_price from Alias_Code al join Usr_Code usc on usc.usr_code=al.usr_code " +
+                                    " where usc.unit_type = 1 AND al.al_code LIKE '" + s + "'");
 
-                        Cursor urcursor = DatabaseHelper.rawQuery("select usc.usr_code,usc.description,usc.sale_price from Alias_Code al join Usr_Code usc on usc.usr_code=al.usr_code " +
-                                " where usc.unit_type = 1 AND al.al_code LIKE '" + s + "'");
+                        }
                         if (sale_entry_tv.usr_codes.size() > 0)
                             if (frmmain.withoutclass.equals("true")) {
                                 filteredCode.add(new usr_code("Back", "Back"));
@@ -1253,10 +1282,26 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
                 if (isCategory) {
                     Cursor cursor = null;
-                    if (fitercode.equals("Description"))
-                        cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND description LIKE?", new String[]{"%" + s + "%"});
-                    else//Added by KLM 08122020 for Short Search
-                        cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND shortdes LIKE?", new String[]{"%" + s + "%"});
+                    if (fitercode.equals("Description")) {
+                        if (frmmain.inClass.length() > 1) {
+                            sqlstr = "select distinct usr_code,description,sale_price from Usr_Code where class in (" + frmmain.inClass + ") and unit_type = 1 AND description LIKE '%" + s + "%'";
+                        } else {
+                            sqlstr = "select distinct usr_code,description,sale_price from Usr_Code where unit_type = 1 AND description LIKE '%" + s + "%'";
+                        }
+
+                        cursor = DatabaseHelper.rawQuery(sqlstr);
+                        //cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND description LIKE?", new String[]{"%" + s + "%"});
+                    } else {
+                        if (frmmain.inClass.length() > 1) {
+                            sqlstr = "select distinct usr_code,description,sale_price from Usr_Code where class in (" + frmmain.inClass + ") and unit_type = 1 AND shortdes LIKE '%" + s + "%'";
+                        } else {
+                            sqlstr = "select distinct usr_code,description,sale_price from Usr_Code where unit_type = 1 AND shortdes LIKE '%" + s + "%'";
+                        }
+
+                        cursor = DatabaseHelper.rawQuery(sqlstr);
+                    }
+                    //Added by KLM 08122020 for Short Search
+//                        cursor = DatabaseHelper.DistinctSelectQuerySelection("Usr_Code", new String[]{"usr_code", "description", "sale_price"}, "unit_type = 1 AND shortdes LIKE?", new String[]{"%" + s + "%"});
                     if (sale_entry_tv.usr_codes.size() > 0) sale_entry_tv.usr_codes.clear();
                     if (cursor != null && cursor.getCount() != 0) {
                         if (frmmain.withoutclass.equals("true")) {

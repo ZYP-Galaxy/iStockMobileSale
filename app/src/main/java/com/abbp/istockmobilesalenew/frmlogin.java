@@ -972,6 +972,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         tableNames.add("cash");
         tableNames.add("currency");
         tableNames.add("Dictionary");
+        tableNames.add("userclass");
     }
 
     private void GetDownloading() {
@@ -1152,6 +1153,9 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 
 //        sqlString = "delete from Currency";
 //        DatabaseHelper.execute(sqlString);
+
+        sqlString="delete from userclass";//YLT
+        DatabaseHelper.execute(sqlString);
     }
 
     private boolean CheckOfflineData() {
@@ -1256,6 +1260,21 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         try {
 
             switch (table) {
+
+                case "userclass"://YLT
+                    JSONArray userclass=null;
+                    userclass = data.getJSONObject(0).getJSONArray("userclass");
+                    for(int uclass=0;uclass<userclass.length();uclass++)
+                    {
+                        JSONObject userclassobj = userclass.getJSONObject(uclass);
+                        int userid=userclassobj.getInt("userID");
+                        int classid=userclassobj.getInt("class");
+                        String sql = "insert into userclass(userid,class)" +
+                                " values("+userid+ "," + classid +")";
+                        DatabaseHelper.execute(sql);
+
+                    }
+                    break;
 
                 case "cash":
                     JSONArray cash = null;
