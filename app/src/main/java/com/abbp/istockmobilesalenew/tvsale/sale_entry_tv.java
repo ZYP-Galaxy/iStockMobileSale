@@ -66,6 +66,8 @@ import com.abbp.istockmobilesalenew.CustomerAdapter;
 import com.abbp.istockmobilesalenew.DatabaseHelper;
 
 
+import com.abbp.istockmobilesalenew.Delimen;
+import com.abbp.istockmobilesalenew.DelimenAdapter;
 import com.abbp.istockmobilesalenew.GetAppSetting;
 import com.abbp.istockmobilesalenew.GetTranid;
 import com.abbp.istockmobilesalenew.GlobalClass;
@@ -259,7 +261,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     public static LocationAdapter ld;
     public static SalesmenAdpater sm;
     TextView txtProgress, txtTable;
-    public static Button btnpaytype, btncustgroup, btncustomer, btntownship, btnSalesmen, btnCash, btnlocation;
+    public static Button btnpaytype, btncustgroup, btncustomer, btntownship, btnSalesmen, btnCash, btnlocation, btndelimen;
     public static Button btnStlocation;
     Button btndiscount, btndetail;
     public static ImageButton imgSearchCode, imgFilterCode, imgFilterClear, imgPrinter, imgRefOrderID;
@@ -311,6 +313,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
     public String unitShort = "";
     static String salesmen = "";
     public static Typeface font;
+    public static boolean usedeli_System; //Added By KNO for delivery
+    public static boolean usedeli_Charges;
     //endregion
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -1235,7 +1239,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                             urcursor = DatabaseHelper.rawQuery("select usc.usr_code,usc.description,usc.sale_price from Alias_Code al join Usr_Code usc on usc.usr_code=al.usr_code " +
                                     " where class in (" + frmmain.inClass + ") and usc.unit_type = 1 AND al.al_code LIKE '" + s + "'");
                         } else {
-                           urcursor = DatabaseHelper.rawQuery("select usc.usr_code,usc.description,usc.sale_price from Alias_Code al join Usr_Code usc on usc.usr_code=al.usr_code " +
+                            urcursor = DatabaseHelper.rawQuery("select usc.usr_code,usc.description,usc.sale_price from Alias_Code al join Usr_Code usc on usc.usr_code=al.usr_code " +
                                     " where usc.unit_type = 1 AND al.al_code LIKE '" + s + "'");
 
                         }
@@ -1828,6 +1832,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 RelativeLayout rlLocatin = view.findViewById(R.id.rlLocation);
                 RelativeLayout rlsalesmen = view.findViewById(R.id.rlsalesmen);
                 RelativeLayout rlcash = view.findViewById(R.id.rlcash);
+                RelativeLayout rldelimen = view.findViewById(R.id.rldelimen);
                 btncustgroup = view.findViewById(R.id.btnCustGroup);
                 btntownship = view.findViewById(R.id.btnTownship);
                 btncustomer = view.findViewById(R.id.btnCustomer);
@@ -1835,6 +1840,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 btnSalesmen = view.findViewById(R.id.salesmen);
                 imgNewCust = view.findViewById(R.id.custadd);
                 btnCash = view.findViewById(R.id.cash);
+                btndelimen = view.findViewById(R.id.delimen);
                 /*
                 chkDeliver=view.findViewById(R.id.chkToDeliver);
                 if(!Use_Delivery)
@@ -1860,6 +1866,15 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     rlCustGroup.setVisibility(View.GONE);
 
                 }
+
+                //Added  by KNO for Delivery(26-10-2022)
+                GetAppSetting getAppSetting = new GetAppSetting("use_deliverymanagement");
+                if (Use_Delivery && getAppSetting.getSetting_Value().equals("Y")) {
+                    rldelimen.setVisibility(View.VISIBLE);
+                } else {
+                    rldelimen.setVisibility(View.GONE);
+                }
+
                 if (!use_township) {
                     rlTownship.setVisibility(View.GONE);
 
@@ -1984,9 +1999,39 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
+                btndelimen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ChangeHeader("Delimen", btndelimen, btnpaytype);
+                    }
+                });
+
                 btnsave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+
+                        if (sh.get(0).getDelimen_id() != 0) {
+                            Cursor cursor;
+                            String sqlString = "select delivery_system,delivery_charges from Salesmen  s join Salesmen_Type st on s.Salesmen_type =st.Salesmen_type where s.Salesmen_id=" + sh.get(0).getDelimen_id();
+                            cursor = DatabaseHelper.rawQuery(sqlString);
+                            if (cursor != null && cursor.getCount() != 0) {
+                                if (cursor.moveToFirst()) {
+                                    do {
+                                        boolean delivery_system = cursor.getInt(cursor.getColumnIndex("delivery_system")) == 1 ? true : false;
+                                        boolean delivery_charges = cursor.getInt(cursor.getColumnIndex("delivery_charges")) == 1 ? true : false;
+                                        usedeli_System = delivery_system;
+                                        usedeli_Charges = delivery_charges;
+
+                                    } while (cursor.moveToNext());
+
+                                }
+
+                            }
+                            cursor.close();
+                        } else {
+                            usedeli_System = false;
+                            usedeli_Charges = false;
+                        }
 
                         invoice_no = txtinvoiceNo.getText().toString().trim().isEmpty() ? sh.get(0).getInvoice_no() : txtinvoiceNo.getText().toString().trim();
                         sh.get(0).setInvoice_no(invoice_no);
@@ -2020,6 +2065,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         } else {
                             txtoutstand.setText("0");
                         }
+                        getSummary();
                         dialog.dismiss();
                     }
                 });
@@ -2032,11 +2078,13 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                 btn.add(btnlocation);
                 btn.add(btnpaytype);
                 btn.add(btnCash);
+                btn.add(btndelimen);
 
                 id.add(String.valueOf(sh.get(0).getCustomerid()));
                 id.add(String.valueOf(sh.get(0).getLocationid()));
                 id.add(String.valueOf(sh.get(0).getPay_type()));
                 id.add(String.valueOf(sh.get(0).getDef_cashid()));
+                id.add(String.valueOf(sh.get(0).getDelimen_id()));
 
                 InitializeHeader(id, btn);
 
@@ -2759,7 +2807,22 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             }
 
         }
+        cursor.close();
 
+        sqlString = "select Salesmen_id,Salesmen_Name from Salesmen where Salesmen_id=" + id.get(4);
+        cursor = DatabaseHelper.rawQuery(sqlString);
+        if (cursor != null && cursor.getCount() != 0) {
+            if (cursor.moveToFirst()) {
+                do {
+                    int Salesmen_id = cursor.getInt(cursor.getColumnIndex("Salesmen_id"));
+                    String Salesmen_Name = cursor.getString(cursor.getColumnIndex("Salesmen_Name"));
+                    btn.get(6).setText(Salesmen_Name);
+                } while (cursor.moveToNext());
+
+            }
+
+        }
+        cursor.close();
 
     }
 
@@ -2966,6 +3029,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
             ArrayList<pay_type> pay_types = new ArrayList<>();
             ArrayList<Salesmen> salesmen = new ArrayList<>();
             ArrayList<Cash> cash = new ArrayList<>();
+            ArrayList<Delimen> delimen = new ArrayList<>();
             Cursor cursor = null;
             AlertDialog.Builder bd = new AlertDialog.Builder(sale_entry_tv.this);
             View view = getLayoutInflater().inflate(R.layout.changeheadervalue, null);
@@ -3307,7 +3371,7 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     if (salesmen.size() > 0) {
                         salesmen.clear();
                     }
-                    Cursor salemenCursor = DatabaseHelper.rawQuery("select s.* from Salesmen s,Location l where  s.branchid=l.branchid and l.locationid=" + sale_entry_tv.sh.get(0).getLocationid() + " order by Salesmen_Name");//Added by KLM QA-201186 30112020
+                    Cursor salemenCursor = DatabaseHelper.rawQuery("select s.* from Salesmen s,Location l,Salesmen_Type st where s.Salesmen_type=st.Salesmen_type and st.delivery_system=0 and s.branchid=l.branchid and l.locationid=" + sale_entry_tv.sh.get(0).getLocationid());//Added by KLM QA-201186 30112020
                     if (salemenCursor != null && salemenCursor.getCount() != 0) {
                         if (salemenCursor.moveToFirst()) {
                             do {
@@ -3494,6 +3558,38 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                     rv.setLayoutManager(gridLayoutManagerPaymentType);
                     da.show();
 
+                    break;
+
+                //Added by KNO for Delivery (26-10-2022)
+                case "Delimen":
+                    if (delimen.size() > 0) {
+                        delimen.clear();
+                    }
+                    Cursor delimenCursor = DatabaseHelper.rawQuery("select s.* from Salesmen s,Location l,Salesmen_Type st where s.Salesmen_type=st.Salesmen_type and st.delivery_system=1 and s.branchid=l.branchid and l.locationid=" + sale_entry_tv.sh.get(0).getLocationid());//Added by KLM QA-201186 30112020
+                    if (delimenCursor != null && delimenCursor.getCount() != 0) {
+                        if (delimenCursor.moveToFirst()) {
+                            do {
+                                long salesmenid = delimenCursor.getLong(delimenCursor.getColumnIndex("Salesmen_id"));
+                                String salesmenname = delimenCursor.getString(delimenCursor.getColumnIndex("Salesmen_Name"));
+                                String shortname = delimenCursor.getString(delimenCursor.getColumnIndex("short"));
+                                delimen.add(new Delimen(salesmenid, salesmenname, shortname));
+                            } while (delimenCursor.moveToNext());
+
+                        }
+
+                    }
+
+                    delimenCursor.close();
+
+
+                    DelimenAdapter dad = new DelimenAdapter(sale_entry_tv.this, delimen, btn, da);
+                    rv.setAdapter(dad);
+                    GridLayoutManager dgridLayoutManager = new GridLayoutManager(getApplicationContext(), 4);
+                    rv.setLayoutManager(dgridLayoutManager);
+                    delimenCursor = null;
+
+
+                    da.show();
                     break;
             }
         } catch (Exception e) {
@@ -3895,6 +3991,36 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
     }
 
+    //Added by KNO to calculate deli charges (25-10-2022)
+    public static double getDeliCharges(double net_amt) {
+        if (usedeli_System && usedeli_Charges && sh.get(0).getDelimen_id() != 0) {
+            Cursor cursor = DatabaseHelper.rawQuery("select delivery_charges,free_range from delivery_setup where Townshipid=" + sh.get(0).getTownshipid());
+            if (cursor != null && cursor.getCount() != 0) {
+                if (cursor.moveToFirst()) {
+                    do {
+                        double delivery_charges = cursor.getDouble(cursor.getColumnIndex("delivery_charges"));
+                        double free_range = cursor.getDouble(cursor.getColumnIndex("free_range"));
+                        if (free_range != 0) {
+                            if (net_amt < free_range) {
+                                net_amt += delivery_charges;
+                                sh.get(0).setdelivery_charges(delivery_charges);
+
+                            } else {
+                                sh.get(0).setdelivery_charges(0);
+                            }
+                        } else {
+                            net_amt += delivery_charges;
+                            sh.get(0).setdelivery_charges(delivery_charges);
+                        }
+                    } while (cursor.moveToNext());
+
+                }
+            }
+            cursor.close();
+        }
+        return net_amt;
+    }
+
     public static void getSummary() {
 
         totalAmt_tmp = 0.0;
@@ -3985,6 +4111,13 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
 
 
         }
+
+        //Added BY KNO for Delivery(26-10-2022)
+        GetAppSetting getAppSetting = new GetAppSetting("use_deliverymanagement");
+        if (Use_Delivery && getAppSetting.getSetting_Value().equals("Y")) {
+            netamt_tmp = getDeliCharges(netamt_tmp);
+        }
+
         tax_amount = taxamt_tmp;
         // txttaxamT.setText(String.valueOf(tax_amount));
         txttaxamt.setText(String.valueOf(tax_amount));
@@ -4945,6 +5078,8 @@ public class sale_entry_tv extends AppCompatActivity implements View.OnClickList
                         "exg_rate=" + 1 + ",\n" +
                         "deliver=" + ToDeliver + ",\n" + //added by YLT on [18-06-2020]
                         "so_id=" + sh.get(0).getSo_id() + " \n" +
+                        ",delivery_charges=" + sh.get(0).getdelivery_charges() + //Added by KNo for Delivery (26-10-2022)
+                        ",delivery_men_id=" + sh.get(0).getDelimen_id() + //Added by KNo for Delivery (26-10-2022)
                         " WHERE tranid=" + sh.get(0).getTranid() + ";\n";
 
                 if (sd.size() > 0) {

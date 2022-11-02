@@ -344,6 +344,41 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/lodeli"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txtdeli_charges"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Delivery Charges"
+                    android:textColor="#46509E"
+                    android:textSize="20dp"
+                    android:textStyle="bold"
+
+                    />
+
+                <TextView
+                    android:id="@+id/txtdeli_chargesamt"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="40dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="#46509E"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
         </LinearLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>

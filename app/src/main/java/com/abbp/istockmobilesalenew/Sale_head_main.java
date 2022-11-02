@@ -3,48 +3,50 @@ package com.abbp.istockmobilesalenew;
 public class Sale_head_main {
 
     private long tranid;
-    private  int userid;
+    private int userid;
     private String docid;
     private String date;
     private String invoice_no;
     private boolean deliverValue;//added by YLT on [15-06-2020]
-    private  long locationid;
+    private long locationid;
     private long customerid;
     private int def_cashid;
-    private  int pay_type;
-    private  int due_in_days;
-    private  int currency;
+    private int pay_type;
+    private int due_in_days;
+    private int currency;
     private double discount;
     private String Remark;
-    private  double paid_per;
-    private  double paid_amount;
+    private double paid_per;
+    private double paid_amount;
     private double invoice_amount;
     private double invoice_qty;
     private double foc_amount;
     private double istemdis_amount;
     private double discount_per;
-    private  double tax_amount;
-    private  double tax_per;
+    private double tax_amount;
+    private double tax_per;
     private long townshipid;
-    private  long so_id;
+    private long so_id;
     double adv_pay_per;
     double advance_pay;
+    double delivery_charges;
+    long delimen_id;
 
-    public Sale_head_main(long tranid, int userid, String docid, String date, String invoice_no,Boolean deliverValue, String headremark, long locationid, long customerid,int def_cashid, int pay_type,int due_in_days, int currency, double discount, double paid_amount, double invoice_amount, double invoice_qty, double foc_amount, double istemdis_amount, double discount_per, double tax_amount, double tax_per) {
+    public Sale_head_main(long tranid, int userid, String docid, String date, String invoice_no, Boolean deliverValue, String headremark, long locationid, long customerid, int def_cashid, int pay_type, int due_in_days, int currency, double discount, double paid_amount, double invoice_amount, double invoice_qty, double foc_amount, double istemdis_amount, double discount_per, double tax_amount, double tax_per) {
         this.tranid = tranid;
         this.userid = userid;
         this.docid = docid;
         this.date = date;
         this.invoice_no = invoice_no;
-        this.deliverValue=deliverValue;//added by YLT on [15-06-2020]
+        this.deliverValue = deliverValue;//added by YLT on [15-06-2020]
         this.locationid = locationid;
         this.customerid = customerid;
-        this.def_cashid=def_cashid;
+        this.def_cashid = def_cashid;
         this.pay_type = pay_type;
-        this.due_in_days=due_in_days;
+        this.due_in_days = due_in_days;
         this.currency = currency;
         this.discount = discount;
-        this.Remark=headremark;
+        this.Remark = headremark;
         this.paid_amount = paid_amount;
         this.invoice_amount = invoice_amount;
         this.invoice_qty = invoice_qty;
@@ -53,25 +55,26 @@ public class Sale_head_main {
         this.discount_per = discount_per;
         this.tax_amount = tax_amount;
         this.tax_per = tax_per;
-        this.townshipid=townshipid;
-        this.so_id=0;
+        this.townshipid = townshipid;
+        this.so_id = 0;
 
     }
-    public Sale_head_main(long tranid, int userid, String docid, String date, String invoice_no,Boolean deliverValue, String headremark, long locationid, long customerid,int def_cashid, int pay_type,int due_in_days, int currency, double discount, double paid_amount, double invoice_amount, double invoice_qty, double foc_amount, double istemdis_amount, double discount_per, double tax_amount, double tax_per,long so_id) {
+
+    public Sale_head_main(long tranid, int userid, String docid, String date, String invoice_no, Boolean deliverValue, String headremark, long locationid, long customerid, int def_cashid, int pay_type, int due_in_days, int currency, double discount, double paid_amount, double invoice_amount, double invoice_qty, double foc_amount, double istemdis_amount, double discount_per, double tax_amount, double tax_per, long so_id) {
         this.tranid = tranid;
         this.userid = userid;
         this.docid = docid;
         this.date = date;
         this.invoice_no = invoice_no;
-        this.deliverValue=deliverValue;//added by YLT on [15-06-2020]
+        this.deliverValue = deliverValue;//added by YLT on [15-06-2020]
         this.locationid = locationid;
         this.customerid = customerid;
-        this.def_cashid=def_cashid;
+        this.def_cashid = def_cashid;
         this.pay_type = pay_type;
-        this.due_in_days=due_in_days;
+        this.due_in_days = due_in_days;
         this.currency = currency;
         this.discount = discount;
-        this.Remark=headremark;
+        this.Remark = headremark;
         this.paid_amount = paid_amount;
         this.invoice_amount = invoice_amount;
         this.invoice_qty = invoice_qty;
@@ -80,8 +83,8 @@ public class Sale_head_main {
         this.discount_per = discount_per;
         this.tax_amount = tax_amount;
         this.tax_per = tax_per;
-        this.townshipid=townshipid;
-        this.so_id=so_id;
+        this.townshipid = townshipid;
+        this.so_id = so_id;
 
     }
 
@@ -157,12 +160,13 @@ public class Sale_head_main {
         this.invoice_no = invoice_no;
     }
 
-    public  Boolean getDeliverValue() //added by YLT
+    public Boolean getDeliverValue() //added by YLT
     {
         return deliverValue;
     }
-    public void setDeliverValue(Boolean deliverValue){ //added by YLT
-        this.deliverValue=deliverValue;
+
+    public void setDeliverValue(Boolean deliverValue) { //added by YLT
+        this.deliverValue = deliverValue;
     }
 
     public String getHeadremark() {
@@ -269,6 +273,7 @@ public class Sale_head_main {
     public void setIstemdis_amount(double istemdis_amount) {
         this.istemdis_amount = istemdis_amount;
     }
+
     public double getDiscount_per() {
         return discount_per;
     }
@@ -316,4 +321,21 @@ public class Sale_head_main {
     public void setPaid_per(double paid_per) {
         this.paid_per = paid_per;
     }
+
+    public double getdelivery_charges() {
+        return delivery_charges;
+    }
+
+    public void setdelivery_charges(double delivery_charges) {
+        this.delivery_charges = delivery_charges;
+    }
+
+    public long getDelimen_id() {
+        return delimen_id;
+    }
+
+    public void setDelimen_id(long delimen_id) {
+        this.delimen_id = delimen_id;
+    }
+
 }

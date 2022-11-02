@@ -145,6 +145,7 @@
                         android:textStyle="bold" />
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/rlCurrency"
                     android:layout_width="match_parent"
@@ -167,15 +168,16 @@
                         android:layout_height="40dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:textAlignment="center"
+                        android:padding="10dp"
                         android:text="MMK"
-                        android:textColor="#000"
+                        android:textAlignment="center"
                         android:textAllCaps="false"
-                        android:textSize="15dp"
-                        android:padding="10dp"/>
+                        android:textColor="#000"
+                        android:textSize="15dp" />
 
 
                 </RelativeLayout>
+
                 <RelativeLayout
                     android:id="@+id/rlCustGroup"
                     android:layout_width="match_parent"
@@ -325,7 +327,6 @@
                 </RelativeLayout>
 
 
-
                 <RelativeLayout
                     android:id="@+id/rlLocation"
                     android:layout_width="match_parent"
@@ -374,6 +375,37 @@
 
                     <Button
                         android:id="@+id/salesmen"
+                        android:layout_width="185dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/entrybtn"
+                        android:text="Choose"
+                        android:textAllCaps="false"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15dp" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rldelimen"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="Deli Men"
+                        android:textColor="#46509E"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/delimen"
                         android:layout_width="185dp"
                         android:layout_height="40dp"
                         android:layout_alignParentRight="true"

@@ -973,6 +973,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         tableNames.add("currency");
         tableNames.add("Dictionary");
         tableNames.add("userclass");
+        tableNames.add("delivery_setup");//Added by KNO for Delivery (24-10-2022)
+        tableNames.add("Salesmen_Type");//Added by KNO for Delivery (24-10-2022)
     }
 
     private void GetDownloading() {
@@ -1112,8 +1114,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         sqlString = "delete from AppSetting";
         DatabaseHelper.execute(sqlString);
 
-//        sqlString = "delete from Salesmen";
-//        DatabaseHelper.execute(sqlString);
+        sqlString = "delete from Salesmen";
+        DatabaseHelper.execute(sqlString);
 
         sqlString = "delete from Alias_Code";
         DatabaseHelper.execute(sqlString);
@@ -1154,7 +1156,13 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
 //        sqlString = "delete from Currency";
 //        DatabaseHelper.execute(sqlString);
 
-        sqlString="delete from userclass";//YLT
+        sqlString = "delete from userclass"; //Added by KNO for UserClass
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from delivery_setup"; //Added by KNO for Delivery (24-10-2022)
+        DatabaseHelper.execute(sqlString);
+
+        sqlString = "delete from Salesmen_Type"; //Added by KNO for Delivery (24-10-2022)
         DatabaseHelper.execute(sqlString);
     }
 
@@ -1260,17 +1268,16 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
         try {
 
             switch (table) {
-
-                case "userclass"://YLT
-                    JSONArray userclass=null;
+                //Added by KNO for UserClass
+                case "userclass":
+                    JSONArray userclass = null;
                     userclass = data.getJSONObject(0).getJSONArray("userclass");
-                    for(int uclass=0;uclass<userclass.length();uclass++)
-                    {
+                    for (int uclass = 0; uclass < userclass.length(); uclass++) {
                         JSONObject userclassobj = userclass.getJSONObject(uclass);
-                        int userid=userclassobj.getInt("userID");
-                        int classid=userclassobj.getInt("class");
+                        int userid = userclassobj.getInt("userID");
+                        int classid = userclassobj.getInt("class");
                         String sql = "insert into userclass(userid,class)" +
-                                " values("+userid+ "," + classid +")";
+                                " values(" + userid + "," + classid + ")";
                         DatabaseHelper.execute(sql);
 
                     }
@@ -1590,7 +1597,8 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         String name = salesmenobj.optString("Salesmen_Name", "null");
                         String shortdes = salesmenobj.optString("short", "null");
                         int branchid = salesmenobj.getInt("branchid");
-                        sqlString = "insert into Salesmen(Salesmen_id,Salesmen_Name,short,branchid)values(" + id + ",'" + name + "','" + shortdes + "'," + branchid + ")";
+                        int Salesmen_type = salesmenobj.getInt("Salesmen_type");
+                        sqlString = "insert into Salesmen(Salesmen_id,Salesmen_Name,short,branchid,Salesmen_type)values(" + id + ",'" + name + "','" + shortdes + "'," + branchid + "," + Salesmen_type + ")";
                         DatabaseHelper.execute(sqlString);
                     }
                     break;
@@ -1653,6 +1661,7 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         DatabaseHelper.execute(sqlString);
                     }
                     break;
+                //Added by KNO for Language
                 case "Dictionary":
                     JSONArray dic = data.getJSONObject(0).getJSONArray("Dictionary");
 
@@ -1662,6 +1671,40 @@ public class frmlogin extends AppCompatActivity implements View.OnClickListener,
                         String language2 = dictobj.optString("language2");
                         String language3 = dictobj.optString("language3");
                         sqlString = "insert into Dictionary(language1,language2,language3) values('" + language1 + "','" + language2 + "','" + language3 + "')";
+                        DatabaseHelper.execute(sqlString);
+
+                    }
+                    break;
+
+                //Added by KNO for Delivery (24-10-2022)
+                case "Salesmen_Type":
+                    JSONArray salementypeArr = data.getJSONObject(0).getJSONArray("salesmen_type");
+
+                    for (int salementypecount = 0; salementypecount < salementypeArr.length(); salementypecount++) {
+                        JSONObject salementypeobj = salementypeArr.getJSONObject(salementypecount);
+                        int Salesmen_type = salementypeobj.getInt("Salesmen_type");
+                        int delivery_system = salementypeobj.optBoolean("delivery_system", false) == true ? 1 : 0;
+                        int delivery_charges = salementypeobj.optBoolean("delivery_charges", false) == true ? 1 : 0;
+                        sqlString = "insert into Salesmen_Type(Salesmen_type,delivery_system,delivery_charges)" +
+                                " values(" + Salesmen_type + ",'" + delivery_system + "','" + delivery_charges + "')";
+
+                        DatabaseHelper.execute(sqlString);
+
+                    }
+                    break;
+
+                //Added by KNO for Delivery (24-10-2022)
+                case "delivery_setup":
+                    JSONArray deliArr = data.getJSONObject(0).getJSONArray("delivery_setup");
+
+                    for (int delicount = 0; delicount < deliArr.length(); delicount++) {
+                        JSONObject deliobj = deliArr.getJSONObject(delicount);
+                        int Townshipid = deliobj.getInt("Townshipid");
+                        double delivery_charges = deliobj.getDouble("delivery_charges");
+                        double free_range = deliobj.getDouble("free_range");
+                        sqlString = "insert into delivery_setup(Townshipid,delivery_charges,free_range)" +
+                                " values(" + Townshipid + ",'" + delivery_charges + "','" + free_range + "')";
+
                         DatabaseHelper.execute(sqlString);
 
                     }
